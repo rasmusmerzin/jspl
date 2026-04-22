@@ -61,7 +61,7 @@
         padding: 12px;
         border-radius: 16px;
         background: #444;
-        color: #eee;
+        color: #ddd;
         box-shadow:
           1px 2px 8px #0008,
           inset 0 0 1px #fff8;
@@ -71,7 +71,11 @@
           opacity: 0.5;
         }
         &:focus {
-          box-shadow: 1px 2px 8px #0008;
+          box-shadow:
+            1px 2px 8px #0008,
+            inset 0 0 1px #0008;
+          background: #333;
+          color: #fff;
           outline-width: 3px;
           outline-style: solid;
         }
