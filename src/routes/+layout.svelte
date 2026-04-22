@@ -12,17 +12,26 @@
 {@render children()}
 
 <style>
-  :root {
-    font-family: sans-serif;
-    background: black;
-    color: white;
-  }
-  :global(body) {
-    background: radial-gradient(ellipse at top, #333, transparent);
-    min-height: 100dvh;
-  }
   :global(*) {
     padding: 0;
     margin: 0;
+  }
+  :root {
+    font-family: sans-serif;
+    background: #eee;
+    color: black;
+  }
+  :global(body) {
+    background: radial-gradient(ellipse at top, transparent, #bbb);
+    min-height: 100dvh;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      background: black;
+      color: white;
+    }
+    :global(body) {
+      background: radial-gradient(ellipse at top, #333, transparent);
+    }
   }
 </style>
