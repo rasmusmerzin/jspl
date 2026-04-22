@@ -1,5 +1,5 @@
 <script>
-  import { LANGUAGES, code } from "$lib";
+  import { LANGUAGES, codeState } from "$lib";
   import {
     onEditableFocus,
     onEditableKeyDown,
@@ -7,38 +7,44 @@
   } from "$lib/editable";
 </script>
 
-<h1>P3Lang</h1>
 <main>
-  {#each LANGUAGES as lang}
-    <div>
-      <div class="header">
-        <img src="/{lang}-original.svg" alt={lang} />
+  <h1>P3Lang</h1>
+  <div id="code-container">
+    {#each LANGUAGES as lang}
+      <div id="{lang}-container">
+        <div class="header">
+          <img src="/{lang}-original.svg" alt={lang} />
+        </div>
+        <div
+          role="textbox"
+          tabindex="0"
+          class="content"
+          spellcheck="false"
+          contenteditable
+          onmousedown={onEditableMouseDown}
+          onfocus={onEditableFocus}
+          onkeydown={onEditableKeyDown}
+          bind:textContent={$codeState[lang]}
+        ></div>
       </div>
-      <div
-        role="textbox"
-        tabindex="0"
-        class="content"
-        spellcheck="false"
-        contenteditable
-        onmousedown={onEditableMouseDown}
-        onfocus={onEditableFocus}
-        onkeydown={onEditableKeyDown}
-        bind:textContent={$code[lang]}
-      ></div>
-    </div>
-  {/each}
+    {/each}
+  </div>
+  <div id="ast-container">hi</div>
 </main>
 
 <style>
   h1 {
     text-align: center;
-    padding: 16px 0;
   }
   main {
     box-sizing: border-box;
     max-width: 1080px;
     margin: auto;
-    padding: 16px;
+    display: grid;
+    grid-gap: 32px;
+    padding: 32px 16px;
+  }
+  #code-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 8px;

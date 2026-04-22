@@ -12,6 +12,7 @@ export function onEditableKeyDown(event: KeyboardEvent) {
   const element = event.target as HTMLElement;
   if (event.key === "Escape") {
     element.blur();
+    return;
   } else if (event.key === "Tab") {
     event.preventDefault();
     insertText("  ");
