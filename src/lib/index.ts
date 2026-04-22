@@ -1,4 +1,3 @@
-import { browser } from "$app/environment";
 import { get, writable } from "svelte/store";
 import { Language, Parser } from "web-tree-sitter";
 
@@ -9,12 +8,10 @@ export const codeState = writable<Record<string, string>>({
   python: "",
 });
 
-if (browser) {
-  await Parser.init();
-  const JavaScript = await Language.load("/tree-sitter-javascript.wasm");
-  const parser = new Parser();
-  parser.setLanguage(JavaScript);
-  const code = get(codeState).javascript;
-  const tree = parser.parse(code);
-  console.log(tree?.rootNode);
-}
+await Parser.init();
+const JavaScript = await Language.load("/tree-sitter-javascript.wasm");
+const parser = new Parser();
+parser.setLanguage(JavaScript);
+const code = get(codeState).javascript;
+const tree = parser.parse(code);
+console.log(tree?.rootNode);
