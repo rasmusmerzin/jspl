@@ -1,5 +1,10 @@
 <script>
   import { LANGUAGES, content } from "$lib";
+  import {
+    onEditableFocus,
+    onEditableKeyDown,
+    onEditableMouseDown,
+  } from "$lib/editable";
 </script>
 
 <h1>P3Lang</h1>
@@ -10,9 +15,14 @@
         <img src="/{lang}-original.svg" alt={lang} />
       </div>
       <div
+        role="textbox"
+        tabindex="0"
         class="content"
         spellcheck="false"
         contenteditable
+        onmousedown={onEditableMouseDown}
+        onfocus={onEditableFocus}
+        onkeydown={onEditableKeyDown}
         bind:textContent={$content}
       ></div>
     </div>
