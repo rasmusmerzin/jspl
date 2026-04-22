@@ -14,10 +14,12 @@ export function onEditableKeyDown(event: KeyboardEvent) {
     element.blur();
   } else if (event.key === "Tab") {
     event.preventDefault();
-    document.execCommand("insertText", false, "  ");
+    insertText("  ");
   } else if (event.key === "Enter") {
     event.preventDefault();
-    document.execCommand("insertText", false, "\n");
+    insertText("\n");
+  } else if (event.key.toUpperCase() === "Z" && event.ctrlKey) {
+    event.preventDefault();
   }
   keepCaretBeforeLastChar(element);
   setTimeout(keepLastNewLine, 0, element);
@@ -59,6 +61,20 @@ function setCaretPosition(element: HTMLElement, position: number) {
   // Note: This assumes a single text node. For nested HTML, see Method 2.
   range.setStart(element.firstChild!, position);
   range.collapse(true); // Collapse the range to a point cursor
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function insertText(text: string) {
+  // alternative: document.execCommand("insertText", false, text);
+  const selection = getSelection();
+  if (!selection?.rangeCount) return;
+  const range = selection.getRangeAt(0);
+  range.deleteContents(); // Remove selected content if any
+  const textNode = document.createTextNode(text);
+  range.insertNode(textNode);
+  range.setStartAfter(textNode); // Move cursor after the newline
+  range.collapse(false);
   selection.removeAllRanges();
   selection.addRange(range);
 }
