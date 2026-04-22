@@ -12,14 +12,20 @@
 {@render children()}
 
 <style>
-  :global(*) {
-    padding: 0;
-    margin: 0;
-  }
   :root {
     font-family: sans-serif;
     background: #eee;
     color: black;
+    --primary: #0ad;
+  }
+  :global(*) {
+    padding: 0;
+    margin: 0;
+    outline-color: var(--primary);
+    &::selection {
+      background: var(--primary);
+      color: black;
+    }
   }
   :global(body) {
     background: radial-gradient(ellipse at top, transparent, #bbb);

@@ -1,5 +1,5 @@
 <script>
-  import { LANGUAGES, content } from "$lib";
+  import { LANGUAGES, code } from "$lib";
   import {
     onEditableFocus,
     onEditableKeyDown,
@@ -23,7 +23,7 @@
         onmousedown={onEditableMouseDown}
         onfocus={onEditableFocus}
         onkeydown={onEditableKeyDown}
-        bind:textContent={$content}
+        bind:textContent={$code[lang]}
       ></div>
     </div>
   {/each}
@@ -49,6 +49,9 @@
         height: 32px;
         display: flex;
         justify-content: center;
+        img {
+          filter: drop-shadow(0 0 6px #4448);
+        }
       }
       .content {
         min-height: 256px;
@@ -59,9 +62,18 @@
         border-radius: 16px;
         background: #444;
         color: #eee;
-        box-shadow: 1px 2px 8px #0004;
+        box-shadow:
+          1px 2px 8px #0008,
+          inset 0 0 1px #fff8;
+        &:empty::before {
+          content: "...";
+          display: inline;
+          opacity: 0.5;
+        }
         &:focus {
-          outline: 3px solid #0cf;
+          box-shadow: 1px 2px 8px #0008;
+          outline-width: 3px;
+          outline-style: solid;
         }
       }
     }

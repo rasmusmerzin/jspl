@@ -21,15 +21,19 @@ export function onEditableKeyDown(event: KeyboardEvent) {
   } else if (event.key.toUpperCase() === "Z" && event.ctrlKey) {
     event.preventDefault();
   }
-  keepCaretBeforeLastChar(element);
-  setTimeout(keepLastNewLine, 0, element);
+  setTimeout(handleLastNewLine, 0, element);
+  setTimeout(keepCaretBeforeLastChar, 0, element);
 }
 
-function keepLastNewLine(element: HTMLElement) {
-  const position = getCaretPosition(element);
-  if (element.textContent[element.textContent.length - 1] === "\n") return;
-  element.textContent += "\n";
-  setCaretPosition(element, position);
+function handleLastNewLine(element: HTMLElement) {
+  if (!element.textContent) return;
+  if (element.textContent[element.textContent.length - 1] === "\n") {
+    if (/^\n*$/.test(element.textContent)) element.textContent = "";
+  } else {
+    const position = getCaretPosition(element);
+    element.textContent += "\n";
+    setCaretPosition(element, position);
+  }
 }
 
 function keepCaretBeforeLastChar(element: HTMLElement) {
@@ -56,10 +60,10 @@ function setCaretPosition(element: HTMLElement, position: number) {
   if (position >= contentLength) position = contentLength;
   const range = document.createRange();
   const selection = getSelection();
-  if (!selection) return;
+  if (!selection || !element.firstChild) return;
   // Set the range start to the specified character index
   // Note: This assumes a single text node. For nested HTML, see Method 2.
-  range.setStart(element.firstChild!, position);
+  range.setStart(element.firstChild, position);
   range.collapse(true); // Collapse the range to a point cursor
   selection.removeAllRanges();
   selection.addRange(range);
