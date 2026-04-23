@@ -1,19 +1,16 @@
 <script>
-  import { LANGUAGES, codeState } from "$lib";
-  import {
-    onEditableFocus,
-    onEditableKeyDown,
-    onEditableMouseDown,
-  } from "$lib/editable";
+  import { astPrint, codeState } from "$lib";
+  import { onEditableFocus, onEditableKeyDown, onEditableMouseDown } from "$lib/editable";
+  import { LANGUAGE_NAMES } from "$lib/parser";
 </script>
 
 <main>
   <h1>P3Lang</h1>
   <div id="code-container">
-    {#each LANGUAGES as lang}
-      <div id="{lang}-container">
+    {#each LANGUAGE_NAMES as lang}
+      <div id="{lang.toLowerCase()}-container">
         <div class="header">
-          <img src="/{lang}-original.svg" alt={lang} />
+          <img src="/{lang.toLowerCase()}-original.svg" alt={lang} />
         </div>
         <div
           role="textbox"
@@ -29,7 +26,7 @@
       </div>
     {/each}
   </div>
-  <div id="ast-container">hi</div>
+  <div id="ast-container">{$astPrint}</div>
 </main>
 
 <style>
@@ -87,5 +84,10 @@
         }
       }
     }
+  }
+  #ast-container {
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
   }
 </style>
