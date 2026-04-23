@@ -1,5 +1,6 @@
 import { derived, writable } from "svelte/store";
 import { LANGUAGES, type LanguageName } from "./parser";
+import type { Node } from "web-tree-sitter";
 
 export const codeState = writable<Record<LanguageName, string>>({
   JavaScript: `function main() {\n  abc = 1;\n  return abc;\n}\n`,
@@ -13,5 +14,16 @@ export const ast = derived(codeState, (code) => {
 });
 
 export const astPrint = derived(ast, (tree) => {
-  return tree?.rootNode.toString();
+  if (!tree) return;
+  return nodeToString(tree.rootNode);
 });
+
+function nodeToString(node: Node, indent = 0) {
+  const padding = "  ".repeat(indent);
+  const { isNamed, type } = node;
+  let result = `${padding}${isNamed ? type : `"${type}"`}\n`;
+  for (const child of node.children) {
+    result += nodeToString(child, indent + 1);
+  }
+  return result;
+}
