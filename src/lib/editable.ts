@@ -39,7 +39,7 @@ function handleLastNewLine(element: HTMLElement) {
 
 function keepCaretBeforeLastChar(element: HTMLElement) {
   const position = getCaretPosition(element);
-  if (position < element.textContent.length) return;
+  if (!position || position < element.textContent.length) return;
   setCaretPosition(element, position - 1);
 }
 
@@ -58,7 +58,8 @@ function getCaretPosition(element: HTMLElement) {
 function setCaretPosition(element: HTMLElement, position: number) {
   element.focus(); // Ensure the element is focused
   const contentLength = element.textContent.length;
-  if (position >= contentLength) position = contentLength;
+  if (position >= contentLength) position = contentLength - 1;
+  if (position < 0) position = 0;
   const range = document.createRange();
   const selection = getSelection();
   if (!selection || !element.firstChild) return;
