@@ -1,4 +1,4 @@
-import { languages } from "$lib";
+import { languages } from "$lib/state";
 import type { LanguageName } from "./parser";
 
 export function onEditableFocus(event: FocusEvent) {

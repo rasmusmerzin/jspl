@@ -1,30 +1,23 @@
-import type { Node } from "web-tree-sitter";
-import { LANGUAGE_NAMES, LANGUAGES } from "./parser";
-import { derived, writable } from "svelte/store";
-import { mapRecord } from "./util";
+import { get } from "svelte/store";
+import { ctrlPressed, languages } from "./state";
+import { throttle } from "./util";
 
-export const languages = writable(LANGUAGE_NAMES);
-
-export const codeStates = {
-  JavaScript: writable(`function main() {\n  abc = 1;\n  return abc;\n}\n`),
-  Python: writable(``),
-  Lua: writable(``),
-};
-
-export const treeStates = mapRecord(codeStates, (state, name) =>
-  derived(state, (code) => LANGUAGES[name].parser.parse(code)),
-);
-
-export const treePrintStates = mapRecord(treeStates, (state) =>
-  derived(state, (tree) => (tree ? nodeToString(tree.rootNode) : "")),
-);
-
-function nodeToString(node: Node, indent = 0) {
-  const padding = "  ".repeat(indent);
-  const { isNamed, type } = node;
-  let result = `${padding}${isNamed ? type : `"${type}"`}\n`;
-  for (const child of node.children) {
-    result += nodeToString(child, indent + 1);
+export function onKeyUp(event: KeyboardEvent) {
+  if (event.key === "Control") {
+    ctrlPressed.set(false);
   }
-  return result;
 }
+
+export function onKeyDown(event: KeyboardEvent) {
+  if (event.key === "Control") {
+    ctrlPressed.set(true);
+  } else if (["1", "2", "3"].includes(event.key) && event.ctrlKey) {
+    const languageName = get(languages)[Number(event.key) - 1];
+    const element = document.getElementById(languageName + "-Pane")?.querySelector(".content");
+    if (element instanceof HTMLElement) throttledFocusPane(element);
+  }
+}
+
+const throttledFocusPane = throttle(function focusPane(element: HTMLElement) {
+  element.focus();
+}, 400);

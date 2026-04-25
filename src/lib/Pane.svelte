@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { LanguageName } from "./parser";
-  import { codeStates } from "$lib";
+  import { codeStates, ctrlPressed, languages } from "$lib/state";
   import { onEditableFocus, onEditableKeyDown, onEditableMouseDown } from "$lib/Pane";
   import { onMount } from "svelte";
 
@@ -13,6 +13,7 @@
   } = $props();
 
   let codeState = $derived(codeStates[languageName]);
+  let paneIndex = $derived($languages.indexOf(languageName));
   let content: HTMLDivElement | undefined = $state();
 
   onMount(() => {
@@ -36,6 +37,9 @@
     onkeydown={onEditableKeyDown}
     bind:textContent={$codeState}
   ></div>
+  <div class="footer">
+    <div class="index" class:visible={$ctrlPressed}>{paneIndex + 1}</div>
+  </div>
 </div>
 
 <style>
@@ -46,6 +50,11 @@
     flex: 1 1 256px;
     box-sizing: border-box;
     padding: 0 0 8px;
+    &:not(:focus-within) {
+      .header img {
+        opacity: 0.5;
+      }
+    }
     .header {
       position: absolute;
       box-sizing: border-box;
@@ -57,11 +66,6 @@
       pointer-events: none;
       img {
         filter: drop-shadow(0 0 6px #4448);
-      }
-    }
-    &:not(:focus-within) {
-      .header img {
-        opacity: 0.5;
       }
     }
     .content {
@@ -92,6 +96,28 @@
         border: 3px solid var(--primary);
         padding: 9px;
         outline: none;
+      }
+    }
+    .footer {
+      position: absolute;
+      box-sizing: border-box;
+      width: 100%;
+      height: 40px;
+      bottom: 8px;
+      padding: 12px;
+      display: flex;
+      justify-content: end;
+      pointer-events: none;
+      .index {
+        width: 16px;
+        height: 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        &:not(.visible) {
+          display: none;
+        }
       }
     }
   }

@@ -1,7 +1,17 @@
 <script>
   import Pane from "$lib/Pane.svelte";
-  import { languages } from "$lib";
+  import { languages } from "$lib/state";
   import { slide } from "svelte/transition";
+  import { onMount } from "svelte";
+  import { onKeyDown, onKeyUp } from "$lib";
+  onMount(() => {
+    addEventListener("keydown", onKeyDown);
+    addEventListener("keyup", onKeyUp);
+    return function cleanup() {
+      removeEventListener("keydown", onKeyDown);
+      removeEventListener("keyup", onKeyUp);
+    };
+  });
 </script>
 
 <main>
@@ -9,20 +19,19 @@
   <div id="code-container">
     <div>
       {#each $languages.slice(0, 1) as languageName (languageName)}
-        <div transition:slide={{ axis: "y" }}>
+        <div transition:slide={{ duration: 300, axis: "y" }}>
           <Pane autoFocus {languageName} />
         </div>
       {/each}
     </div>
     <div>
       {#each $languages.slice(1) as languageName (languageName)}
-        <div transition:slide={{ axis: "y" }}>
+        <div transition:slide={{ duration: 300, axis: "y" }}>
           <Pane {languageName} />
         </div>
       {/each}
     </div>
   </div>
-  <pre>{$languages}</pre>
 </main>
 
 <style>
