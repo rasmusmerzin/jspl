@@ -1,16 +1,16 @@
-import type { Node } from "web-tree-sitter";
 import { LANGUAGE_NAMES, LANGUAGES } from "./parser";
 import { derived, writable } from "svelte/store";
 import { mapRecord } from "./util";
+import { nodeToString } from "./print";
 
 export const ctrlPressed = writable(false);
 
 export const languages = writable(LANGUAGE_NAMES);
 
 export const codeStates = {
-  JavaScript: writable(``),
-  Python: writable(``),
-  Lua: writable(``),
+  JavaScript: writable(`function main() {\n    abc = 1;\n    return abc;\n}\n`),
+  Python: writable(`def main():\n    abc = 1\n    return abc\n`),
+  Lua: writable(`function main()\n    abc = 1\n    return abc\nend\n`),
 };
 
 export const treeStates = mapRecord(codeStates, (state, name) =>
@@ -20,17 +20,3 @@ export const treeStates = mapRecord(codeStates, (state, name) =>
 export const treePrintStates = mapRecord(treeStates, (state) =>
   derived(state, (tree) => (tree ? nodeToString(tree.rootNode) : "")),
 );
-
-setTimeout(() => {
-  codeStates.JavaScript.set(`function main() {\n  abc = 1;\n  return abc;\n}\n`);
-});
-
-function nodeToString(node: Node, indent = 0) {
-  const padding = "  ".repeat(indent);
-  const { isNamed, type } = node;
-  let result = `${padding}${isNamed ? type : `"${type}"`}\n`;
-  for (const child of node.children) {
-    result += nodeToString(child, indent + 1);
-  }
-  return result;
-}

@@ -29,7 +29,7 @@ export function onEditableKeyDown(event: KeyboardEvent) {
     return;
   } else if (event.key === "Tab") {
     event.preventDefault();
-    insertText("  ");
+    insertText("    ");
   } else if (event.key === "Enter") {
     event.preventDefault();
     if (event.ctrlKey) element.dispatchEvent(new SubmitEvent("submit"));

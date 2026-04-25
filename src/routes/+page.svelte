@@ -1,9 +1,13 @@
 <script>
   import Pane from "$lib/Pane.svelte";
-  import { languages } from "$lib/state";
+  import { languages, treePrintStates } from "$lib/state";
   import { slide } from "svelte/transition";
   import { onMount } from "svelte";
   import { onKeyDown, onKeyUp } from "$lib";
+
+  let focused = $derived($languages[0]);
+  let focusedPrintState = $derived(treePrintStates[focused]);
+
   onMount(() => {
     addEventListener("keydown", onKeyDown);
     addEventListener("keyup", onKeyUp);
@@ -32,6 +36,7 @@
       {/each}
     </div>
   </div>
+  <pre>{$focusedPrintState}</pre>
 </main>
 
 <style>
