@@ -1,4 +1,5 @@
-import { languages } from "$lib/state";
+import { indentPaddings, languages } from "$lib/state";
+import { get } from "svelte/store";
 import type { LanguageName } from "./parser";
 
 export function onEditableSubmit(event: SubmitEvent) {
@@ -23,13 +24,15 @@ export function onEditableMouseDown(event: FocusEvent) {
 
 export function onEditableKeyDown(event: KeyboardEvent) {
   const element = event.target as HTMLElement;
+  const parent = element.parentElement!;
+  const languageName = parent.id.slice(0, parent.id.length - "-Pane".length) as LanguageName;
   setTimeout(afterUpdate, 0, element);
   if (event.key === "Escape") {
     element.blur();
     return;
   } else if (event.key === "Tab") {
     event.preventDefault();
-    insertText("    ");
+    insertText(get(indentPaddings[languageName]));
   } else if (event.key === "Enter") {
     event.preventDefault();
     if (event.ctrlKey) element.dispatchEvent(new SubmitEvent("submit"));
@@ -70,6 +73,7 @@ function keepCaretBeforeLastChar(element: HTMLElement) {
   setCaretPosition(element, position - 1);
 }
 
+// Generated with Brave Ask
 function getCaretPosition(element: HTMLElement) {
   const selection = getSelection();
   if (!selection?.rangeCount) return 0;
@@ -82,6 +86,7 @@ function getCaretPosition(element: HTMLElement) {
   return clone.toString().length;
 }
 
+// Generated with Brave Ask
 function setCaretPosition(element: HTMLElement, position: number) {
   element.focus(); // Ensure the element is focused
   const contentLength = element.textContent.length;
@@ -98,6 +103,7 @@ function setCaretPosition(element: HTMLElement, position: number) {
   selection.addRange(range);
 }
 
+// Generated with Brave Ask
 function insertText(text: string) {
   // alternative: document.execCommand("insertText", false, text);
   const selection = getSelection();

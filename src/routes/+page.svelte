@@ -1,12 +1,13 @@
 <script>
   import Pane from "$lib/Pane.svelte";
-  import { languages, treePrintStates } from "$lib/state";
+  import { commonTreeStates, languages, treePrintStates } from "$lib/state";
   import { slide } from "svelte/transition";
   import { onMount } from "svelte";
   import { onKeyDown, onKeyUp } from "$lib";
 
   let focused = $derived($languages[0]);
   let focusedPrintState = $derived(treePrintStates[focused]);
+  let focusedCommonTreeState = $derived(commonTreeStates[focused]);
 
   onMount(() => {
     addEventListener("keydown", onKeyDown);
@@ -36,7 +37,10 @@
       {/each}
     </div>
   </div>
-  <pre>{$focusedPrintState}</pre>
+  <div id="ast-container">
+    <pre>{$focusedPrintState}</pre>
+    <pre>{JSON.stringify($focusedCommonTreeState, null, 2)}</pre>
+  </div>
 </main>
 
 <style>
@@ -69,5 +73,10 @@
         flex-direction: column;
       }
     }
+  }
+  #ast-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 8px;
   }
 </style>

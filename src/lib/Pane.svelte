@@ -29,9 +29,6 @@
 </script>
 
 <div class="Pane" id="{languageName}-Pane">
-  <div class="header">
-    <img src="/{languageName.toLowerCase()}-original.svg" alt={languageName} />
-  </div>
   <div
     bind:this={content}
     style:max-height={`${maxHeight}px`}
@@ -46,6 +43,9 @@
     onsubmit={onEditableSubmit}
     bind:textContent={$codeState}
   ></div>
+  <div class="header">
+    <img src="/{languageName.toLowerCase()}-original.svg" alt={languageName} />
+  </div>
   <div class="footer">
     <div class="index" class:visible={$ctrlPressed}>{paneIndex + 1}</div>
   </div>
@@ -64,6 +64,39 @@
         opacity: 0.5;
       }
     }
+    .content {
+      height: 100%;
+      overflow: auto;
+      box-sizing: border-box;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      padding: 12px;
+      border-radius: 16px;
+      background: #6663;
+      backdrop-filter: blur(32px);
+      box-shadow:
+        1px 2px 8px #0008,
+        inset 0 0 1px #fff8,
+        -1px -2px 8px #ccc1;
+      &:empty::before {
+        content: "...";
+        display: inline;
+        opacity: 0.5;
+      }
+      &:focus {
+        box-shadow:
+          1px 2px 8px #0008,
+          inset 0 0 1px #0008;
+        background: var(--bg-1);
+        border: 3px solid var(--primary);
+        padding: 9px;
+        outline: none;
+      }
+      &:not(:focus) {
+        color: var(--fg-1);
+      }
+    }
     .header {
       position: absolute;
       box-sizing: border-box;
@@ -74,37 +107,8 @@
       justify-content: end;
       pointer-events: none;
       img {
-        filter: drop-shadow(0 0 6px #4448);
-      }
-    }
-    .content {
-      height: 100%;
-      overflow: auto;
-      box-sizing: border-box;
-      font-family: monospace;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      padding: 12px;
-      border-radius: 16px;
-      background: #444;
-      color: #ddd;
-      box-shadow:
-        1px 2px 8px #0008,
-        inset 0 0 1px #fff8;
-      &:empty::before {
-        content: "...";
-        display: inline;
-        opacity: 0.5;
-      }
-      &:focus {
-        box-shadow:
-          1px 2px 8px #0008,
-          inset 0 0 1px #0008;
-        background: #333;
-        color: #fff;
-        border: 3px solid var(--primary);
-        padding: 9px;
-        outline: none;
+        pointer-events: none;
+        filter: drop-shadow(1px 1px 2px #0008);
       }
     }
     .footer {
@@ -116,14 +120,13 @@
       padding: 12px;
       display: flex;
       justify-content: end;
-      pointer-events: none;
       .index {
+        pointer-events: none;
         width: 16px;
         height: 16px;
         display: flex;
         justify-content: center;
         align-items: center;
-        color: white;
         &:not(.visible) {
           display: none;
         }
