@@ -1,32 +1,28 @@
 <script>
-  import { astPrint, codeState } from "$lib";
-  import { onEditableFocus, onEditableKeyDown, onEditableMouseDown } from "$lib/editable";
-  import { LANGUAGE_NAMES } from "$lib/parser";
+  import Pane from "$lib/Pane.svelte";
+  import { languages } from "$lib";
+  import { slide } from "svelte/transition";
 </script>
 
 <main>
   <h1>P3Lang</h1>
   <div id="code-container">
-    {#each LANGUAGE_NAMES as lang}
-      <div id="{lang.toLowerCase()}-container">
-        <div class="header">
-          <img src="/{lang.toLowerCase()}-original.svg" alt={lang} />
+    <div>
+      {#each $languages.slice(0, 1) as languageName (languageName)}
+        <div transition:slide={{ axis: "y" }}>
+          <Pane autoFocus {languageName} />
         </div>
-        <div
-          role="textbox"
-          tabindex="0"
-          class="content"
-          spellcheck="false"
-          contenteditable
-          onmousedown={onEditableMouseDown}
-          onfocus={onEditableFocus}
-          onkeydown={onEditableKeyDown}
-          bind:textContent={$codeState[lang]}
-        ></div>
-      </div>
-    {/each}
+      {/each}
+    </div>
+    <div>
+      {#each $languages.slice(1) as languageName (languageName)}
+        <div transition:slide={{ axis: "y" }}>
+          <Pane {languageName} />
+        </div>
+      {/each}
+    </div>
   </div>
-  <div id="ast-container">{$astPrint}</div>
+  <pre>{$languages}</pre>
 </main>
 
 <style>
@@ -43,51 +39,21 @@
   }
   #code-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 8px;
-    div {
-      display: grid;
-      .header {
-        padding: 16px;
-        height: 32px;
-        display: flex;
-        justify-content: center;
-        img {
-          filter: drop-shadow(0 0 6px #4448);
+    > div {
+      display: flex;
+      flex-direction: column;
+      &:first-child {
+        grid-row: 1 / -1;
+        > div {
+          height: 512px;
         }
       }
-      .content {
-        min-height: 256px;
-        font-family: monospace;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        padding: 12px;
-        border-radius: 16px;
-        background: #444;
-        color: #ddd;
-        box-shadow:
-          1px 2px 8px #0008,
-          inset 0 0 1px #fff8;
-        &:empty::before {
-          content: "...";
-          display: inline;
-          opacity: 0.5;
-        }
-        &:focus {
-          box-shadow:
-            1px 2px 8px #0008,
-            inset 0 0 1px #0008;
-          background: #333;
-          color: #fff;
-          outline-width: 3px;
-          outline-style: solid;
-        }
+      > div {
+        display: flex;
+        flex-direction: column;
       }
     }
-  }
-  #ast-container {
-    font-family: monospace;
-    white-space: pre-wrap;
-    word-wrap: break-word;
   }
 </style>

@@ -1,15 +1,22 @@
+import { languages } from "$lib";
+import type { LanguageName } from "./parser";
+
 export function onEditableFocus(event: FocusEvent) {
   const element = event.target as HTMLElement;
-  keepCaretBeforeLastChar(element);
+  setTimeout(afterUpdate, 0, element);
+  const parent = element.parentElement!;
+  const languageName = parent.id.slice(0, parent.id.length - "-Pane".length);
+  reorderLanguages(languageName);
 }
 
 export function onEditableMouseDown(event: FocusEvent) {
   const element = event.target as HTMLElement;
-  keepCaretBeforeLastChar(element);
+  setTimeout(afterUpdate, 0, element);
 }
 
 export function onEditableKeyDown(event: KeyboardEvent) {
   const element = event.target as HTMLElement;
+  setTimeout(afterUpdate, 0, element);
   if (event.key === "Escape") {
     element.blur();
     return;
@@ -22,8 +29,20 @@ export function onEditableKeyDown(event: KeyboardEvent) {
   } else if (event.key.toUpperCase() === "Z" && event.ctrlKey) {
     event.preventDefault();
   }
-  setTimeout(handleLastNewLine, 0, element);
-  setTimeout(keepCaretBeforeLastChar, 0, element);
+}
+
+function afterUpdate(element: HTMLElement) {
+  handleLastNewLine(element);
+  keepCaretBeforeLastChar(element);
+}
+
+function reorderLanguages(name: string) {
+  const languageName = name as LanguageName;
+  languages.update((list) => {
+    if (!list.includes(languageName)) return list;
+    while (list[0] !== languageName) list.push(list.shift()!);
+    return list;
+  });
 }
 
 function handleLastNewLine(element: HTMLElement) {
