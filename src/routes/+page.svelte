@@ -20,14 +20,14 @@
     <div>
       {#each $languages.slice(0, 1) as languageName (languageName)}
         <div transition:slide={{ duration: 300, axis: "y" }}>
-          <Pane autoFocus {languageName} />
+          <Pane autoFocus maxHeight={504} {languageName} />
         </div>
       {/each}
     </div>
     <div>
       {#each $languages.slice(1) as languageName (languageName)}
         <div transition:slide={{ duration: 300, axis: "y" }}>
-          <Pane {languageName} />
+          <Pane maxHeight={248} {languageName} />
         </div>
       {/each}
     </div>

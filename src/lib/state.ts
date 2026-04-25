@@ -8,7 +8,7 @@ export const ctrlPressed = writable(false);
 export const languages = writable(LANGUAGE_NAMES);
 
 export const codeStates = {
-  JavaScript: writable(`function main() {\n  abc = 1;\n  return abc;\n}\n`),
+  JavaScript: writable(``),
   Python: writable(``),
   Lua: writable(``),
 };
@@ -20,6 +20,10 @@ export const treeStates = mapRecord(codeStates, (state, name) =>
 export const treePrintStates = mapRecord(treeStates, (state) =>
   derived(state, (tree) => (tree ? nodeToString(tree.rootNode) : "")),
 );
+
+setTimeout(() => {
+  codeStates.JavaScript.set(`function main() {\n  abc = 1;\n  return abc;\n}\n`);
+});
 
 function nodeToString(node: Node, indent = 0) {
   const padding = "  ".repeat(indent);

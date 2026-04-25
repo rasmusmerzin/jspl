@@ -1,14 +1,21 @@
 <script lang="ts">
   import type { LanguageName } from "./parser";
   import { codeStates, ctrlPressed, languages } from "$lib/state";
-  import { onEditableFocus, onEditableKeyDown, onEditableMouseDown } from "$lib/Pane";
+  import {
+    onEditableFocus,
+    onEditableKeyDown,
+    onEditableMouseDown,
+    onEditableSubmit,
+  } from "$lib/Pane";
   import { onMount } from "svelte";
 
   let {
     languageName,
+    maxHeight,
     autoFocus = false,
   }: {
     languageName: LanguageName;
+    maxHeight: number;
     autoFocus?: boolean;
   } = $props();
 
@@ -27,6 +34,7 @@
   </div>
   <div
     bind:this={content}
+    style:max-height={`${maxHeight}px`}
     role="textbox"
     tabindex="0"
     class="content"
@@ -35,6 +43,7 @@
     onmousedown={onEditableMouseDown}
     onfocus={onEditableFocus}
     onkeydown={onEditableKeyDown}
+    onsubmit={onEditableSubmit}
     bind:textContent={$codeState}
   ></div>
   <div class="footer">
@@ -70,7 +79,7 @@
     }
     .content {
       height: 100%;
-      flex: 1;
+      overflow: auto;
       box-sizing: border-box;
       font-family: monospace;
       white-space: pre-wrap;

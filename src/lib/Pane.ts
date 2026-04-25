@@ -1,6 +1,13 @@
 import { languages } from "$lib/state";
 import type { LanguageName } from "./parser";
 
+export function onEditableSubmit(event: SubmitEvent) {
+  const element = event.target as HTMLElement;
+  const parent = element.parentElement!;
+  const languageName = parent.id.slice(0, parent.id.length - "-Pane".length);
+  console.log(languageName, "submit");
+}
+
 export function onEditableFocus(event: FocusEvent) {
   const element = event.target as HTMLElement;
   setTimeout(afterUpdate, 0, element);
@@ -25,7 +32,8 @@ export function onEditableKeyDown(event: KeyboardEvent) {
     insertText("  ");
   } else if (event.key === "Enter") {
     event.preventDefault();
-    insertText("\n");
+    if (event.ctrlKey) element.dispatchEvent(new SubmitEvent("submit"));
+    else insertText("\n");
   } else if (event.key.toUpperCase() === "Z" && event.ctrlKey) {
     event.preventDefault();
   }
