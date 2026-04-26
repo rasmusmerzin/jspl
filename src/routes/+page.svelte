@@ -20,7 +20,7 @@
 </script>
 
 <main>
-  <h1>P3Lang</h1>
+  <h1>JsPL</h1>
   <div id="code-container">
     <div>
       {#each $languages.slice(0, 1) as languageName (languageName)}

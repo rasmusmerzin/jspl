@@ -6,7 +6,7 @@
 
 <svelte:head>
   <link rel="icon" href={favicon} />
-  <title>P3Lang</title>
+  <title>JsPL</title>
 </svelte:head>
 
 {@render children()}

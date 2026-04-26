@@ -1,4 +1,4 @@
-# P3Lang
+# JsPL
 
 JavaScript-Python-Lua transpiler.
 
