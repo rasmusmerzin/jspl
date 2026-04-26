@@ -2,7 +2,7 @@
   import { commonTreeStates, languages, treePrintStates } from "$lib/state";
   import { onKeyDown, onKeyUp } from "$lib";
   import { onMount } from "svelte";
-  import Panes from "$lib/Panes.svelte";
+  import PaneLayout from "$lib/PaneLayout.svelte";
 
   let focused = $derived($languages[0]);
   let focusedPrintState = $derived(treePrintStates[focused]);
@@ -20,7 +20,7 @@
 
 <main>
   <h1>JsPL</h1>
-  <Panes />
+  <PaneLayout />
   <div id="ast-container">
     <pre>{$focusedPrintState}</pre>
     <pre>{JSON.stringify($focusedCommonTreeState, null, 2)}</pre>

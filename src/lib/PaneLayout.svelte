@@ -4,7 +4,7 @@
   import { flip } from "svelte/animate";
 </script>
 
-<div id="Panes">
+<div id="PaneLayout">
   {#each $languages as languageName (languageName)}
     <div animate:flip={{ duration: 400 }}>
       <Pane {languageName} />
@@ -13,7 +13,7 @@
 </div>
 
 <style>
-  #Panes {
+  #PaneLayout {
     --gap: 8px;
     position: relative;
     height: 512px;

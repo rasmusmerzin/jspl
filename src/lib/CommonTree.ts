@@ -8,7 +8,8 @@ export class CommonTree {
   static from(languageName: LanguageName, tree: Tree, source: string): CommonTree {
     const commonTree = new CommonTree();
     for (const child of tree.rootNode.children) {
-      commonTree.children.push(CommonNode.from(languageName, child, source));
+      const commonNode = CommonNode.from(languageName, child, source);
+      if (commonNode) commonTree.children.push(commonNode);
     }
     return commonTree;
   }
@@ -50,10 +51,8 @@ export class CommonFunction extends CommonNode {
       throw new Error(`Invalid Node.type for CommonFunction: ${node.type}`);
     }
     const fn = new CommonFunction();
-    const identifierNode = node.namedChildren.find((node) => node.type === "identifier");
-    if (identifierNode) fn.name = source.slice(identifierNode.startIndex, identifierNode.endIndex);
-    const blockType = getBlockType(languageName);
-    const blockNode = node.namedChildren.find((node) => node.type === blockType);
+    [fn.name] = resolveIdentifiers(node, source);
+    const [blockNode] = resolveBlockNodes(languageName, node);
     for (const child of blockNode?.children || []) {
       const commonNode = CommonNode.from(languageName, child, source);
       if (commonNode) fn.children.push(commonNode);
@@ -84,11 +83,12 @@ export class CommonAssignment extends CommonNode {
   values: CommonNode[] = [];
 
   static from(languageName: LanguageName, node: Node, source: string): CommonAssignment {
-    if (!["assignment_statement"].includes(node.type)) {
-      throw new Error(`Invalid Node.type for CommonFunction: ${node.type}`);
-    }
     const assignment = new CommonAssignment();
     // derive names
+    if (node.type === "assignment_statement") {
+    } else {
+      throw new Error(`Invalid Node.type for CommonFunction: ${node.type}`);
+    }
     // derive values
     return assignment;
   }
@@ -104,6 +104,18 @@ export class PrintContext {
   assign(...updates: Partial<PrintContext>[]): this {
     return Object.assign(this, ...updates);
   }
+}
+
+function resolveIdentifiers(node: Node, source: string): string[] {
+  const identifierNodes = node.namedChildren.filter((node) => node.type === "identifier");
+  return identifierNodes.map((identifierNode) => {
+    return source.slice(identifierNode.startIndex, identifierNode.endIndex);
+  });
+}
+
+function resolveBlockNodes(languageName: LanguageName, node: Node): Node[] {
+  const blockType = getBlockType(languageName);
+  return node.namedChildren.filter((node) => node.type === blockType);
 }
 
 function getBlockType(languageName: LanguageName): string {
