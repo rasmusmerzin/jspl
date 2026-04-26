@@ -49,6 +49,7 @@ function afterUpdate(element: HTMLElement) {
 
 function reorderLanguages(name: string) {
   const languageName = name as LanguageName;
+  let list: LanguageName[];
   languages.update((list) => {
     if (!list.includes(languageName)) return list;
     while (list[0] !== languageName) list.push(list.shift()!);

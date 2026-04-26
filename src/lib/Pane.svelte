@@ -7,31 +7,21 @@
     onEditableMouseDown,
     onEditableSubmit,
   } from "$lib/Pane";
-  import { onMount } from "svelte";
 
   let {
     languageName,
-    maxHeight,
-    autoFocus = false,
   }: {
     languageName: LanguageName;
-    maxHeight: number;
-    autoFocus?: boolean;
   } = $props();
 
   let codeState = $derived(codeStates[languageName]);
   let paneIndex = $derived($languages.indexOf(languageName));
   let content: HTMLDivElement | undefined = $state();
-
-  onMount(() => {
-    if (autoFocus) content?.focus();
-  });
 </script>
 
 <div class="Pane" id="{languageName}-Pane">
   <div
     bind:this={content}
-    style:max-height={`${maxHeight}px`}
     role="textbox"
     tabindex="0"
     class="content"
@@ -56,16 +46,14 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    flex: 1 1 256px;
-    box-sizing: border-box;
-    padding: 0 0 8px;
+    flex: 1;
     &:not(:focus-within) {
       .header img {
         opacity: 0.5;
       }
     }
     .content {
-      height: 100%;
+      flex: 1;
       overflow: auto;
       box-sizing: border-box;
       font-family: monospace;

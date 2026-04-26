@@ -19,5 +19,7 @@ export function onKeyDown(event: KeyboardEvent) {
 }
 
 const throttledFocusPane = throttle(function focusPane(element: HTMLElement) {
-  element.focus();
+  const { activeElement } = document;
+  if (activeElement instanceof HTMLElement) activeElement.blur();
+  setTimeout(() => element.focus());
 }, 400);

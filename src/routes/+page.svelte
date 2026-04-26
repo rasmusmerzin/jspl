@@ -1,9 +1,8 @@
 <script>
-  import Pane from "$lib/Pane.svelte";
   import { commonTreeStates, languages, treePrintStates } from "$lib/state";
-  import { slide } from "svelte/transition";
-  import { onMount } from "svelte";
   import { onKeyDown, onKeyUp } from "$lib";
+  import { onMount } from "svelte";
+  import Panes from "$lib/Panes.svelte";
 
   let focused = $derived($languages[0]);
   let focusedPrintState = $derived(treePrintStates[focused]);
@@ -21,22 +20,7 @@
 
 <main>
   <h1>JsPL</h1>
-  <div id="code-container">
-    <div>
-      {#each $languages.slice(0, 1) as languageName (languageName)}
-        <div transition:slide={{ duration: 300, axis: "y" }}>
-          <Pane autoFocus maxHeight={504} {languageName} />
-        </div>
-      {/each}
-    </div>
-    <div>
-      {#each $languages.slice(1) as languageName (languageName)}
-        <div transition:slide={{ duration: 300, axis: "y" }}>
-          <Pane maxHeight={248} {languageName} />
-        </div>
-      {/each}
-    </div>
-  </div>
+  <Panes />
   <div id="ast-container">
     <pre>{$focusedPrintState}</pre>
     <pre>{JSON.stringify($focusedCommonTreeState, null, 2)}</pre>
@@ -54,25 +38,6 @@
     display: grid;
     grid-gap: 32px;
     padding: 32px 16px;
-  }
-  #code-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 8px;
-    > div {
-      display: flex;
-      flex-direction: column;
-      &:first-child {
-        grid-row: 1 / -1;
-        > div {
-          height: 512px;
-        }
-      }
-      > div {
-        display: flex;
-        flex-direction: column;
-      }
-    }
   }
   #ast-container {
     display: grid;
