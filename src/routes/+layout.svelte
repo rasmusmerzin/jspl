@@ -29,7 +29,6 @@
   :global(*) {
     padding: 0;
     margin: 0;
-    outline-color: var(--primary);
     &::selection {
       background: var(--primary);
       color: black;

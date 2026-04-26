@@ -49,7 +49,7 @@
     flex: 1;
     &:not(:focus-within) {
       .header img {
-        opacity: 0.5;
+        opacity: 0.75;
       }
     }
     .content {
@@ -77,9 +77,9 @@
           1px 2px 8px #0008,
           inset 0 0 1px #0008;
         background: var(--bg-1);
-        border: 3px solid var(--primary);
-        padding: 9px;
-        outline: none;
+        padding: 10px;
+        border: 2px solid var(--primary);
+        outline: 2px solid var(--primary);
       }
       &:not(:focus) {
         color: var(--fg-1);
