@@ -7,6 +7,7 @@
   let focused = $derived($languages[0]);
   let focusedPrintState = $derived(treePrintStates[focused]);
   let focusedCommonTreeState = $derived(commonTreeStates[focused]);
+  let focusedToLua = $derived($focusedCommonTreeState?.print("Lua"));
 
   onMount(() => {
     addEventListener("keydown", onKeyDown);
@@ -24,6 +25,7 @@
   <div id="ast-container">
     <pre>{$focusedPrintState}</pre>
     <pre>{JSON.stringify($focusedCommonTreeState, null, 2)}</pre>
+    <pre>{focusedToLua}</pre>
   </div>
 </main>
 
@@ -41,7 +43,7 @@
   }
   #ast-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 8px;
   }
 </style>

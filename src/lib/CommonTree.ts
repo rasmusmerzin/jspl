@@ -30,6 +30,10 @@ export class CommonNode {
   static from(languageName: LanguageName, node: Node, source: string): CommonNode | null {
     if (["function_declaration", "function_definition"].includes(node.type)) {
       return CommonFunction.from(languageName, node, source);
+    } else if (["assignment_statement"].includes(node.type)) {
+      return CommonAssignment.from(languageName, node, source);
+    } else if (["false", "true", "number", "string"].includes(node.type)) {
+      return CommonPrimitive.from(languageName, node, source);
     } else if (node.isNamed) {
       return new CommonNode();
     } else return null;
@@ -52,7 +56,7 @@ export class CommonFunction extends CommonNode {
     }
     const fn = new CommonFunction();
     [fn.name] = resolveIdentifiers(node, source);
-    const [blockNode] = resolveBlockNodes(languageName, node);
+    const blockNode = resolveBlockNode(languageName, node);
     for (const child of blockNode?.children || []) {
       const commonNode = CommonNode.from(languageName, child, source);
       if (commonNode) fn.children.push(commonNode);
@@ -65,8 +69,8 @@ export class CommonFunction extends CommonNode {
     else return "";
   }
 
-  printLua(context = new PrintContext()): string {
-    const padding = "    ".repeat(context.indent);
+  private printLua(context = new PrintContext()): string {
+    const padding = context.getPadding(2);
     let result = `${padding}function ${this.name || ""}()\n`;
     const childContext = context.clone().assign({ indent: context.indent + 1 });
     for (const child of this.children) {
@@ -86,16 +90,69 @@ export class CommonAssignment extends CommonNode {
     const assignment = new CommonAssignment();
     // derive names
     if (node.type === "assignment_statement") {
+      const variableList = resolveNamedChild(node, "variable_list");
+      assignment.names = variableList ? resolveIdentifiers(variableList, source) : [];
+      const expressionList = resolveNamedChild(node, "expression_list");
+      for (const child of expressionList?.namedChildren || []) {
+        const commonNode = CommonNode.from(languageName, child, source);
+        if (commonNode) assignment.values.push(commonNode);
+      }
     } else {
-      throw new Error(`Invalid Node.type for CommonFunction: ${node.type}`);
+      throw new Error(`Invalid Node.type for CommonAssignment: ${node.type}`);
     }
     // derive values
     return assignment;
+  }
+
+  print(language: LanguageName, context?: PrintContext): string {
+    if (language === "Lua") return this.printLua(context);
+    else return "";
+  }
+
+  private printLua(context = new PrintContext()): string {
+    const padding = context.getPadding(2);
+    let result = padding;
+    result += this.names.join(", ");
+    result += " = ";
+    result += this.values.map((v) => v.print("Lua", context)).join(", ");
+    result += "\n";
+    return result;
+  }
+}
+
+export class CommonPrimitive extends CommonNode {
+  type = "primitive";
+  subtype?: "boolean" | "number" | "string";
+  value?: string;
+
+  static from(languageName: LanguageName, node: Node, source: string): CommonNode | null {
+    const primitive = new CommonPrimitive();
+    if (["false", "true"].includes(node.type)) {
+      primitive.subtype = "boolean";
+      primitive.value = node.type;
+    } else if (node.type === "number") {
+      primitive.subtype = "number";
+      primitive.value = resolveSource(node, source);
+    } else if (node.type === "string") {
+      primitive.subtype = "string";
+      primitive.value = resolveSource(node, source);
+    } else {
+      throw new Error(`Invalid Node.type for CommonPrimitive: ${node.type}`);
+    }
+    return primitive;
+  }
+
+  print(language: LanguageName, context?: PrintContext): string {
+    return this.value || "";
   }
 }
 
 export class PrintContext {
   indent = 0;
+
+  getPadding(width = 4) {
+    return " ".repeat(width * this.indent);
+  }
 
   clone(): PrintContext {
     return Object.assign(new PrintContext(), this);
@@ -106,16 +163,25 @@ export class PrintContext {
   }
 }
 
-function resolveIdentifiers(node: Node, source: string): string[] {
-  const identifierNodes = node.namedChildren.filter((node) => node.type === "identifier");
-  return identifierNodes.map((identifierNode) => {
-    return source.slice(identifierNode.startIndex, identifierNode.endIndex);
-  });
+function resolveSource(node: Node, source: string): string {
+  return source.slice(node.startIndex, node.endIndex);
 }
 
-function resolveBlockNodes(languageName: LanguageName, node: Node): Node[] {
-  const blockType = getBlockType(languageName);
-  return node.namedChildren.filter((node) => node.type === blockType);
+function resolveIdentifiers(node: Node, source: string): string[] {
+  const identifierNodes = resolveNamedChildren(node, "identifier");
+  return identifierNodes.map((node) => source.slice(node.startIndex, node.endIndex));
+}
+
+function resolveBlockNode(languageName: LanguageName, node: Node): Node | undefined {
+  return resolveNamedChild(node, getBlockType(languageName));
+}
+
+function resolveNamedChild(node: Node, type: string): Node | undefined {
+  return node.namedChildren.find((child) => child.type === type);
+}
+
+function resolveNamedChildren(node: Node, type: string): Node[] {
+  return node.namedChildren.filter((child) => child.type === type);
 }
 
 function getBlockType(languageName: LanguageName): string {
