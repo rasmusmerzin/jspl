@@ -7,6 +7,8 @@
   let focused = $derived($languages[0]);
   let focusedPrintState = $derived(treePrintStates[focused]);
   let focusedCommonTreeState = $derived(commonTreeStates[focused]);
+  let focusedToJavaScript = $derived($focusedCommonTreeState?.print("JavaScript"));
+  let focusedToPython = $derived($focusedCommonTreeState?.print("Python"));
   let focusedToLua = $derived($focusedCommonTreeState?.print("Lua"));
 
   onMount(() => {
@@ -25,7 +27,11 @@
   <div id="ast-container">
     <pre>{$focusedPrintState}</pre>
     <pre>{JSON.stringify($focusedCommonTreeState, null, 2)}</pre>
-    <pre>{focusedToLua}</pre>
+    <div>
+      <pre>{focusedToJavaScript}</pre>
+      <pre>{focusedToPython}</pre>
+      <pre>{focusedToLua}</pre>
+    </div>
   </div>
 </main>
 
@@ -45,5 +51,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 8px;
+    > div {
+      display: grid;
+      grid-template-rows: 1fr 1fr 1fr;
+    }
   }
 </style>

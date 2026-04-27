@@ -32,6 +32,10 @@ export class CommonNode {
       return CommonFunction.from(languageName, node, source);
     } else if (["assignment_statement"].includes(node.type)) {
       return CommonAssignment.from(languageName, node, source);
+    } else if (["return_statement"].includes(node.type)) {
+      return CommonReturn.from(languageName, node, source);
+    } else if (["identifier"].includes(node.type)) {
+      return CommonReference.from(languageName, node, source);
     } else if (["false", "true", "number", "string"].includes(node.type)) {
       return CommonPrimitive.from(languageName, node, source);
     } else if (node.isNamed) {
@@ -64,13 +68,36 @@ export class CommonFunction extends CommonNode {
     return fn;
   }
 
-  print(language: LanguageName, context?: PrintContext): string {
-    if (language === "Lua") return this.printLua(context);
+  print(language: LanguageName, context = new PrintContext()): string {
+    if (language === "JavaScript") return this.printJavaScript(context);
+    else if (language === "Python") return this.printPython(context);
+    else if (language === "Lua") return this.printLua(context);
     else return "";
   }
 
-  private printLua(context = new PrintContext()): string {
-    const padding = context.getPadding(2);
+  private printJavaScript(context: PrintContext): string {
+    const padding = context.getPaddingByLanguage("JavaScript");
+    let result = `${padding}function ${this.name || ""}() {\n`;
+    const childContext = context.clone().assign({ indent: context.indent + 1 });
+    for (const child of this.children) {
+      result += child.print("JavaScript", childContext);
+    }
+    result += `${padding}}`;
+    return result;
+  }
+
+  private printPython(context: PrintContext): string {
+    const padding = context.getPaddingByLanguage("Python");
+    let result = `${padding}def ${this.name || ""}():\n`;
+    const childContext = context.clone().assign({ indent: context.indent + 1 });
+    for (const child of this.children) {
+      result += child.print("Python", childContext);
+    }
+    return result;
+  }
+
+  private printLua(context: PrintContext): string {
+    const padding = context.getPaddingByLanguage("Lua");
     let result = `${padding}function ${this.name || ""}()\n`;
     const childContext = context.clone().assign({ indent: context.indent + 1 });
     for (const child of this.children) {
@@ -87,36 +114,107 @@ export class CommonAssignment extends CommonNode {
   values: CommonNode[] = [];
 
   static from(languageName: LanguageName, node: Node, source: string): CommonAssignment {
-    const assignment = new CommonAssignment();
-    // derive names
+    const stmt = new CommonAssignment();
     if (node.type === "assignment_statement") {
       const variableList = resolveNamedChild(node, "variable_list");
-      assignment.names = variableList ? resolveIdentifiers(variableList, source) : [];
+      stmt.names = variableList ? resolveIdentifiers(variableList, source) : [];
       const expressionList = resolveNamedChild(node, "expression_list");
       for (const child of expressionList?.namedChildren || []) {
         const commonNode = CommonNode.from(languageName, child, source);
-        if (commonNode) assignment.values.push(commonNode);
+        if (commonNode) stmt.values.push(commonNode);
       }
     } else {
       throw new Error(`Invalid Node.type for CommonAssignment: ${node.type}`);
     }
-    // derive values
-    return assignment;
+    return stmt;
   }
 
-  print(language: LanguageName, context?: PrintContext): string {
-    if (language === "Lua") return this.printLua(context);
+  print(language: LanguageName, context = new PrintContext()): string {
+    if (language === "JavaScript") return this.printJavaScript(context);
+    else if (language === "Python") return this.printPython(context);
+    else if (language === "Lua") return this.printLua(context);
     else return "";
   }
 
-  private printLua(context = new PrintContext()): string {
-    const padding = context.getPadding(2);
+  private printJavaScript(context: PrintContext): string {
+    const padding = context.getPaddingByLanguage("JavaScript");
+    let result = padding;
+    const count = Math.min(this.names.length, this.values.length);
+    const entries: [string, CommonNode][] = [];
+    for (let i = 0; i < count; i++) entries.push([this.names[i], this.values[i]]);
+    result += entries
+      .map(([name, value]) => `${name} = ${value.print("JavaScript", context)}`)
+      .join(", ");
+    result += ";\n";
+    return result;
+  }
+
+  private printPython(context: PrintContext): string {
+    const padding = context.getPaddingByLanguage("Python");
+    let result = padding;
+    result += this.names.join(", ");
+    result += " = ";
+    result += this.values.map((v) => v.print("Python", context)).join(", ");
+    result += "\n";
+    return result;
+  }
+
+  private printLua(context: PrintContext): string {
+    const padding = context.getPaddingByLanguage("Lua");
     let result = padding;
     result += this.names.join(", ");
     result += " = ";
     result += this.values.map((v) => v.print("Lua", context)).join(", ");
     result += "\n";
     return result;
+  }
+}
+
+export class CommonReturn extends CommonNode {
+  type = "return";
+  value?: CommonNode;
+
+  static from(languageName: LanguageName, node: Node, source: string): CommonReturn {
+    const stmt = new CommonReturn();
+    if (node.type === "return_statement") {
+      const list = resolveNamedChild(node, "expression_list");
+      const child = list?.children[0];
+      if (child) {
+        const commonNode = CommonNode.from(languageName, child, source);
+        if (commonNode) stmt.value = commonNode;
+      }
+    } else {
+      throw new Error(`Invalid Node.type for CommonReturn: ${node.type}`);
+    }
+    return stmt;
+  }
+
+  print(language: LanguageName, context = new PrintContext()): string {
+    const padding = context.getPadding(getTabWidth(language));
+    let result = `${padding}return`;
+    if (this.value) result += " " + this.value.print(language, context);
+    if (language === "JavaScript") result += ";";
+    result += "\n";
+    return result;
+  }
+}
+
+export class CommonReference extends CommonNode {
+  type = "reference";
+  path: string[] = [];
+
+  static from(languageName: LanguageName, node: Node, source: string): CommonReference {
+    const ref = new CommonReference();
+    if (node.type === "identifier") {
+      ref.path = [resolveSource(node, source)];
+    } else {
+      throw new Error(`Invalid Node.type for CommonReturn: ${node.type}`);
+    }
+    return ref;
+  }
+
+  print(language: LanguageName, context?: PrintContext): string {
+    return this.path.join(".");
   }
 }
 
@@ -154,6 +252,10 @@ export class PrintContext {
     return " ".repeat(width * this.indent);
   }
 
+  getPaddingByLanguage(language: LanguageName) {
+    return this.getPadding(getTabWidth(language));
+  }
+
   clone(): PrintContext {
     return Object.assign(new PrintContext(), this);
   }
@@ -188,4 +290,9 @@ function getBlockType(languageName: LanguageName): string {
   if (languageName === "JavaScript") return "statement_block";
   else if (["Python", "Lua"].includes(languageName)) return "block";
   else return "";
+}
+
+function getTabWidth(languageName: LanguageName) {
+  if (languageName === "Python") return 4;
+  else return 2;
 }
