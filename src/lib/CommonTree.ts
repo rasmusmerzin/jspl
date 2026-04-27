@@ -30,7 +30,9 @@ export class CommonNode {
   static from(languageName: LanguageName, node: Node, source: string): CommonNode | null {
     if (["function_declaration", "function_definition"].includes(node.type)) {
       return CommonFunction.from(languageName, node, source);
-    } else if (["assignment_statement", "assignment_expression"].includes(node.type)) {
+    } else if (
+      ["assignment_statement", "assignment_expression", "assignment"].includes(node.type)
+    ) {
       return CommonAssignment.from(languageName, node, source);
     } else if (["return_statement"].includes(node.type)) {
       return CommonReturn.from(languageName, node, source);
@@ -40,7 +42,7 @@ export class CommonNode {
       else return null;
     } else if (["identifier"].includes(node.type)) {
       return CommonReference.from(languageName, node, source);
-    } else if (["false", "true", "number", "string"].includes(node.type)) {
+    } else if (["false", "true", "number", "integer", "float", "string"].includes(node.type)) {
       return CommonPrimitive.from(languageName, node, source);
     } else if (node.isNamed) {
       return new CommonNode();
@@ -129,7 +131,7 @@ export class CommonAssignment extends CommonNode {
       stmt.names = variableList ? resolveIdentifiers(variableList, source) : [];
       const expressionList = resolveNamedChild(node, "expression_list");
       stmt.values = (expressionList?.namedChildren || []).map(commonResolver);
-    } else if (node.type === "assignment_expression") {
+    } else if (["assignment_expression", "assignment"].includes(node.type)) {
       const [nameNode, valueNode] = node.namedChildren;
       stmt.names = [resolveSource(nameNode, source)];
       stmt.values = [commonResolver(valueNode)];
@@ -194,7 +196,7 @@ export class CommonReturn extends CommonNode {
           const commonNode = CommonNode.from(languageName, child, source);
           if (commonNode) stmt.value = commonNode;
         }
-      } else if (languageName === "JavaScript") {
+      } else if (["JavaScript", "Python"].includes(languageName)) {
         const [child] = node.namedChildren;
         if (child) {
           const commonNode = CommonNode.from(languageName, child, source);
@@ -246,7 +248,7 @@ export class CommonPrimitive extends CommonNode {
     if (["false", "true"].includes(node.type)) {
       primitive.subtype = "boolean";
       primitive.value = node.type;
-    } else if (node.type === "number") {
+    } else if (["number", "integer", "float"].includes(node.type)) {
       primitive.subtype = "number";
       primitive.value = resolveSource(node, source);
     } else if (node.type === "string") {
