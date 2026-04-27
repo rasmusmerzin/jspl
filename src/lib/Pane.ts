@@ -10,7 +10,7 @@ export function onEditableSubmit(event: SubmitEvent) {
   const prints = get(activePrints);
   const [focused] = get(languages);
   for (const language of get(languages)) codeStates[language].set(prints[language]);
-  element.textContent = prints[focused];
+  updateTextContent(element, prints[focused]);
 }
 
 export function onEditableFocus(event: FocusEvent) {
@@ -49,9 +49,7 @@ export function onEditableKeyDown(event: KeyboardEvent) {
     const state = codeStates[focused];
     const print = get(activePrints)[focused];
     state.set(print);
-    const pos = getCaretPosition(element);
-    element.textContent = print;
-    setCaretPosition(element, pos);
+    updateTextContent(element, print);
   }
 }
 
@@ -86,7 +84,11 @@ function keepCaretBeforeLastChar(element: HTMLElement) {
   setCaretPosition(element, position - 1);
 }
 
-function updateTextContent(element: HTMLElement, content: string) {}
+function updateTextContent(element: HTMLElement, content: string) {
+  const pos = getCaretPosition(element);
+  element.textContent = content;
+  setCaretPosition(element, pos);
+}
 
 // Generated with Brave Ask
 function getCaretPosition(element: HTMLElement) {

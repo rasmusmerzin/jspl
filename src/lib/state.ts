@@ -56,7 +56,7 @@ export const activePrints = derived([languages, commonTreeStateSum], ([[language
 
 setTimeout(function start() {
   const { JavaScript: jPad, Python: pPad, Lua: lPad } = get(indentPaddings);
-  codeStates.JavaScript.set(`function main() {\n${jPad}abc = 1;\n${jPad}return abc;\n}\n`);
+  codeStates.JavaScript.set(`function main() {\n${jPad}let abc = 1;\n${jPad}return abc;\n}\n`);
   codeStates.Python.set(`def main():\n${pPad}abc = 1\n${pPad}return abc\n`);
-  codeStates.Lua.set(`function main()\n${lPad}abc = 1\n${lPad}return abc\nend\n`);
+  codeStates.Lua.set(`function main()\n${lPad}local abc = 1\n${lPad}return abc\nend\n`);
 });
