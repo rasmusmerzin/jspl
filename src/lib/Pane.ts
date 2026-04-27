@@ -1,4 +1,4 @@
-import { indentPaddings, languages } from "$lib/state";
+import { activePrints, codeStates, indentPaddings, languages } from "$lib/state";
 import { get } from "svelte/store";
 import type { LanguageName } from "./parser";
 
@@ -6,7 +6,11 @@ export function onEditableSubmit(event: SubmitEvent) {
   const element = event.target as HTMLElement;
   const parent = element.parentElement!;
   const languageName = parent.id.slice(0, parent.id.length - "-Pane".length);
-  console.log(languageName, "submit");
+  reorderLanguages(languageName);
+  const prints = get(activePrints);
+  const [focused] = get(languages);
+  for (const language of get(languages)) codeStates[language].set(prints[language]);
+  element.textContent = prints[focused];
 }
 
 export function onEditableFocus(event: FocusEvent) {
@@ -32,13 +36,22 @@ export function onEditableKeyDown(event: KeyboardEvent) {
     return;
   } else if (event.key === "Tab") {
     event.preventDefault();
-    insertText(get(indentPaddings[languageName]));
+    insertText(get(indentPaddings)[languageName]);
   } else if (event.key === "Enter") {
     event.preventDefault();
     if (event.ctrlKey) element.dispatchEvent(new SubmitEvent("submit"));
     else insertText("\n");
   } else if (event.key.toUpperCase() === "Z" && event.ctrlKey) {
     event.preventDefault();
+  } else if (event.key === "F" && event.ctrlKey) {
+    event.preventDefault();
+    const [focused] = get(languages);
+    const state = codeStates[focused];
+    const print = get(activePrints)[focused];
+    state.set(print);
+    const pos = getCaretPosition(element);
+    element.textContent = print;
+    setCaretPosition(element, pos);
   }
 }
 
@@ -72,6 +85,8 @@ function keepCaretBeforeLastChar(element: HTMLElement) {
   if (!position || position < element.textContent.length) return;
   setCaretPosition(element, position - 1);
 }
+
+function updateTextContent(element: HTMLElement, content: string) {}
 
 // Generated with Brave Ask
 function getCaretPosition(element: HTMLElement) {

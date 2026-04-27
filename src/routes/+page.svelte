@@ -1,5 +1,5 @@
 <script>
-  import { commonTreeStates, languages, treePrintStates } from "$lib/state";
+  import { activePrints, commonTreeStates, languages, treePrintStates } from "$lib/state";
   import { onKeyDown, onKeyUp } from "$lib";
   import { onMount } from "svelte";
   import PaneLayout from "$lib/PaneLayout.svelte";
@@ -7,9 +7,6 @@
   let focused = $derived($languages[0]);
   let focusedPrintState = $derived(treePrintStates[focused]);
   let focusedCommonTreeState = $derived(commonTreeStates[focused]);
-  let focusedToJavaScript = $derived($focusedCommonTreeState?.print("JavaScript"));
-  let focusedToPython = $derived($focusedCommonTreeState?.print("Python"));
-  let focusedToLua = $derived($focusedCommonTreeState?.print("Lua"));
 
   onMount(() => {
     addEventListener("keydown", onKeyDown);
@@ -28,9 +25,9 @@
     <pre>{$focusedPrintState}</pre>
     <pre>{JSON.stringify($focusedCommonTreeState, null, 2)}</pre>
     <div>
-      <pre>{focusedToJavaScript}</pre>
-      <pre>{focusedToPython}</pre>
-      <pre>{focusedToLua}</pre>
+      <pre>{$activePrints.JavaScript}</pre>
+      <pre>{$activePrints.Python}</pre>
+      <pre>{$activePrints.Lua}</pre>
     </div>
   </div>
 </main>

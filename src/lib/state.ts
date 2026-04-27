@@ -8,14 +8,14 @@ export const ctrlPressed = writable(false);
 
 export const languages = writable(LANGUAGE_NAMES);
 
-export const indentWidths = {
-  JavaScript: writable(2),
-  Python: writable(4),
-  Lua: writable(2),
-};
+export const indentWidths = writable({
+  JavaScript: 2,
+  Python: 4,
+  Lua: 2,
+});
 
-export const indentPaddings = mapRecord(indentWidths, (state) => {
-  return derived(state, (width) => " ".repeat(width));
+export const indentPaddings = derived(indentWidths, (state) => {
+  return mapRecord(state, (width) => " ".repeat(width));
 });
 
 export const codeStates = {
@@ -40,8 +40,22 @@ export const commonTreeStates = mapRecord(treeStates, (state, name) => {
   });
 });
 
+export const commonTreeStateSum = derived(
+  [commonTreeStates.JavaScript, commonTreeStates.Python, commonTreeStates.Lua],
+  ([JavaScript, Python, Lua]) => ({ JavaScript, Python, Lua }),
+);
+
+export const activePrints = derived([languages, commonTreeStateSum], ([[language], trees]) => {
+  const tree = trees[language];
+  return {
+    JavaScript: tree?.print("JavaScript") || "",
+    Python: tree?.print("Python") || "",
+    Lua: tree?.print("Lua") || "",
+  };
+});
+
 setTimeout(function start() {
-  const { JavaScript: jPad, Python: pPad, Lua: lPad } = mapRecord(indentPaddings, get);
+  const { JavaScript: jPad, Python: pPad, Lua: lPad } = get(indentPaddings);
   codeStates.JavaScript.set(`function main() {\n${jPad}abc = 1;\n${jPad}return abc;\n}\n`);
   codeStates.Python.set(`def main():\n${pPad}abc = 1\n${pPad}return abc\n`);
   codeStates.Lua.set(`function main()\n${lPad}abc = 1\n${lPad}return abc\nend\n`);
