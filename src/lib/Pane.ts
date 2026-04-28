@@ -1,6 +1,7 @@
-import { activePrints, codeStates, indentPaddings, languages } from "$lib/state";
+import { activePrints, codeStates, languages } from "$lib/state";
 import { get } from "svelte/store";
 import type { LanguageName } from "./parser";
+import { getTabPadding } from "./CommonTree";
 
 export function onEditableSubmit(event: SubmitEvent) {
   const element = event.target as HTMLElement;
@@ -36,7 +37,7 @@ export function onEditableKeyDown(event: KeyboardEvent) {
     return;
   } else if (event.key === "Tab") {
     event.preventDefault();
-    insertText(get(indentPaddings)[languageName]);
+    insertText(getTabPadding(languageName));
   } else if (event.key === "Enter") {
     event.preventDefault();
     if (event.ctrlKey) element.dispatchEvent(new SubmitEvent("submit"));

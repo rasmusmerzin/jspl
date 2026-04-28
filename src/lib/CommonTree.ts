@@ -299,6 +299,15 @@ export class PrintContext {
   }
 }
 
+export function getTabPadding(languageName: LanguageName) {
+  return " ".repeat(getTabWidth(languageName));
+}
+
+export function getTabWidth(languageName: LanguageName) {
+  if (languageName === "Python") return 4;
+  else return 2;
+}
+
 function resolveSource(node: Node, source: string): string {
   return source.slice(node.startIndex, node.endIndex);
 }
@@ -328,9 +337,4 @@ function getBlockType(languageName: LanguageName): string {
   if (languageName === "JavaScript") return "statement_block";
   else if (["Python", "Lua"].includes(languageName)) return "block";
   else return "";
-}
-
-function getTabWidth(languageName: LanguageName) {
-  if (languageName === "Python") return 4;
-  else return 2;
 }
