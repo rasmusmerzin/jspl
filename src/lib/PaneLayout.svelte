@@ -16,7 +16,7 @@
   #PaneLayout {
     --gap: 8px;
     position: relative;
-    height: 240px;
+    height: var(--pane-height);
     > div {
       display: flex;
       flex-direction: column;

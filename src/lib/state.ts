@@ -9,6 +9,8 @@ export const ctrlPressed = writable(false);
 
 export const languages = writable(LANGUAGE_NAMES);
 
+export const selectedFile = writable("");
+
 export const codeStates = {
   JavaScript: writable(``),
   Python: writable(``),
@@ -45,6 +47,13 @@ export const activePrints = derived([languages, commonTreeStateSum], ([[language
   };
 });
 
+export function loadFile(fileName: string) {
+  selectedFile.set(fileName);
+  mapRecord(codeStates, (state, name) => {
+    state.set(EXAMPLES[fileName][name]);
+  });
+}
+
 setTimeout(function start() {
-  mapRecord(codeStates, (state, name) => state.set(EXAMPLES[0][name]));
+  loadFile(Object.keys(EXAMPLES)[0]);
 });

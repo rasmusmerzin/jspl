@@ -3,10 +3,11 @@
   import { onKeyDown, onKeyUp } from "$lib";
   import { onMount } from "svelte";
   import PaneLayout from "$lib/PaneLayout.svelte";
+  import FileList from "$lib/FileList.svelte";
 
-  let focused = $derived($languages[0]);
-  let focusedPrintState = $derived(treePrintStates[focused]);
-  let focusedCommonTreeState = $derived(commonTreeStates[focused]);
+  let active = $derived($languages[0]);
+  let activePrintState = $derived(treePrintStates[active]);
+  let activeCommonTreeState = $derived(commonTreeStates[active]);
 
   onMount(() => {
     addEventListener("keydown", onKeyDown);
@@ -19,11 +20,15 @@
 </script>
 
 <main>
-  <h1>JsPL</h1>
+  <div id="header">
+    <h1>JsPL</h1>
+    <h2>JsPL-lib</h2>
+  </div>
+  <FileList />
   <PaneLayout />
-  <div id="ast-container">
-    <pre>{$focusedPrintState}</pre>
-    <pre>{JSON.stringify($focusedCommonTreeState, null, 2)}</pre>
+  <div id="debug">
+    <pre>{$activePrintState}</pre>
+    <pre>{JSON.stringify($activeCommonTreeState, null, 2)}</pre>
     <div>
       <pre>{$activePrints.JavaScript}</pre>
       <pre>{$activePrints.Python}</pre>
@@ -33,18 +38,29 @@
 </main>
 
 <style>
-  h1 {
-    text-align: center;
-  }
   main {
     box-sizing: border-box;
     max-width: 1080px;
     margin: auto;
     display: grid;
-    grid-gap: 32px;
+    grid-gap: 16px;
     padding: 32px 16px;
   }
-  #ast-container {
+  #header {
+    height: 32px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0 0 16px;
+    h1 {
+      font-size: 32px;
+    }
+    h2 {
+      opacity: 0.2;
+    }
+  }
+  #debug {
+    padding: 16px 0 0;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 8px;

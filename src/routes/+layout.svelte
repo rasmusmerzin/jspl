@@ -16,11 +16,12 @@
     --bg: #eee;
     --bg-1: #ddd;
     --fg: #000;
-    --fg-1: #444;
-    --fg-2: #888;
+    --fg-1: #333;
+    --fg-2: #666;
     --font: sans-serif;
-    --primary: #0ad;
+    --primary: #08c;
     --transition: background 200ms, color 200ms;
+    --pane-height: 240px;
     font-family: var(--font);
     background: var(--bg);
     color: var(--fg);
@@ -31,7 +32,7 @@
     margin: 0;
     &::selection {
       background: var(--primary);
-      color: black;
+      color: white;
     }
   }
   :global(body) {
@@ -43,8 +44,8 @@
       --bg: #222;
       --bg-1: #444;
       --fg: #fff;
-      --fg-1: #ccc;
-      --fg-2: #aaa;
+      --fg-1: #ddd;
+      --fg-2: #bbb;
     }
     :global(body) {
       background: radial-gradient(ellipse at top, transparent, #111);
