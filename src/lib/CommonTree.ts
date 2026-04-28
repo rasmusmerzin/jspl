@@ -31,15 +31,26 @@ export class CommonNode {
     if (["function_declaration", "function_definition"].includes(node.type)) {
       return CommonFunction.from(languageName, node, source);
     } else if (
-      ["assignment_statement", "assignment_expression", "assignment"].includes(node.type)
+      [
+        "assignment_statement",
+        "assignment_expression",
+        "assignment",
+        "variable_declarator",
+      ].includes(node.type)
     ) {
       return CommonAssignment.from(languageName, node, source);
     } else if (["return_statement"].includes(node.type)) {
       return CommonReturn.from(languageName, node, source);
-    } else if (["expression_statement"].includes(node.type)) {
+    } else if (
+      ["expression_statement", "variable_declaration", "lexical_declaration"].includes(node.type)
+    ) {
       const child = node.namedChildren[0];
-      if (child) return CommonNode.from(languageName, child, source);
-      else return null;
+      if (child) {
+        const commonNode = CommonNode.from(languageName, child, source) as any;
+        if ("declaration" in commonNode && /declaration/.test(node.type))
+          commonNode.declaration = true;
+        return commonNode;
+      } else return null;
     } else if (["identifier"].includes(node.type)) {
       return CommonReference.from(languageName, node, source);
     } else if (["false", "true", "number", "integer", "float", "string"].includes(node.type)) {
@@ -118,6 +129,7 @@ export class CommonAssignment extends CommonNode {
   type = "assignment";
   names: string[] = [];
   values: CommonNode[] = [];
+  declaration = false;
 
   getCount(): number {
     return Math.min(this.names.length, this.values.length);
@@ -131,7 +143,7 @@ export class CommonAssignment extends CommonNode {
       stmt.names = variableList ? resolveIdentifiers(variableList, source) : [];
       const expressionList = resolveNamedChild(node, "expression_list");
       stmt.values = (expressionList?.namedChildren || []).map(commonResolver);
-    } else if (["assignment_expression", "assignment"].includes(node.type)) {
+    } else if (["assignment_expression", "assignment", "variable_declarator"].includes(node.type)) {
       const [nameNode, valueNode] = node.namedChildren;
       stmt.names = [resolveSource(nameNode, source)];
       stmt.values = [commonResolver(valueNode)];
@@ -152,6 +164,7 @@ export class CommonAssignment extends CommonNode {
   private printJavaScript(context: PrintContext): string {
     const padding = context.getPaddingByLanguage("JavaScript");
     let result = padding;
+    if (this.declaration) result += "let ";
     const entries: [string, CommonNode][] = [];
     for (let i = 0; i < this.getCount(); i++) entries.push([this.names[i], this.values[i]]);
     result += entries
@@ -174,6 +187,7 @@ export class CommonAssignment extends CommonNode {
   private printLua(context: PrintContext): string {
     const padding = context.getPaddingByLanguage("Lua");
     let result = padding;
+    if (this.declaration) result += "local ";
     result += this.names.join(", ");
     result += " = ";
     result += this.values.map((v) => v.print("Lua", context)).join(", ");
