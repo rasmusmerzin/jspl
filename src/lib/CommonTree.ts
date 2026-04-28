@@ -76,7 +76,9 @@ export class CommonFunction extends CommonNode {
       throw new Error(`Invalid Node.type for CommonFunction: ${node.type}`);
     }
     const fn = new CommonFunction();
-    [fn.name] = resolveIdentifiers(node, source);
+    fn.name = resolveIdentifier(node, source);
+    const paramsNode = resolveParamsNode(languageName, node);
+    if (paramsNode) fn.parameters = resolveAllIdentifiers(paramsNode, source);
     const blockNode = resolveBlockNode(languageName, node);
     for (const child of blockNode?.children || []) {
       const commonNode = CommonNode.from(languageName, child, source);
@@ -94,7 +96,7 @@ export class CommonFunction extends CommonNode {
 
   private printJavaScript(context: PrintContext): string {
     const padding = context.getPaddingByLanguage("JavaScript");
-    let result = `${padding}function ${this.name || ""}() {\n`;
+    let result = `${padding}function ${this.name || ""}(${this.parameters.join(", ")}) {\n`;
     const childContext = context.clone().assign({ indent: context.indent + 1 });
     for (const child of this.children) {
       result += child.print("JavaScript", childContext);
@@ -105,7 +107,7 @@ export class CommonFunction extends CommonNode {
 
   private printPython(context: PrintContext): string {
     const padding = context.getPaddingByLanguage("Python");
-    let result = `${padding}def ${this.name || ""}():\n`;
+    let result = `${padding}def ${this.name || ""}(${this.parameters.join(", ")}):\n`;
     const childContext = context.clone().assign({ indent: context.indent + 1 });
     for (const child of this.children) {
       result += child.print("Python", childContext);
@@ -115,7 +117,7 @@ export class CommonFunction extends CommonNode {
 
   private printLua(context: PrintContext): string {
     const padding = context.getPaddingByLanguage("Lua");
-    let result = `${padding}function ${this.name || ""}()\n`;
+    let result = `${padding}function ${this.name || ""}(${this.parameters.join(", ")})\n`;
     const childContext = context.clone().assign({ indent: context.indent + 1 });
     for (const child of this.children) {
       result += child.print("Lua", childContext);
@@ -140,7 +142,7 @@ export class CommonAssignment extends CommonNode {
     const commonResolver = resolveCommonNode(languageName, source);
     if (node.type === "assignment_statement") {
       const variableList = resolveNamedChild(node, "variable_list");
-      stmt.names = variableList ? resolveIdentifiers(variableList, source) : [];
+      stmt.names = variableList ? resolveAllIdentifiers(variableList, source) : [];
       const expressionList = resolveNamedChild(node, "expression_list");
       stmt.values = (expressionList?.namedChildren || []).map(commonResolver);
     } else if (["assignment_expression", "assignment", "variable_declarator"].includes(node.type)) {
@@ -316,9 +318,18 @@ function resolveCommonNode(languageName: LanguageName, source: string) {
   return (node: Node) => CommonNode.from(languageName, node, source) || new CommonNode();
 }
 
-function resolveIdentifiers(node: Node, source: string): string[] {
+function resolveIdentifier(node: Node, source: string): string {
+  const identifierNode = resolveNamedChild(node, "identifier");
+  return identifierNode ? source.slice(identifierNode.startIndex, identifierNode.endIndex) : "";
+}
+
+function resolveAllIdentifiers(node: Node, source: string): string[] {
   const identifierNodes = resolveNamedChildren(node, "identifier");
   return identifierNodes.map((node) => source.slice(node.startIndex, node.endIndex));
+}
+
+function resolveParamsNode(languageName: LanguageName, node: Node): Node | undefined {
+  return resolveNamedChild(node, getParamsType(languageName));
 }
 
 function resolveBlockNode(languageName: LanguageName, node: Node): Node | undefined {
@@ -331,6 +342,12 @@ function resolveNamedChild(node: Node, type: string): Node | undefined {
 
 function resolveNamedChildren(node: Node, type: string): Node[] {
   return node.namedChildren.filter((child) => child.type === type);
+}
+
+function getParamsType(languageName: LanguageName): string {
+  if (languageName === "JavaScript") return "formal_parameters";
+  else if (["Python", "Lua"].includes(languageName)) return "parameters";
+  else return "";
 }
 
 function getBlockType(languageName: LanguageName): string {
