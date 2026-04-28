@@ -30,6 +30,8 @@ export class CommonNode {
   static from(languageName: LanguageName, node: Node, source: string): CommonNode | null {
     if (["function_declaration", "function_definition"].includes(node.type)) {
       return CommonFunction.from(languageName, node, source);
+    } else if (["call_expression", "call", "function_call"].includes(node.type)) {
+      return CommonCall.from(languageName, node, source);
     } else if (
       [
         "assignment_statement",
@@ -39,7 +41,7 @@ export class CommonNode {
       ].includes(node.type)
     ) {
       return CommonAssignment.from(languageName, node, source);
-    } else if (["return_statement"].includes(node.type)) {
+    } else if (node.type === "return_statement") {
       return CommonReturn.from(languageName, node, source);
     } else if (
       ["expression_statement", "variable_declaration", "lexical_declaration"].includes(node.type)
@@ -51,7 +53,7 @@ export class CommonNode {
           commonNode.declaration = true;
         return commonNode;
       } else return null;
-    } else if (["identifier"].includes(node.type)) {
+    } else if (node.type === "identifier") {
       return CommonReference.from(languageName, node, source);
     } else if (["false", "true", "number", "integer", "float", "string"].includes(node.type)) {
       return CommonPrimitive.from(languageName, node, source);
@@ -123,6 +125,35 @@ export class CommonFunction extends CommonNode {
       result += child.print("Lua", childContext);
     }
     result += `${padding}end`;
+    return result;
+  }
+}
+
+export class CommonCall extends CommonNode {
+  type = "call";
+  callable?: CommonNode;
+  arguments: CommonNode[] = [];
+
+  static from(languageName: LanguageName, node: Node, source: string): CommonCall {
+    if (!["call_expression", "call", "function_call"].includes(node.type)) {
+      throw new Error(`Invalid Node.type for CommonCall: ${node.type}`);
+    }
+    const call = new CommonCall();
+    const callable = CommonNode.from(languageName, node.namedChildren[0], source);
+    if (callable) call.callable = callable;
+    const argsNode = resolveArgsNode(languageName, node);
+    call.arguments = (argsNode?.namedChildren || []).map(resolveCommonNode(languageName, source));
+    return call;
+  }
+
+  print(language: LanguageName, context = new PrintContext()): string {
+    if (!this.callable) return "";
+    const padding = context.getPadding(getTabWidth(language));
+    let result = `${padding}${this.callable.print(language, context)}(`;
+    result += this.arguments.map((arg) => arg.print(language, context)).join(", ");
+    result += ")";
+    if (language === "JavaScript") result += ";";
+    result += "\n";
     return result;
   }
 }
@@ -244,7 +275,7 @@ export class CommonReference extends CommonNode {
     if (node.type === "identifier") {
       ref.path = [resolveSource(node, source)];
     } else {
-      throw new Error(`Invalid Node.type for CommonReturn: ${node.type}`);
+      throw new Error(`Invalid Node.type for CommonReference: ${node.type}`);
     }
     return ref;
   }
@@ -328,6 +359,10 @@ function resolveAllIdentifiers(node: Node, source: string): string[] {
   return identifierNodes.map((node) => source.slice(node.startIndex, node.endIndex));
 }
 
+function resolveArgsNode(languageName: LanguageName, node: Node): Node | undefined {
+  return resolveNamedChild(node, getArgsType(languageName));
+}
+
 function resolveParamsNode(languageName: LanguageName, node: Node): Node | undefined {
   return resolveNamedChild(node, getParamsType(languageName));
 }
@@ -342,6 +377,12 @@ function resolveNamedChild(node: Node, type: string): Node | undefined {
 
 function resolveNamedChildren(node: Node, type: string): Node[] {
   return node.namedChildren.filter((child) => child.type === type);
+}
+
+function getArgsType(languageName: LanguageName): string {
+  if (languageName === "Python") return "argument_list";
+  else if (["JavaScript", "Lua"].includes(languageName)) return "arguments";
+  else return "";
 }
 
 function getParamsType(languageName: LanguageName): string {
