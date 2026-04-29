@@ -18,7 +18,7 @@
 <main>
   <div id="header">
     <h1>JsPL</h1>
-    <h2>JsPL-lib</h2>
+    <h2 title="Coming soon!">JsPL-lib</h2>
   </div>
   <FileList />
   <PaneLayout />

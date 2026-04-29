@@ -22,7 +22,7 @@
     --font: sans-serif;
     --primary: #08c;
     --transition: background 200ms, color 200ms;
-    --pane-height: 240px;
+    --pane-height: 320px;
     font-family: var(--font);
     background: var(--bg);
     color: var(--fg);

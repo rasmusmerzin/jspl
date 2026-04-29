@@ -29,7 +29,6 @@
 <style>
   #Debug {
     flex: 1;
-    padding: 16px 0 0;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     font-size: 0.7rem;

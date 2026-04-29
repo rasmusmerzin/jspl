@@ -59,7 +59,7 @@
       overflow: auto;
       box-sizing: border-box;
       font-family: monospace;
-      white-space: pre-wrap;
+      white-space: pre;
       word-wrap: break-word;
       padding: 12px;
       border-radius: 16px;

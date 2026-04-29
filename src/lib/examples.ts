@@ -1,19 +1,28 @@
 import type { LanguageName } from "./parser";
+import HelloWorldJavaScript from "./examples/HelloWorld.js?raw";
+import HelloWorldPython from "./examples/HelloWorld.py?raw";
+import HelloWorldLua from "./examples/HelloWorld.lua?raw";
+import DeclareReturnJavaScript from "./examples/DeclareReturn.js?raw";
+import DeclareReturnPython from "./examples/DeclareReturn.py?raw";
+import DeclareReturnLua from "./examples/DeclareReturn.lua?raw";
+import ConditionaryReturnJavaScript from "./examples/ConditionaryReturn.js?raw";
+import ConditionaryReturnPython from "./examples/ConditionaryReturn.py?raw";
+import ConditionaryReturnLua from "./examples/ConditionaryReturn.lua?raw";
 
 export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
   HelloWorld: {
-    JavaScript: `function main() {\n  print("Hello, World!");\n}\n`,
-    Python: `def main():\n    print("Hello, World!")\n`,
-    Lua: `function main()\n  print("Hello, World!")\nend\n`,
+    JavaScript: HelloWorldJavaScript,
+    Python: HelloWorldPython,
+    Lua: HelloWorldLua,
   },
   DeclareAndReturn: {
-    JavaScript: `function main(argc, argv) {\n  let abc = 1;\n  return abc;\n}\n`,
-    Python: `def main(argc, argv):\n    abc = 1\n    return abc\n`,
-    Lua: `function main(argc, argv)\n  local abc = 1\n  return abc\nend\n`,
+    JavaScript: DeclareReturnJavaScript,
+    Python: DeclareReturnPython,
+    Lua: DeclareReturnLua,
   },
   ConditionaryReturn: {
-    JavaScript: "",
-    Python: "",
-    Lua: "",
+    JavaScript: ConditionaryReturnJavaScript,
+    Python: ConditionaryReturnPython,
+    Lua: ConditionaryReturnLua,
   },
 };
