@@ -14,7 +14,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "web-tree-sitter": "^0.26.8"
+    "web-tree-sitter": "^0.26.8",
+    "yaml": "^2.8.3"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.10",

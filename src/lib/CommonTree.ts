@@ -103,7 +103,7 @@ export class CommonFunction extends CommonNode {
     for (const child of this.children) {
       result += child.print("JavaScript", childContext);
     }
-    result += `${padding}}`;
+    result += `${padding}}\n`;
     return result;
   }
 
@@ -124,7 +124,7 @@ export class CommonFunction extends CommonNode {
     for (const child of this.children) {
       result += child.print("Lua", childContext);
     }
-    result += `${padding}end`;
+    result += `${padding}end\n`;
     return result;
   }
 }

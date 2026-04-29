@@ -18,6 +18,7 @@
     --fg: #000;
     --fg-1: #333;
     --fg-2: #666;
+    --mg: #8888;
     --font: sans-serif;
     --primary: #08c;
     --transition: background 200ms, color 200ms;
@@ -30,6 +31,12 @@
   :global(*) {
     padding: 0;
     margin: 0;
+    min-width: 0;
+    min-height: 0;
+    scrollbar-width: none;
+    &:hover {
+      scrollbar-width: thin;
+    }
     &::selection {
       background: var(--primary);
       color: white;

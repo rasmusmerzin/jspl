@@ -102,7 +102,6 @@
       justify-content: end;
       pointer-events: none;
       img {
-        pointer-events: none;
         filter: drop-shadow(1px 1px 2px #0008);
       }
     }
@@ -115,8 +114,8 @@
       padding: 12px;
       display: flex;
       justify-content: end;
+      pointer-events: none;
       .index {
-        pointer-events: none;
         width: 16px;
         height: 16px;
         display: flex;

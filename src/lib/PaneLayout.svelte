@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Pane from "$lib/Pane.svelte";
   import { languages } from "$lib/state";
   import { flip } from "svelte/animate";
@@ -17,6 +17,7 @@
     --gap: 8px;
     position: relative;
     height: var(--pane-height);
+    flex-shrink: 0;
     > div {
       display: flex;
       flex-direction: column;

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { EXAMPLES } from "./examples";
   import { onFileClick } from "./FileList";
   import { selectedFile } from "./state";
