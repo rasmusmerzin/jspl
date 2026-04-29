@@ -2,6 +2,8 @@
 
 JavaScript-Python-Lua transpiler.
 
+![Demo gif](./demo.gif)
+
 ## Developing
 
 Install dependencies.
