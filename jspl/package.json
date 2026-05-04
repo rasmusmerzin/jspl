@@ -1,6 +1,12 @@
 {
   "name": "jspl",
+  "scripts": {
+    "test": "vitest"
+  },
   "dependencies": {
     "web-tree-sitter": "^0.26.8"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.5"
   }
 }

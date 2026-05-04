@@ -20,7 +20,7 @@ Initial Demo.
 
 - Poster PDF.
 - Landing page.
-- Base library code and page.
+- Common library code and page.
 - Transpile dot accessor.
 - Transpile operators.
 - Transpile if statement.
