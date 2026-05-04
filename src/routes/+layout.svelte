@@ -20,7 +20,8 @@
     --fg-2: #666;
     --mg: #8888;
     --font: sans-serif;
-    --primary: #08c;
+    --primary: #ff8900;
+    --primary-text: white;
     --transition: background 200ms, color 200ms;
     --pane-height: 320px;
     font-family: var(--font);
@@ -39,7 +40,7 @@
     }
     &::selection {
       background: var(--primary);
-      color: white;
+      color: var(--primary-text);
     }
   }
   :global(body) {

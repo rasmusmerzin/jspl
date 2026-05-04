@@ -1,5 +1,7 @@
 # JsPL
 
+![Logo](./static/jspl.svg)
+
 JavaScript-Python-Lua transpiler.
 
 ![Demo gif](./demo.gif)
