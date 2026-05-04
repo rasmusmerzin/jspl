@@ -1,0 +1,7 @@
+{
+  "extends": ["../tsconfig.json", "./.svelte-kit/tsconfig.json"],
+  "compilerOptions": {
+    "rewriteRelativeImportExtensions": true,
+    "moduleResolution": "bundler"
+  }
+}

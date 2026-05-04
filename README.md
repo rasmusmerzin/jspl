@@ -1,10 +1,9 @@
-# JsPL
-
-![Logo](./static/jspl.svg)
-
-JavaScript-Python-Lua transpiler.
-
-![Demo gif](./demo.gif)
+<div align="center">
+  <h1>JsPL</h1>
+  <img alt="Logo" src="./jspl-website/static/jspl.svg" />
+  <p>JavaScript-Python-Lua transpiler.</p>
+  <img alt="Demo" src="./demo.gif" />
+</div>
 
 ## Developing
 
