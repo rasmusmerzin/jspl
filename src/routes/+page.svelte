@@ -1,8 +1,8 @@
 <script lang="ts">
   import Debug from "$lib/Debug.svelte";
   import FileList from "$lib/FileList.svelte";
+  import Header from "$lib/Header.svelte";
   import PaneLayout from "$lib/PaneLayout.svelte";
-  import Watermark from "$lib/Watermark.svelte";
   import { onKeyDown, onKeyUp } from "$lib";
   import { onMount } from "svelte";
 
@@ -17,15 +17,7 @@
 </script>
 
 <main>
-  <div id="header">
-    <div>
-      <h1>JsPL</h1>
-    </div>
-    <div><Watermark /></div>
-    <div>
-      <h2 title="Coming soon!">JsPL-lib</h2>
-    </div>
-  </div>
+  <Header />
   <FileList />
   <PaneLayout />
   <Debug />
@@ -41,25 +33,5 @@
     flex-direction: column;
     grid-gap: 16px;
     padding: 0 16px 32px;
-  }
-  #header {
-    height: 64px;
-    display: flex;
-    padding: 0 0 24px;
-    > * {
-      height: 100%;
-      display: flex;
-      align-items: end;
-      &:first-child {
-        flex: 1;
-      }
-      &:last-child {
-        justify-content: end;
-        flex: 1;
-        h2 {
-          opacity: 0.2;
-        }
-      }
-    }
   }
 </style>
