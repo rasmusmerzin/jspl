@@ -22,7 +22,7 @@ npm run dev
 ## Static Assets
 
 ```sh
-cd static
+cd jspl-website/static
 # icons
 curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg
 curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg

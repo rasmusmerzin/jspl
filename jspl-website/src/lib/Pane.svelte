@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { LanguageName } from "./parser";
+  import type { LanguageName } from "jspl";
   import { codeStates, ctrlPressed, languages } from "$lib/state";
   import {
     onEditableFocus,

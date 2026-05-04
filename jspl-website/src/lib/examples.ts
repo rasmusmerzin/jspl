@@ -1,4 +1,4 @@
-import type { LanguageName } from "./parser";
+import type { LanguageName } from "jspl";
 import HelloWorldJavaScript from "./examples/HelloWorld.js?raw";
 import HelloWorldPython from "./examples/HelloWorld.py?raw";
 import HelloWorldLua from "./examples/HelloWorld.lua?raw";

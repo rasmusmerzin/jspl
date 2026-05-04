@@ -1,5 +1,6 @@
 {
   "workspaces": [
+    "jspl",
     "jspl-website"
   ],
   "scripts": {

@@ -1,7 +1,6 @@
 import { activePrints, codeStates, languages } from "$lib/state";
 import { get } from "svelte/store";
-import type { LanguageName } from "./parser";
-import { getTabPadding } from "./CommonTree";
+import { type LanguageName, getTabPadding } from "jspl";
 
 export function onEditableSubmit(event: SubmitEvent) {
   const element = event.target as HTMLElement;

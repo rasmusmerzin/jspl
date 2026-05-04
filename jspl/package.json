@@ -1,0 +1,6 @@
+{
+  "name": "jspl",
+  "dependencies": {
+    "web-tree-sitter": "^0.26.8"
+  }
+}
