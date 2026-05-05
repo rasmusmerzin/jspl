@@ -4,6 +4,8 @@ import { getTabWidth } from "./util";
 export class PrintContext {
   indent = 0;
 
+  constructor(readonly languageName: LanguageName) {}
+
   getPadding(width = 4) {
     return " ".repeat(width * this.indent);
   }
@@ -12,11 +14,8 @@ export class PrintContext {
     return this.getPadding(getTabWidth(language));
   }
 
-  clone(): PrintContext {
-    return Object.assign(new PrintContext(), this);
-  }
-
-  assign(...updates: Partial<PrintContext>[]): this {
-    return Object.assign(this, ...updates);
+  // clone and assign
+  derive(...patches: Partial<PrintContext>[]): PrintContext {
+    return Object.assign(new PrintContext(this.languageName), this, ...patches);
   }
 }

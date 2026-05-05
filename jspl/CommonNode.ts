@@ -1,6 +1,4 @@
-import type { Node } from "web-tree-sitter";
 import {
-  LanguageName,
   PrintContext,
   CommonFunction,
   CommonCall,
@@ -8,47 +6,56 @@ import {
   CommonReturn,
   CommonReference,
   CommonPrimitive,
+  DeriveContext,
 } from ".";
 
 export class CommonNode {
   type = "unknown";
 
-  static from(languageName: LanguageName, node: Node, source: string): CommonNode | null {
-    if (["function_declaration", "function_definition"].includes(node.type)) {
-      return CommonFunction.from(languageName, node, source);
-    } else if (["call_expression", "call", "function_call"].includes(node.type)) {
-      return CommonCall.from(languageName, node, source);
-    } else if (
-      [
-        "assignment_statement",
-        "assignment_expression",
-        "assignment",
-        "variable_declarator",
-      ].includes(node.type)
-    ) {
-      return CommonAssignment.from(languageName, node, source);
-    } else if (node.type === "return_statement") {
-      return CommonReturn.from(languageName, node, source);
-    } else if (
-      ["expression_statement", "variable_declaration", "lexical_declaration"].includes(node.type)
-    ) {
-      const child = node.namedChildren[0];
-      if (child) {
-        const commonNode = CommonNode.from(languageName, child, source) as any;
-        if ("declaration" in commonNode && /declaration/.test(node.type))
+  static derive(context: DeriveContext): CommonNode | null {
+    switch (context.node.type) {
+      case "function_declaration":
+      case "function_definition":
+        return CommonFunction.derive(context);
+      case "call_expression":
+      case "call":
+      case "function_call":
+        return CommonCall.derive(context);
+      case "assignment_statement":
+      case "assignment_expression":
+      case "assignment":
+      case "variable_declarator":
+        return CommonAssignment.derive(context);
+      case "return_statement":
+        return CommonReturn.derive(context);
+      case "expression_statement":
+      case "variable_declaration":
+      case "lexical_declaration":
+        const child = context.node.namedChildren[0];
+        if (!child) return null;
+        const commonNode = CommonNode.derive(context.derive({ node: child })) as any;
+        if ("declaration" in commonNode && /declaration/.test(context.node.type))
           commonNode.declaration = true;
         return commonNode;
-      } else return null;
-    } else if (node.type === "identifier") {
-      return CommonReference.from(languageName, node, source);
-    } else if (["false", "true", "number", "integer", "float", "string"].includes(node.type)) {
-      return CommonPrimitive.from(languageName, node, source);
-    } else if (node.isNamed) {
-      return new CommonNode();
-    } else return null;
+      case "identifier":
+        return CommonReference.derive(context);
+      case "false":
+      case "true":
+      case "number":
+      case "integer":
+      case "float":
+      case "string":
+        return CommonPrimitive.derive(context);
+      default:
+        return context.node.isNamed ? new CommonNode() : null;
+    }
   }
 
-  print(_language: LanguageName, _context?: PrintContext): string {
+  static deriveUnknown(context: DeriveContext): CommonNode {
+    return CommonNode.derive(context) || new CommonNode();
+  }
+
+  print(_context: PrintContext): string {
     return "";
   }
 }

@@ -1,22 +1,25 @@
-import type { Tree } from "web-tree-sitter";
-import { CommonNode, LanguageName, PrintContext } from ".";
+import { CommonNode, DeriveContext, LanguageName, LANGUAGES, PrintContext } from ".";
 
 export class CommonTree {
   type = "tree";
   children: CommonNode[] = [];
 
-  static from(languageName: LanguageName, tree: Tree, source: string): CommonTree {
+  static parse(languageName: LanguageName, source: string): CommonTree {
     const commonTree = new CommonTree();
+    const tree = LANGUAGES[languageName].parser.parse(source);
+    if (!tree) return commonTree;
     for (const child of tree.rootNode.children) {
-      const commonNode = CommonNode.from(languageName, child, source);
+      const context = new DeriveContext(languageName, source, child);
+      const commonNode = CommonNode.derive(context);
       if (commonNode) commonTree.children.push(commonNode);
     }
     return commonTree;
   }
 
-  print(language: LanguageName, context?: PrintContext): string {
+  print(context: PrintContext | LanguageName): string {
+    if (typeof context === "string") context = new PrintContext(context);
     return this.children
-      .map((c) => c.print(language, context))
+      .map((c) => c.print(context))
       .filter((c) => c)
       .join("\n");
   }

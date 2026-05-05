@@ -1,7 +1,8 @@
 {
   "name": "jspl",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "web-tree-sitter": "^0.26.8"

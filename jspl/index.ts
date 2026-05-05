@@ -1,5 +1,6 @@
 export * from "./CommonNode";
 export * from "./CommonTree";
+export * from "./DeriveContext";
 export * from "./PrintContext";
 export * from "./parser";
 

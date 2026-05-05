@@ -1,5 +1,5 @@
-import type { Node } from "web-tree-sitter";
-import { CommonNode, LanguageName } from ".";
+import { Node } from "web-tree-sitter";
+import { LanguageName } from ".";
 
 export function getTabPadding(languageName: LanguageName) {
   return " ".repeat(getTabWidth(languageName));
@@ -12,10 +12,6 @@ export function getTabWidth(languageName: LanguageName) {
 
 export function resolveSource(node: Node, source: string): string {
   return source.slice(node.startIndex, node.endIndex);
-}
-
-export function resolveCommonNode(languageName: LanguageName, source: string) {
-  return (node: Node) => CommonNode.from(languageName, node, source) || new CommonNode();
 }
 
 export function resolveIdentifier(node: Node, source: string): string {

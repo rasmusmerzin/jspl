@@ -1,22 +1,21 @@
-import type { Node } from "web-tree-sitter";
-import { CommonNode, LanguageName, PrintContext } from ".";
+import { CommonNode, DeriveContext, PrintContext } from ".";
 import { resolveSource } from "./util";
 
 export class CommonReference extends CommonNode {
   type = "reference";
   path: string[] = [];
 
-  static from(_languageName: LanguageName, node: Node, source: string): CommonReference {
+  static derive(context: DeriveContext): CommonReference {
     const ref = new CommonReference();
-    if (node.type === "identifier") {
-      ref.path = [resolveSource(node, source)];
+    if (context.node.type === "identifier") {
+      ref.path = [resolveSource(context.node, context.source)];
     } else {
-      throw new Error(`Invalid Node.type for CommonReference: ${node.type}`);
+      throw new Error(`Invalid Node.type for CommonReference: ${context.node.type}`);
     }
     return ref;
   }
 
-  print(_language: LanguageName, _context?: PrintContext): string {
+  print(_context: PrintContext): string {
     return this.path.join(".");
   }
 }

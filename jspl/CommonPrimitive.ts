@@ -1,5 +1,4 @@
-import type { Node } from "web-tree-sitter";
-import { CommonNode, LanguageName, PrintContext } from ".";
+import { CommonNode, DeriveContext, PrintContext } from ".";
 import { resolveSource } from "./util";
 
 export class CommonPrimitive extends CommonNode {
@@ -7,24 +6,24 @@ export class CommonPrimitive extends CommonNode {
   subtype?: "boolean" | "number" | "string";
   value?: string;
 
-  static from(_languageName: LanguageName, node: Node, source: string): CommonNode | null {
+  static derive(context: DeriveContext): CommonPrimitive | null {
     const primitive = new CommonPrimitive();
-    if (["false", "true"].includes(node.type)) {
+    if (["false", "true"].includes(context.node.type)) {
       primitive.subtype = "boolean";
-      primitive.value = node.type;
-    } else if (["number", "integer", "float"].includes(node.type)) {
+      primitive.value = context.node.type;
+    } else if (["number", "integer", "float"].includes(context.node.type)) {
       primitive.subtype = "number";
-      primitive.value = resolveSource(node, source);
-    } else if (node.type === "string") {
+      primitive.value = resolveSource(context.node, context.source);
+    } else if (context.node.type === "string") {
       primitive.subtype = "string";
-      primitive.value = resolveSource(node, source);
+      primitive.value = resolveSource(context.node, context.source);
     } else {
-      throw new Error(`Invalid Node.type for CommonPrimitive: ${node.type}`);
+      throw new Error(`Invalid Node.type for CommonPrimitive: ${context.node.type}`);
     }
     return primitive;
   }
 
-  print(_language: LanguageName, _context?: PrintContext): string {
+  print(_context: PrintContext): string {
     return this.value || "";
   }
 }

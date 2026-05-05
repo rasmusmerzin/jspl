@@ -1,6 +1,5 @@
-import type { Node } from "web-tree-sitter";
-import { CommonNode, LanguageName, PrintContext } from ".";
-import { resolveAllIdentifiers, resolveCommonNode, resolveNamedChild, resolveSource } from "./util";
+import { CommonNode, DeriveContext, PrintContext } from ".";
+import { resolveAllIdentifiers, resolveNamedChild, resolveSource } from "./util";
 
 export class CommonAssignment extends CommonNode {
   type = "assignment";
@@ -12,29 +11,32 @@ export class CommonAssignment extends CommonNode {
     return Math.min(this.names.length, this.values.length);
   }
 
-  static from(languageName: LanguageName, node: Node, source: string): CommonAssignment {
+  static derive(context: DeriveContext): CommonAssignment {
     const stmt = new CommonAssignment();
-    const commonResolver = resolveCommonNode(languageName, source);
-    if (node.type === "assignment_statement") {
-      const variableList = resolveNamedChild(node, "variable_list");
-      stmt.names = variableList ? resolveAllIdentifiers(variableList, source) : [];
-      const expressionList = resolveNamedChild(node, "expression_list");
-      stmt.values = (expressionList?.namedChildren || []).map(commonResolver);
-    } else if (["assignment_expression", "assignment", "variable_declarator"].includes(node.type)) {
-      const [nameNode, valueNode] = node.namedChildren;
-      stmt.names = [resolveSource(nameNode, source)];
-      stmt.values = [commonResolver(valueNode)];
+    if (context.node.type === "assignment_statement") {
+      const variableList = resolveNamedChild(context.node, "variable_list");
+      stmt.names = variableList ? resolveAllIdentifiers(variableList, context.source) : [];
+      const expressionList = resolveNamedChild(context.node, "expression_list");
+      stmt.values = (expressionList?.namedChildren || []).map((child) => {
+        return CommonNode.deriveUnknown(context.derive({ node: child }));
+      });
+    } else if (
+      ["assignment_expression", "assignment", "variable_declarator"].includes(context.node.type)
+    ) {
+      const [nameNode, valueNode] = context.node.namedChildren;
+      stmt.names = [resolveSource(nameNode, context.source)];
+      stmt.values = [CommonNode.deriveUnknown(context.derive({ node: valueNode }))];
     } else {
-      throw new Error(`Invalid Node.type for CommonAssignment: ${node.type}`);
+      throw new Error(`Invalid Node.type for CommonAssignment: ${context.node.type}`);
     }
     return stmt;
   }
 
-  print(language: LanguageName, context = new PrintContext()): string {
+  print(context: PrintContext): string {
     if (!this.getCount()) return "";
-    if (language === "JavaScript") return this.printJavaScript(context);
-    else if (language === "Python") return this.printPython(context);
-    else if (language === "Lua") return this.printLua(context);
+    if (context.languageName === "JavaScript") return this.printJavaScript(context);
+    else if (context.languageName === "Python") return this.printPython(context);
+    else if (context.languageName === "Lua") return this.printLua(context);
     else return "";
   }
 
@@ -44,9 +46,7 @@ export class CommonAssignment extends CommonNode {
     if (this.declaration) result += "let ";
     const entries: [string, CommonNode][] = [];
     for (let i = 0; i < this.getCount(); i++) entries.push([this.names[i], this.values[i]]);
-    result += entries
-      .map(([name, value]) => `${name} = ${value.print("JavaScript", context)}`)
-      .join(", ");
+    result += entries.map(([name, value]) => `${name} = ${value.print(context)}`).join(", ");
     result += ";\n";
     return result;
   }
@@ -56,7 +56,7 @@ export class CommonAssignment extends CommonNode {
     let result = padding;
     result += this.names.join(", ");
     result += " = ";
-    result += this.values.map((v) => v.print("Python", context)).join(", ");
+    result += this.values.map((v) => v.print(context)).join(", ");
     result += "\n";
     return result;
   }
@@ -67,7 +67,7 @@ export class CommonAssignment extends CommonNode {
     if (this.declaration) result += "local ";
     result += this.names.join(", ");
     result += " = ";
-    result += this.values.map((v) => v.print("Lua", context)).join(", ");
+    result += this.values.map((v) => v.print(context)).join(", ");
     result += "\n";
     return result;
   }
