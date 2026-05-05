@@ -5,38 +5,16 @@
   <img alt="Demo" src="./demo.gif" />
 </div>
 
-## Developing
+JsPL is a JavaScript-Python-Lua 3-way transpiler using Tree-sitter, a powerful parser generator tool
+that enables accurate syntax tree construction for code analysis and transformation. This project
+aims to facilitate seamless code conversion between these three popular programming languages by
+leveraging Tree-sitter's robust grammars to parse, analyze, and generate equivalent syntax across
+language boundaries. By creating a unified intermediate representation and implementing precise code
+generation rules, this transpiler will help developers prototype across ecosystems or explore
+polyglot programming with greater ease.
 
-Install dependencies.
-
-```sh
-npm install
-```
-
-Run development server.
-
-```sh
-npm run dev
-```
-
-## Static Assets
-
-```sh
-cd jspl-website/static
-# icons
-curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg
-curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg
-curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/lua/lua-original.svg
-# grammars
-curl -LO https://github.com/tree-sitter/tree-sitter-javascript/releases/download/v0.25.0/tree-sitter-javascript.wasm
-curl -LO https://github.com/tree-sitter/tree-sitter-python/releases/download/v0.25.0/tree-sitter-python.wasm
-curl -LO https://github.com/tree-sitter-grammars/tree-sitter-lua/releases/download/v0.5.0/tree-sitter-lua.wasm
-```
-
-## Building
-
-Create production build.
-
-```sh
-npm run build
-```
+Project consist of 2 (two) packages: `jspl` and `jspl-website`. `jspl` is the core transpiler
+package which hosts the common AST and related tests and in the future it will include a CLI
+runnable to be used on the command line. `jspl-website` is the website of the project built with
+SvelteKit and is for introduction and documentation of the project as well as an online editor. See
+`README.md` files in these subdirectories for development instructions.
