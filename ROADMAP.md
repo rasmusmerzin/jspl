@@ -4,17 +4,22 @@
 
 Initial Demo.
 
-- Basic editor.
-- Common AST.
-- Transpile function with parameters.
-- Transpile variable assignment.
-- Transpile function call.
-- Transpile return statement.
+- [x] Basic editor.
+- [x] Common AST.
+- [x] Transpile function with parameters.
+- [x] Transpile variable assignment.
+- [x] Transpile function call.
+- [x] Transpile return statement.
 
 # v0.2.0
 
-- Transpiler unit tests.
-- Transpile Python inferred variable declaration.
+- [x] Transpiler unit testing environment.
+- [ ] Transpile Python inferred variable declaration.
+
+# v0.3.0
+
+- [ ] Transpile if statement.
+- [ ] Transpile while statement.
 
 # v1.0.0
 
@@ -23,9 +28,7 @@ Initial Demo.
 - Common library code and page.
 - Transpile dot accessor.
 - Transpile operators.
-- Transpile if statement.
 - Transpile for statement.
-- Transpile while statement.
 
 # v1.1.0
 
