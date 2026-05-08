@@ -29,6 +29,7 @@ Initial Demo.
 - Transpile dot accessor.
 - Transpile operators.
 - Transpile for statement.
+- Transpile records and arrays.
 
 # v1.1.0
 
