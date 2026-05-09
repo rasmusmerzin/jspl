@@ -47,10 +47,5 @@
       background: var(--fg);
       font-weight: 600;
     }
-    &.edited {
-      color: var(--bg);
-      background: var(--fg-2);
-      font-weight: 700;
-    }
   }
 </style>

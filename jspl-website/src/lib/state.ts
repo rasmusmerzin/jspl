@@ -24,12 +24,8 @@ export const treePrintStates = mapRecord(treeStates, (state) => {
   return derived(state, (tree) => (tree ? nodeToString(tree.rootNode) : ""));
 });
 
-export const commonTreeStates = mapRecord(treeStates, (state, name) => {
-  return derived(state, (tree) => {
-    if (!tree) return null;
-    const source = get(codeStates[name]);
-    return CommonTree.from(name, tree, source);
-  });
+export const commonTreeStates = mapRecord(codeStates, (state, name) => {
+  return derived(state, (code) => CommonTree.parse(name, code));
 });
 
 export const commonTreeStateSum = derived(

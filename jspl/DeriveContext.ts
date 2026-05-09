@@ -1,5 +1,5 @@
 import { Node } from "web-tree-sitter";
-import { LanguageName } from "./parser";
+import { type LanguageName } from "./parser";
 
 export class DeriveContext {
   constructor(

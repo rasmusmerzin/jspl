@@ -1,4 +1,4 @@
-import { LanguageName } from ".";
+import { type LanguageName } from ".";
 import { getTabWidth } from "./util";
 
 export class PrintContext {

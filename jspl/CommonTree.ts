@@ -1,4 +1,4 @@
-import { CommonNode, DeriveContext, LanguageName, LANGUAGES, PrintContext } from ".";
+import { CommonNode, DeriveContext, type LanguageName, LANGUAGES, PrintContext } from ".";
 
 export class CommonTree {
   type = "tree";

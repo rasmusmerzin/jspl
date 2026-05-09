@@ -1,5 +1,5 @@
 import { Node } from "web-tree-sitter";
-import { LanguageName } from ".";
+import { type LanguageName } from ".";
 
 export function getTabPadding(languageName: LanguageName) {
   return " ".repeat(getTabWidth(languageName));
