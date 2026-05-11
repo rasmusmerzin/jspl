@@ -11,15 +11,16 @@ Initial Demo.
 - [x] Transpile function call.
 - [x] Transpile return statement.
 
-# v0.2.0
+# v0.1.1
 
 - [x] Transpiler unit testing environment.
-- [ ] Transpile Python inferred variable declaration.
 
-# v0.3.0
+# v0.2.0
 
 - [ ] Transpile if statement.
 - [ ] Transpile while statement.
+
+# v0.3.0
 
 # v1.0.0
 
@@ -30,6 +31,7 @@ Initial Demo.
 - Transpile operators.
 - Transpile for statement.
 - Transpile records and arrays.
+- Transpile Python inferred variable declaration.
 
 # v1.1.0
 
