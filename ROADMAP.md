@@ -18,7 +18,7 @@ Initial Demo.
 # v0.2.0
 
 - [x] Transpile if statement.
-- [ ] Transpile binary operators.
+- [x] Transpile binary operators.
 
 # v0.3.0
 
