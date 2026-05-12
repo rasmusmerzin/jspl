@@ -12,4 +12,4 @@ export * from "./CommonPrimitive";
 export * from "./CommonReference";
 export * from "./CommonReturn";
 export * from "./CommonIf";
-export * from "./CommonExpression";
+export * from "./CommonOperator";

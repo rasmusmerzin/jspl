@@ -8,6 +8,7 @@ import {
   CommonPrimitive,
   DeriveContext,
   CommonIf,
+  CommonOperator,
 } from ".";
 
 export class CommonNode {
@@ -32,12 +33,9 @@ export class CommonNode {
       case "expression_statement":
       case "variable_declaration":
       case "lexical_declaration":
-        const child = context.node.namedChildren[0];
-        if (!child) return null;
-        const commonNode = CommonNode.derive(context.derive({ node: child })) as any;
-        if ("declaration" in commonNode && /declaration/.test(context.node.type))
-          commonNode.declaration = true;
-        return commonNode;
+      case "parenthesized_expression":
+        const [child] = context.node.namedChildren;
+        return child ? CommonNode.derive(context.derive({ node: child })) : null;
       case "identifier":
         return CommonReference.derive(context);
       case "false":
@@ -49,6 +47,10 @@ export class CommonNode {
         return CommonPrimitive.derive(context);
       case "if_statement":
         return CommonIf.derive(context);
+      case "binary_expression":
+      case "boolean_operator":
+      case "comparison_operator":
+        return CommonOperator.derive(context);
       default:
         return context.node.isNamed ? new CommonNode() : null;
     }

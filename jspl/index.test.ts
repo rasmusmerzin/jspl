@@ -27,7 +27,7 @@ const EXAMPLES = {
   DeclareAssignReturn: {
     JavaScript: strip(`
       function declareReturn(argc, argv) {
-        let abc = 1.0;
+        abc = 1.0;
         abc = 2;
         return abc;
       }
@@ -40,9 +40,42 @@ const EXAMPLES = {
     `),
     Lua: strip(`
       function declareReturn(argc, argv)
-        local abc = 1.0
+        abc = 1.0
         abc = 2
         return abc
+      end
+    `),
+  },
+  ConditionaryReturn: {
+    JavaScript: strip(`
+      function condReturn(item) {
+        if (item === 1 || item < 0) {
+          return "one";
+        } else if (item === 2) {
+          return "two";
+        } else {
+          return "other";
+        }
+      }
+    `),
+    Python: strip(`
+      def condReturn(item):
+          if item == 1 or item < 0:
+              return "one"
+          elif item == 2:
+              return "two"
+          else:
+              return "other"
+    `),
+    Lua: strip(`
+      function condReturn(item)
+        if item == 1 or item < 0 then
+          return "one"
+        elseif item == 2 then
+          return "two"
+        else
+          return "other"
+        end
       end
     `),
   },

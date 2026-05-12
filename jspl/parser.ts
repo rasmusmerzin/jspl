@@ -16,7 +16,7 @@ export const LANGUAGES = {
 export const LANGUAGE_NAMES = Object.keys(LANGUAGES) as LanguageName[];
 
 async function loadLanguageExt(path: string): Promise<LanguageExt> {
-  // if (!isNode()) path = `/${path}`;
+  // TODO: if (!isNode()) path = `/${path}`;
   const language = (await Language.load(path)) as LanguageExt;
   language.parser = new Parser();
   language.parser.setLanguage(language);

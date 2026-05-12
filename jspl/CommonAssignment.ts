@@ -5,7 +5,6 @@ export class CommonAssignment extends CommonNode {
   type = "assignment";
   names: string[] = [];
   values: CommonNode[] = [];
-  declaration = false;
 
   getCount(): number {
     return Math.min(this.names.length, this.values.length);
@@ -43,7 +42,6 @@ export class CommonAssignment extends CommonNode {
   private printJavaScript(context: PrintContext): string {
     const padding = context.getPaddingByLanguage("JavaScript");
     let result = padding;
-    if (this.declaration) result += "let ";
     const entries: [string, CommonNode][] = [];
     for (let i = 0; i < this.getCount(); i++) entries.push([this.names[i], this.values[i]]);
     result += entries.map(([name, value]) => `${name} = ${value.print(context)}`).join(", ");
@@ -64,7 +62,6 @@ export class CommonAssignment extends CommonNode {
   private printLua(context: PrintContext): string {
     const padding = context.getPaddingByLanguage("Lua");
     let result = padding;
-    if (this.declaration) result += "local ";
     result += this.names.join(", ");
     result += " = ";
     result += this.values.map((v) => v.print(context)).join(", ");

@@ -1,8 +1,8 @@
-import { CommonExpression, CommonNode, DeriveContext, PrintContext } from ".";
+import { CommonNode, DeriveContext, PrintContext } from ".";
 
 export class CommonIf extends CommonNode {
   type = "if";
-  conditions: [CommonExpression, CommonNode[]][] = [];
+  conditions: [CommonNode, CommonNode[]][] = [];
   otherwise?: CommonNode[];
 
   static derive(context: DeriveContext): CommonIf {
@@ -11,7 +11,7 @@ export class CommonIf extends CommonNode {
     }
     const stmt = new CommonIf();
     const [conditionNode, procedureNode, ...otherNodes] = context.node.namedChildren;
-    const expression = CommonExpression.derive(context.derive({ node: conditionNode }));
+    const expression = CommonNode.deriveUnknown(context.derive({ node: conditionNode }));
     let procedure = (procedureNode?.children || []).map((child) => {
       return CommonNode.deriveUnknown(context.derive({ node: child }));
     });
@@ -35,7 +35,7 @@ export class CommonIf extends CommonNode {
       for (const other of otherNodes) {
         if (["elseif_statement", "elif_clause"].includes(other.type)) {
           const [conditionNode, procedureNode] = other.namedChildren;
-          const expression = CommonExpression.derive(context.derive({ node: conditionNode }));
+          const expression = CommonNode.deriveUnknown(context.derive({ node: conditionNode }));
           const procedure = (procedureNode?.children || []).map((child) => {
             return CommonNode.deriveUnknown(context.derive({ node: child }));
           });

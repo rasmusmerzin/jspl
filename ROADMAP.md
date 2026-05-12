@@ -17,10 +17,13 @@ Initial Demo.
 
 # v0.2.0
 
-- [ ] Transpile if statement.
-- [ ] Transpile while statement.
+- [x] Transpile if statement.
+- [ ] Transpile binary operators.
 
 # v0.3.0
+
+- [ ] Transpile while statement.
+- [ ] Transpile number operators.
 
 # v1.0.0
 
@@ -28,10 +31,9 @@ Initial Demo.
 - Landing page.
 - Common library code and page.
 - Transpile dot accessor.
-- Transpile operators.
 - Transpile for statement.
 - Transpile records and arrays.
-- Transpile Python inferred variable declaration.
+- Infer variable declaration (print phase).
 
 # v1.1.0
 
