@@ -33,7 +33,7 @@ Initial Demo.
 - Transpile dot accessor.
 - Transpile for statement.
 - Transpile records and arrays.
-- Infer variable declaration (print phase).
+- Infer variable declaration (print phase, no shadowing).
 
 # v1.1.0
 
