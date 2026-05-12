@@ -7,6 +7,7 @@ import {
   CommonReference,
   CommonPrimitive,
   DeriveContext,
+  CommonIf,
 } from ".";
 
 export class CommonNode {
@@ -46,6 +47,8 @@ export class CommonNode {
       case "float":
       case "string":
         return CommonPrimitive.derive(context);
+      case "if_statement":
+        return CommonIf.derive(context);
       default:
         return context.node.isNamed ? new CommonNode() : null;
     }

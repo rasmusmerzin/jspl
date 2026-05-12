@@ -8,7 +8,7 @@ import {
 
 export class CommonFunction extends CommonNode {
   type = "function";
-  name?: string;
+  name = "";
   parameters: string[] = [];
   children: CommonNode[] = [];
 
