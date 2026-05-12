@@ -1,2 +1,2 @@
 def main():
-    print("Hello, JsPL!")
+    print("Hello, JsPL!\n")

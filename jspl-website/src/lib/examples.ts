@@ -8,6 +8,9 @@ import DeclareAssignReturnLua from "./examples/DeclareAssignReturn.lua?raw";
 import ConditionaryReturnJavaScript from "./examples/ConditionaryReturn.js?raw";
 import ConditionaryReturnPython from "./examples/ConditionaryReturn.py?raw";
 import ConditionaryReturnLua from "./examples/ConditionaryReturn.lua?raw";
+import WhileJavaScript from "./examples/While.js?raw";
+import WhilePython from "./examples/While.py?raw";
+import WhileLua from "./examples/While.lua?raw";
 
 export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
   HelloWorld: {
@@ -24,5 +27,10 @@ export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
     JavaScript: ConditionaryReturnJavaScript,
     Python: ConditionaryReturnPython,
     Lua: ConditionaryReturnLua,
+  },
+  While: {
+    JavaScript: WhileJavaScript,
+    Python: WhilePython,
+    Lua: WhileLua,
   },
 };

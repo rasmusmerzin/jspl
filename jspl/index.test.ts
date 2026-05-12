@@ -11,16 +11,16 @@ const EXAMPLES = {
   HelloWorld: {
     JavaScript: strip(`
       function main() {
-        print("Hello, World!");
+        print("Hello, World!\\n");
       }
     `),
     Python: strip(`
       def main():
-          print("Hello, World!")
+          print("Hello, World!\\n")
     `),
     Lua: strip(`
       function main()
-        print("Hello, World!")
+        print("Hello, World!\\n")
       end
     `),
   },
@@ -75,6 +75,44 @@ const EXAMPLES = {
           return "two"
         else
           return "other"
+        end
+      end
+    `),
+  },
+  While: {
+    JavaScript: strip(`
+      function whileLoop(count) {
+        while (count > 0) {
+          i = 0;
+          while (i < count) {
+            print(" x");
+            i = i + 1;
+          }
+          print("\\n");
+          count = count - 1;
+        }
+      }
+    `),
+    Python: strip(`
+      def whileLoop(count):
+          while count > 0:
+              i = 0
+              while i < count:
+                  print(" x")
+                  i = i + 1
+              print("\\n")
+              count = count - 1
+    `),
+    Lua: strip(`
+      function whileLoop(count)
+        while count > 0 do
+          i = 0
+          while i < count do
+            print(" x")
+            i = i + 1
+          end
+          print("\\n")
+          count = count - 1
         end
       end
     `),
