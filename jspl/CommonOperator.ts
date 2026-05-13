@@ -1,6 +1,19 @@
 import { CommonNode, DeriveContext, LanguageName, PrintContext } from ".";
 
-export type OperatorSubtype = "eq" | "neq" | "lt" | "gt" | "le" | "ge" | "and" | "or" | "unknown";
+export type OperatorSubtype =
+  | "or"
+  | "and"
+  | "eq"
+  | "neq"
+  | "lt"
+  | "gt"
+  | "le"
+  | "ge"
+  | "add"
+  | "sub"
+  | "mul"
+  | "div"
+  | "unknown";
 
 export class CommonOperator extends CommonNode {
   type = "expression";
@@ -56,6 +69,10 @@ function deriveOperatorSubtype(text: string): OperatorSubtype {
   else if (text === ">") return "gt";
   else if (text === "<=") return "le";
   else if (text === ">=") return "ge";
+  else if (text === "+") return "add";
+  else if (text === "-") return "sub";
+  else if (text === "*") return "mul";
+  else if (text === "/") return "div";
   else return "unknown";
 }
 
@@ -82,6 +99,14 @@ function printOperatorSubtype(languageName: LanguageName, subtype: OperatorSubty
       return "<=";
     case "ge":
       return ">=";
+    case "add":
+      return "+";
+    case "sub":
+      return "-";
+    case "mul":
+      return "*";
+    case "div":
+      return "/";
     default:
       return "?";
   }
@@ -93,17 +118,23 @@ function shouldReorderOperators(first: OperatorSubtype, second: OperatorSubtype)
 
 function operatorPrecedence(subtype: OperatorSubtype): number {
   switch (subtype) {
+    case "or":
+    case "and":
+      return 1;
     case "eq":
     case "neq":
     case "lt":
     case "gt":
     case "le":
     case "ge":
-      return 1;
-    case "and":
-    case "or":
-      return 0;
+      return 2;
+    case "add":
+    case "sub":
+      return 3;
+    case "mul":
+    case "div":
+      return 4;
     default:
-      return -1;
+      return 0;
   }
 }
