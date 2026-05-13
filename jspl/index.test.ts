@@ -136,6 +136,31 @@ const EXAMPLES = {
       end
     `),
   },
+  Record: {
+    JavaScript: strip(`
+      function recordExample() {
+        record = { a: 1, b: 2, o: 99.7, m: "hi" };
+        echo(String(record["b"] + record["o"]));
+        record["m"] = "hey";
+        echo(record["m"]);
+      }
+    `),
+    Python: strip(`
+      def recordExample():
+          record = { "a": 1, "b": 2, "o": 99.7, "m": "hi" }
+          echo(String(record["b"] + record["o"]))
+          record["m"] = "hey"
+          echo(record["m"])
+    `),
+    Lua: strip(`
+      function recordExample()
+        record = { a = 1, b = 2, o = 99.7, m = "hi" }
+        echo(String(record["b"] + record["o"]))
+        record["m"] = "hey"
+        echo(record["m"])
+      end
+    `),
+  },
 };
 
 for (const [name, code] of Object.entries(EXAMPLES)) {

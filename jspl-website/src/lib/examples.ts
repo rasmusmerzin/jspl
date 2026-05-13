@@ -14,6 +14,9 @@ import WhileLua from "./examples/While.lua?raw";
 import DotAccessorJavaScript from "./examples/DotAccessor.js?raw";
 import DotAccessorPython from "./examples/DotAccessor.py?raw";
 import DotAccessorLua from "./examples/DotAccessor.lua?raw";
+import RecordJavaScript from "./examples/Record.js?raw";
+import RecordPython from "./examples/Record.py?raw";
+import RecordLua from "./examples/Record.lua?raw";
 
 export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
   HelloWorld: {
@@ -40,5 +43,10 @@ export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
     JavaScript: DotAccessorJavaScript,
     Python: DotAccessorPython,
     Lua: DotAccessorLua,
+  },
+  Record: {
+    JavaScript: RecordJavaScript,
+    Python: RecordPython,
+    Lua: RecordLua,
   },
 };

@@ -28,7 +28,7 @@ Initial Demo.
 # v0.4.0
 
 - [x] Transpile dot accessor.
-- [ ] Transpile record and array.
+- [ ] Transpile record.
 - [ ] Transpile index accessor.
 
 # v1.0.0
