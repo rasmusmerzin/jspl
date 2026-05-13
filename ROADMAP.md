@@ -44,5 +44,7 @@ Initial Demo.
 
 - Transpiler CLI.
 - Transpile anonymous function.
+- Transpile string concatenation.
+- Transpile string interpolation.
 - Editor syntax highlighting.
 - Editor syntax aware cursor.
