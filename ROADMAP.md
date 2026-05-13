@@ -23,7 +23,7 @@ Initial Demo.
 # v0.3.0
 
 - [x] Transpile while statement.
-- [ ] Transpile number operators.
+- [x] Transpile number operators.
 
 # v1.0.0
 
