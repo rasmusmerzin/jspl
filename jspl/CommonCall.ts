@@ -1,5 +1,5 @@
 import { CommonNode, DeriveContext, PrintContext } from ".";
-import { getTabWidth, resolveArgsNode } from "./util";
+import { resolveArgsNode } from "./util";
 
 export class CommonCall extends CommonNode {
   type = "call";
@@ -11,9 +11,7 @@ export class CommonCall extends CommonNode {
       throw new Error(`Invalid Node.type for CommonCall: ${context.node.type}`);
     }
     const call = new CommonCall();
-    const callable = CommonNode.derive(
-      context.derive({ node: context.node.namedChildren[0] }),
-    );
+    const callable = CommonNode.derive(context.derive({ node: context.node.namedChildren[0] }));
     if (callable) call.callable = callable;
     const argsNode = resolveArgsNode(context.languageName, context.node);
     call.arguments = (argsNode?.namedChildren || []).map((child) => {
@@ -24,12 +22,16 @@ export class CommonCall extends CommonNode {
 
   print(context: PrintContext): string {
     if (!this.callable) return "";
-    const padding = context.getPadding(getTabWidth(context.languageName));
-    let result = `${padding}${this.callable.print(context)}(`;
-    result += this.arguments.map((arg) => arg.print(context)).join(", ");
+    const padding = context.getPadding();
+    let result = `${this.callable.print(context.derive({ callable: true }))}(`;
+    if (!context.inline) result = `${padding}${result}`;
+    const childContext = context.derive({ inline: true });
+    result += this.arguments.map((arg) => arg.print(childContext)).join(", ");
     result += ")";
-    if (context.languageName === "JavaScript") result += ";";
-    result += "\n";
+    if (!context.inline) {
+      if (context.languageName === "JavaScript") result += ";";
+      result += "\n";
+    }
     return result;
   }
 }

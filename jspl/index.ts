@@ -14,3 +14,4 @@ export * from "./CommonReturn";
 export * from "./CommonIf";
 export * from "./CommonOperator";
 export * from "./CommonWhile";
+export * from "./CommonIdentifier";

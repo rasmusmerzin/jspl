@@ -3,6 +3,8 @@ import { getTabWidth } from "./util";
 
 export class PrintContext {
   indent = 0;
+  inline = false;
+  callable = false;
 
   constructor(readonly languageName: LanguageName) {}
 

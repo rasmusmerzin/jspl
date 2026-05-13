@@ -44,7 +44,8 @@ export class CommonAssignment extends CommonNode {
     let result = padding;
     const entries: [string, CommonNode][] = [];
     for (let i = 0; i < this.getCount(); i++) entries.push([this.names[i], this.values[i]]);
-    result += entries.map(([name, value]) => `${name} = ${value.print(context)}`).join(", ");
+    const childContext = context.derive({ inline: true });
+    result += entries.map(([name, value]) => `${name} = ${value.print(childContext)}`).join(", ");
     result += ";\n";
     return result;
   }
@@ -54,7 +55,8 @@ export class CommonAssignment extends CommonNode {
     let result = padding;
     result += this.names.join(", ");
     result += " = ";
-    result += this.values.map((v) => v.print(context)).join(", ");
+    const childContext = context.derive({ inline: true });
+    result += this.values.map((v) => v.print(childContext)).join(", ");
     result += "\n";
     return result;
   }
@@ -64,7 +66,8 @@ export class CommonAssignment extends CommonNode {
     let result = padding;
     result += this.names.join(", ");
     result += " = ";
-    result += this.values.map((v) => v.print(context)).join(", ");
+    const childContext = context.derive({ inline: true });
+    result += this.values.map((v) => v.print(childContext)).join(", ");
     result += "\n";
     return result;
   }

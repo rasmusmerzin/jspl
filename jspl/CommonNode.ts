@@ -10,6 +10,7 @@ import {
   CommonIf,
   CommonOperator,
   CommonWhile,
+  CommonIdentifier,
 } from ".";
 
 export class CommonNode {
@@ -38,6 +39,12 @@ export class CommonNode {
         const [child] = context.node.namedChildren;
         return child ? CommonNode.derive(context.derive({ node: child })) : null;
       case "identifier":
+      case "property_identifier":
+        return CommonIdentifier.derive(context);
+      case "attribute":
+      case "dot_index_expression":
+      case "method_index_expression":
+      case "member_expression":
         return CommonReference.derive(context);
       case "false":
       case "true":

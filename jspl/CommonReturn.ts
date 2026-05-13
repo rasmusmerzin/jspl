@@ -1,5 +1,5 @@
 import { CommonNode, DeriveContext, PrintContext } from ".";
-import { getTabWidth, resolveNamedChild } from "./util";
+import { resolveNamedChild } from "./util";
 
 export class CommonReturn extends CommonNode {
   type = "return";
@@ -29,7 +29,7 @@ export class CommonReturn extends CommonNode {
   }
 
   print(context: PrintContext): string {
-    const padding = context.getPadding(getTabWidth(context.languageName));
+    const padding = context.getPadding();
     let result = `${padding}return`;
     if (this.value) result += " " + this.value.print(context);
     if (context.languageName === "JavaScript") result += ";";

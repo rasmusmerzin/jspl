@@ -27,7 +27,7 @@ Initial Demo.
 
 # v0.4.0
 
-- [ ] Transpile dot accessor.
+- [x] Transpile dot accessor.
 - [ ] Transpile record and array.
 - [ ] Transpile index accessor.
 
@@ -36,6 +36,7 @@ Initial Demo.
 - Poster PDF.
 - Landing page.
 - Common library code and page.
+- Transpile comments.
 - Transpile for statement.
 - Infer variable declaration (print phase, no shadowing).
 
