@@ -117,6 +117,25 @@ const EXAMPLES = {
       end
     `),
   },
+  DotAccessor: {
+    JavaScript: strip(`
+      function dotAccessor(a, b) {
+        text = Math.floor(a, b).toString();
+        System.out.println(text);
+      }
+    `),
+    Python: strip(`
+      def dotAccessor(a, b):
+          text = Math.floor(a, b).toString()
+          System.out.println(text)
+    `),
+    Lua: strip(`
+      function dotAccessor(a, b)
+        text = Math:floor(a, b):toString()
+        System.out:println(text)
+      end
+    `),
+  },
 };
 
 for (const [name, code] of Object.entries(EXAMPLES)) {

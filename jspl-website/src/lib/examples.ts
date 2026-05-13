@@ -11,6 +11,9 @@ import ConditionaryReturnLua from "./examples/ConditionaryReturn.lua?raw";
 import WhileJavaScript from "./examples/While.js?raw";
 import WhilePython from "./examples/While.py?raw";
 import WhileLua from "./examples/While.lua?raw";
+import DotAccessorJavaScript from "./examples/DotAccessor.js?raw";
+import DotAccessorPython from "./examples/DotAccessor.py?raw";
+import DotAccessorLua from "./examples/DotAccessor.lua?raw";
 
 export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
   HelloWorld: {
@@ -32,5 +35,10 @@ export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
     JavaScript: WhileJavaScript,
     Python: WhilePython,
     Lua: WhileLua,
+  },
+  DotAccessor: {
+    JavaScript: DotAccessorJavaScript,
+    Python: DotAccessorPython,
+    Lua: DotAccessorLua,
   },
 };

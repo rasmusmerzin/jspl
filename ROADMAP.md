@@ -25,19 +25,23 @@ Initial Demo.
 - [x] Transpile while statement.
 - [x] Transpile number operators.
 
+# v0.4.0
+
+- [ ] Transpile dot accessor.
+- [ ] Transpile record and array.
+- [ ] Transpile index accessor.
+
 # v1.0.0
 
 - Poster PDF.
 - Landing page.
 - Common library code and page.
-- Transpile dot accessor.
 - Transpile for statement.
-- Transpile records and arrays.
 - Infer variable declaration (print phase, no shadowing).
 
 # v1.1.0
 
 - Transpiler CLI.
-- Transpile anonymous functions.
+- Transpile anonymous function.
 - Editor syntax highlighting.
 - Editor syntax aware cursor.
