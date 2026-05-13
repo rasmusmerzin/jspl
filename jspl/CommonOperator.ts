@@ -9,7 +9,12 @@ export class CommonOperator extends CommonNode {
   right!: CommonNode;
 
   static derive(context: DeriveContext): CommonOperator {
-    const accept = ["binary_expression", "boolean_operator", "comparison_operator"];
+    const accept = [
+      "binary_expression",
+      "binary_operator",
+      "boolean_operator",
+      "comparison_operator",
+    ];
     if (!accept.includes(context.node.type)) {
       throw new Error(`Invalid Node.type for CommonOperator: ${context.node.type}`);
     }

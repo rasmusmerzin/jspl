@@ -36,7 +36,7 @@ export class CommonFunction extends CommonNode {
   }
 
   private printJavaScript(context: PrintContext): string {
-    const padding = context.getPaddingByLanguage("JavaScript");
+    const padding = context.getPadding();
     let result = `${padding}function ${this.name || ""}(${this.parameters.join(", ")}) {\n`;
     const childContext = context.derive({ indent: context.indent + 1 });
     for (const child of this.children) {
@@ -47,7 +47,7 @@ export class CommonFunction extends CommonNode {
   }
 
   private printPython(context: PrintContext): string {
-    const padding = context.getPaddingByLanguage("Python");
+    const padding = context.getPadding();
     let result = `${padding}def ${this.name || ""}(${this.parameters.join(", ")}):\n`;
     const childContext = context.derive({ indent: context.indent + 1 });
     for (const child of this.children) {
@@ -57,7 +57,7 @@ export class CommonFunction extends CommonNode {
   }
 
   private printLua(context: PrintContext): string {
-    const padding = context.getPaddingByLanguage("Lua");
+    const padding = context.getPadding();
     let result = `${padding}function ${this.name || ""}(${this.parameters.join(", ")})\n`;
     const childContext = context.derive({ indent: context.indent + 1 });
     for (const child of this.children) {

@@ -6,12 +6,8 @@ export class PrintContext {
 
   constructor(readonly languageName: LanguageName) {}
 
-  getPadding(width = 4) {
-    return " ".repeat(width * this.indent);
-  }
-
-  getPaddingByLanguage(language: LanguageName) {
-    return this.getPadding(getTabWidth(language));
+  getPadding() {
+    return " ".repeat(getTabWidth(this.languageName) * this.indent);
   }
 
   // clone and assign

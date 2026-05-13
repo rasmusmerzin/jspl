@@ -59,7 +59,7 @@ export class CommonIf extends CommonNode {
   }
 
   private printJavaScript(context: PrintContext) {
-    const padding = context.getPaddingByLanguage("JavaScript");
+    const padding = context.getPadding();
     const [primary, ...rest] = this.conditions;
     let result = `${padding}if (${primary[0].print(context)}) {\n`;
     const childContext = context.derive({ indent: context.indent + 1 });
@@ -83,7 +83,7 @@ export class CommonIf extends CommonNode {
   }
 
   private printPython(context: PrintContext) {
-    const padding = context.getPaddingByLanguage("Python");
+    const padding = context.getPadding();
     const [primary, ...rest] = this.conditions;
     let result = `${padding}if ${primary[0].print(context)}:\n`;
     const childContext = context.derive({ indent: context.indent + 1 });
@@ -106,7 +106,7 @@ export class CommonIf extends CommonNode {
   }
 
   private printLua(context: PrintContext) {
-    const padding = context.getPaddingByLanguage("Lua");
+    const padding = context.getPadding();
     const [primary, ...rest] = this.conditions;
     let result = `${padding}if ${primary[0].print(context)} then\n`;
     const childContext = context.derive({ indent: context.indent + 1 });

@@ -9,6 +9,7 @@ import {
   DeriveContext,
   CommonIf,
   CommonOperator,
+  CommonWhile,
 } from ".";
 
 export class CommonNode {
@@ -48,9 +49,12 @@ export class CommonNode {
       case "if_statement":
         return CommonIf.derive(context);
       case "binary_expression":
+      case "binary_operator":
       case "boolean_operator":
       case "comparison_operator":
         return CommonOperator.derive(context);
+      case "while_statement":
+        return CommonWhile.derive(context);
       default:
         return context.node.isNamed ? new CommonNode() : null;
     }

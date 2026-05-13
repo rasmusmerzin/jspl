@@ -40,7 +40,7 @@ export class CommonAssignment extends CommonNode {
   }
 
   private printJavaScript(context: PrintContext): string {
-    const padding = context.getPaddingByLanguage("JavaScript");
+    const padding = context.getPadding();
     let result = padding;
     const entries: [string, CommonNode][] = [];
     for (let i = 0; i < this.getCount(); i++) entries.push([this.names[i], this.values[i]]);
@@ -50,7 +50,7 @@ export class CommonAssignment extends CommonNode {
   }
 
   private printPython(context: PrintContext): string {
-    const padding = context.getPaddingByLanguage("Python");
+    const padding = context.getPadding();
     let result = padding;
     result += this.names.join(", ");
     result += " = ";
@@ -60,7 +60,7 @@ export class CommonAssignment extends CommonNode {
   }
 
   private printLua(context: PrintContext): string {
-    const padding = context.getPaddingByLanguage("Lua");
+    const padding = context.getPadding();
     let result = padding;
     result += this.names.join(", ");
     result += " = ";
