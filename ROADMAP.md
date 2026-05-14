@@ -32,7 +32,7 @@ Initial Demo.
 # v0.5.0
 
 - [x] Transpile record.
-- [ ] Transpile index accessor.
+- [x] Transpile index accessor.
 
 # v1.0.0
 
