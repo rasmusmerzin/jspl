@@ -11,6 +11,7 @@ import {
   CommonOperator,
   CommonWhile,
   CommonIdentifier,
+  CommonRecord,
 } from ".";
 
 export class CommonNode {
@@ -62,6 +63,10 @@ export class CommonNode {
         return CommonOperator.derive(context);
       case "while_statement":
         return CommonWhile.derive(context);
+      case "object":
+      case "dictionary":
+      case "table_constructor":
+        return CommonRecord.derive(context);
       default:
         return context.node.isNamed ? new CommonNode() : null;
     }

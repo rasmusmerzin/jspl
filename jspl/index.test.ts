@@ -139,7 +139,10 @@ const EXAMPLES = {
   Record: {
     JavaScript: strip(`
       function recordExample() {
-        record = { a: 1, b: 2, o: 99.7, m: "hi" };
+        record = {
+          b: 2,
+          o: 99.7,
+        };
         echo(String(record["b"] + record["o"]));
         record["m"] = "hey";
         echo(record["m"]);
@@ -147,14 +150,20 @@ const EXAMPLES = {
     `),
     Python: strip(`
       def recordExample():
-          record = { "a": 1, "b": 2, "o": 99.7, "m": "hi" }
+          record = {
+              "b": 2,
+              "o": 99.7,
+          }
           echo(String(record["b"] + record["o"]))
           record["m"] = "hey"
           echo(record["m"])
     `),
     Lua: strip(`
       function recordExample()
-        record = { a = 1, b = 2, o = 99.7, m = "hi" }
+        record = {
+          b = 2,
+          o = 99.7,
+        }
         echo(String(record["b"] + record["o"]))
         record["m"] = "hey"
         echo(record["m"])

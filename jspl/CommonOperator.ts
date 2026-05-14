@@ -16,7 +16,7 @@ export type OperatorSubtype =
   | "unknown";
 
 export class CommonOperator extends CommonNode {
-  type = "expression";
+  type = "operator";
   subtype!: OperatorSubtype;
   left!: CommonNode;
   right!: CommonNode;
