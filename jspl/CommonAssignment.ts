@@ -1,30 +1,49 @@
 import { CommonNode, DeriveContext, PrintContext } from ".";
-import { resolveAllIdentifiers, resolveNamedChild, resolveSource } from "./util";
+import { resolveNamedChild } from "./util";
 
 export class CommonAssignment extends CommonNode {
   type = "assignment";
-  names: string[] = [];
+  targets: CommonNode[] = [];
   values: CommonNode[] = [];
 
   getCount(): number {
-    return Math.min(this.names.length, this.values.length);
+    return Math.min(this.targets.length, this.values.length);
   }
 
   static derive(context: DeriveContext): CommonAssignment {
     const stmt = new CommonAssignment();
-    if (context.node.type === "assignment_statement") {
+    if (
+      ["sequence_expression", "variable_declaration", "lexical_declaration"].includes(
+        context.node.type,
+      )
+    ) {
+      // TODO: flatten assignments
+    } else if (["assignment_expression", "variable_declarator"].includes(context.node.type)) {
+      const [targetNode, valueNode] = context.node.namedChildren;
+      stmt.targets = [CommonNode.deriveUnknown(context.derive({ node: targetNode }))];
+      stmt.values = [CommonNode.deriveUnknown(context.derive({ node: valueNode }))];
+    } else if (context.node.type === "assignment") {
+      const [targetNode, valueNode] = context.node.namedChildren;
+      if (targetNode.type === "pattern_list" || valueNode.type === "expression_list") {
+        stmt.targets = (targetNode?.namedChildren || []).map((child) => {
+          return CommonNode.deriveUnknown(context.derive({ node: child }));
+        });
+        stmt.values = (valueNode?.namedChildren || []).map((child) => {
+          return CommonNode.deriveUnknown(context.derive({ node: child }));
+        });
+      } else {
+        stmt.targets = [CommonNode.deriveUnknown(context.derive({ node: targetNode }))];
+        stmt.values = [CommonNode.deriveUnknown(context.derive({ node: valueNode }))];
+      }
+    } else if (context.node.type === "assignment_statement") {
       const variableList = resolveNamedChild(context.node, "variable_list");
-      stmt.names = variableList ? resolveAllIdentifiers(variableList, context.source) : [];
       const expressionList = resolveNamedChild(context.node, "expression_list");
+      stmt.targets = (variableList?.namedChildren || []).map((child) => {
+        return CommonNode.deriveUnknown(context.derive({ node: child }));
+      });
       stmt.values = (expressionList?.namedChildren || []).map((child) => {
         return CommonNode.deriveUnknown(context.derive({ node: child }));
       });
-    } else if (
-      ["assignment_expression", "assignment", "variable_declarator"].includes(context.node.type)
-    ) {
-      const [nameNode, valueNode] = context.node.namedChildren;
-      stmt.names = [resolveSource(nameNode, context.source)];
-      stmt.values = [CommonNode.deriveUnknown(context.derive({ node: valueNode }))];
     } else {
       throw new Error(`Invalid Node.type for CommonAssignment: ${context.node.type}`);
     }
@@ -34,39 +53,28 @@ export class CommonAssignment extends CommonNode {
   print(context: PrintContext): string {
     if (!this.getCount()) return "";
     if (context.languageName === "JavaScript") return this.printJavaScript(context);
-    else if (context.languageName === "Python") return this.printPython(context);
-    else if (context.languageName === "Lua") return this.printLua(context);
-    else return "";
+    else return this.printPythonLua(context);
   }
 
   private printJavaScript(context: PrintContext): string {
     const padding = context.getPadding();
     let result = padding;
-    const entries: [string, CommonNode][] = [];
-    for (let i = 0; i < this.getCount(); i++) entries.push([this.names[i], this.values[i]]);
+    const entries: [CommonNode, CommonNode][] = [];
+    for (let i = 0; i < this.getCount(); i++) entries.push([this.targets[i], this.values[i]]);
     const childContext = context.derive({ inline: true });
-    result += entries.map(([name, value]) => `${name} = ${value.print(childContext)}`).join(", ");
+    result += entries
+      .map(([name, value]) => `${name.print(childContext)} = ${value.print(childContext)}`)
+      .join(", ");
     result += ";\n";
     return result;
   }
 
-  private printPython(context: PrintContext): string {
+  private printPythonLua(context: PrintContext): string {
     const padding = context.getPadding();
-    let result = padding;
-    result += this.names.join(", ");
-    result += " = ";
     const childContext = context.derive({ inline: true });
-    result += this.values.map((v) => v.print(childContext)).join(", ");
-    result += "\n";
-    return result;
-  }
-
-  private printLua(context: PrintContext): string {
-    const padding = context.getPadding();
     let result = padding;
-    result += this.names.join(", ");
+    result += this.targets.map((t) => t.print(childContext)).join(", ");
     result += " = ";
-    const childContext = context.derive({ inline: true });
     result += this.values.map((v) => v.print(childContext)).join(", ");
     result += "\n";
     return result;

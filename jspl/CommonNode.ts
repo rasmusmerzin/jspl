@@ -12,6 +12,7 @@ import {
   CommonWhile,
   CommonIdentifier,
   CommonRecord,
+  CommonIndex,
 } from ".";
 
 export class CommonNode {
@@ -33,9 +34,11 @@ export class CommonNode {
         return CommonAssignment.derive(context);
       case "return_statement":
         return CommonReturn.derive(context);
-      case "expression_statement":
+      case "sequence_expression":
       case "variable_declaration":
       case "lexical_declaration":
+      // TODO: variable assignment
+      case "expression_statement":
       case "parenthesized_expression":
         const [child] = context.node.namedChildren;
         return child ? CommonNode.derive(context.derive({ node: child })) : null;
@@ -67,6 +70,10 @@ export class CommonNode {
       case "dictionary":
       case "table_constructor":
         return CommonRecord.derive(context);
+      case "subscript_expression":
+      case "subscript":
+      case "bracket_index_expression":
+        return CommonIndex.derive(context);
       default:
         return context.node.isNamed ? new CommonNode() : null;
     }

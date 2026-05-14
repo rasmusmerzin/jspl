@@ -55,7 +55,6 @@ export class CommonOperator extends CommonNode {
     ) {
       rhs = `(${rhs})`;
     }
-    // TODO: check if parentheses are necessary
     return `${lhs} ${operator} ${rhs}`;
   }
 }

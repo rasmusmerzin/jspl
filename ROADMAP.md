@@ -42,6 +42,7 @@ Initial Demo.
 - Transpile comments.
 - Transpile null.
 - Transpile for statement.
+- Flatten multiple variable assignment from JavaScript.
 - Infer variable declaration (print phase, no shadowing).
 
 # v1.1.0
