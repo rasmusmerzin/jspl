@@ -36,7 +36,7 @@ Initial Demo.
 
 # v0.6.0
 
-- [ ] Transpile null.
+- [x] Transpile null.
 
 # v1.0.0
 
