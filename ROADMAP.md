@@ -43,7 +43,6 @@ Initial Demo.
 - Poster PDF.
 - Landing page.
 - Common library code and page.
-- Transpile comments.
 - Transpile for statement.
 - Flatten multiple variable assignment from JavaScript.
 - Infer variable declaration (print phase, no shadowing).
@@ -51,6 +50,7 @@ Initial Demo.
 # v1.1.0
 
 - Transpiler CLI.
+- Transpile comments.
 - Transpile anonymous function.
 - Transpile string concatenation.
 - Transpile string interpolation.
