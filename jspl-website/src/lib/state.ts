@@ -50,5 +50,5 @@ export function loadFile(fileName: string) {
 }
 
 setTimeout(function start() {
-  loadFile(Object.keys(EXAMPLES)[5]);
+  loadFile(Object.keys(EXAMPLES)[6]);
 });

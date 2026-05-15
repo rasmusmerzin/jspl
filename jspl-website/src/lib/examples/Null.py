@@ -2,4 +2,4 @@ def checkNull():
     record = {
         "foo": None,
     }
-    print(toString(record["foo"] == None))
+    echo(toString(record["foo"] == None))

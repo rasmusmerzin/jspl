@@ -13,6 +13,7 @@ import {
   CommonIdentifier,
   CommonRecord,
   CommonIndex,
+  CommonNull,
 } from ".";
 
 export class CommonNode {
@@ -57,6 +58,11 @@ export class CommonNode {
       case "float":
       case "string":
         return CommonPrimitive.derive(context);
+      case "undefined":
+      case "null":
+      case "none":
+      case "nil":
+        return CommonNull.derive(context);
       case "if_statement":
         return CommonIf.derive(context);
       case "binary_expression":

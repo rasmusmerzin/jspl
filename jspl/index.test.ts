@@ -176,7 +176,7 @@ const EXAMPLES = {
         record = {
           foo: null,
         };
-        print(toString(record["foo"] === null));
+        echo(toString(record["foo"] === null));
       }
     `),
     Python: strip(`
@@ -184,14 +184,14 @@ const EXAMPLES = {
           record = {
               "foo": None,
           }
-          print(toString(record["foo"] == None))
+          echo(toString(record["foo"] == None))
     `),
     Lua: strip(`
       function checkNull()
         record = {
           foo = nil,
         }
-        print(toString(record["foo"] == nil))
+        echo(toString(record["foo"] == nil))
       end
     `),
   },

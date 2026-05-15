@@ -17,3 +17,4 @@ export * from "./CommonWhile";
 export * from "./CommonIdentifier";
 export * from "./CommonRecord";
 export * from "./CommonIndex";
+export * from "./CommonNull";

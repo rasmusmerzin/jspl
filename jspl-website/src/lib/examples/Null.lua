@@ -2,5 +2,5 @@ function checkNull()
   record = {
     foo = nil,
   }
-  print(toString(record["foo"] == nil))
+  echo(toString(record["foo"] == nil))
 end
