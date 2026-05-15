@@ -143,7 +143,7 @@ const EXAMPLES = {
           b: 2,
           o: 99.7,
         };
-        echo(String(record["b"] + record["o"]));
+        echo(toString(record["b"] + record["o"]));
         record["m"] = "hey";
         echo(record["m"]);
       }
@@ -154,7 +154,7 @@ const EXAMPLES = {
               "b": 2,
               "o": 99.7,
           }
-          echo(String(record["b"] + record["o"]))
+          echo(toString(record["b"] + record["o"]))
           record["m"] = "hey"
           echo(record["m"])
     `),
@@ -164,9 +164,34 @@ const EXAMPLES = {
           b = 2,
           o = 99.7,
         }
-        echo(String(record["b"] + record["o"]))
+        echo(toString(record["b"] + record["o"]))
         record["m"] = "hey"
         echo(record["m"])
+      end
+    `),
+  },
+  Null: {
+    JavaScript: strip(`
+      function checkNull() {
+        record = {
+          foo: null,
+        };
+        print(toString(record["foo"] === null));
+      }
+    `),
+    Python: strip(`
+      def checkNull():
+          record = {
+              "foo": None,
+          }
+          print(toString(record["foo"] == None))
+    `),
+    Lua: strip(`
+      function checkNull()
+        record = {
+          foo = nil,
+        }
+        print(toString(record["foo"] == nil))
       end
     `),
   },

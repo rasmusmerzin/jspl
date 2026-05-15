@@ -34,13 +34,16 @@ Initial Demo.
 - [x] Transpile record.
 - [x] Transpile index accessor.
 
+# v0.6.0
+
+- [ ] Transpile null.
+
 # v1.0.0
 
 - Poster PDF.
 - Landing page.
 - Common library code and page.
 - Transpile comments.
-- Transpile null.
 - Transpile for statement.
 - Flatten multiple variable assignment from JavaScript.
 - Infer variable declaration (print phase, no shadowing).

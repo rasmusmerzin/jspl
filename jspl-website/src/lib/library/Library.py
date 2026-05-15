@@ -9,5 +9,5 @@ def echo(text):
     sys.stdout.write("\n")
     sys.stdout.flush()
 
-def String(value):
+def toString(value):
     return str(value)

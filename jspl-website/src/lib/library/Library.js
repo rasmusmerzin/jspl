@@ -5,3 +5,7 @@ function print(text) {
 function echo(text) {
   console.log(text);
 }
+
+function toString(value) {
+  return String(value);
+}

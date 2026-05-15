@@ -17,6 +17,9 @@ import DotAccessorLua from "./examples/DotAccessor.lua?raw";
 import RecordJavaScript from "./examples/Record.js?raw";
 import RecordPython from "./examples/Record.py?raw";
 import RecordLua from "./examples/Record.lua?raw";
+import NullJavaScript from "./examples/Null.js?raw";
+import NullPython from "./examples/Null.py?raw";
+import NullLua from "./examples/Null.lua?raw";
 
 export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
   HelloWorld: {
@@ -48,5 +51,10 @@ export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
     JavaScript: RecordJavaScript,
     Python: RecordPython,
     Lua: RecordLua,
+  },
+  Null: {
+    JavaScript: NullJavaScript,
+    Python: NullPython,
+    Lua: NullLua,
   },
 };

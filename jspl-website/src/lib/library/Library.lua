@@ -8,6 +8,6 @@ function echo(text)
   io.flush()
 end
 
-function String(value)
+function toString(value)
   return tostring(value)
 end
