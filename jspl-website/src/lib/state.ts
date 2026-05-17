@@ -1,6 +1,6 @@
 import { EXAMPLES } from "./examples";
 import { LANGUAGE_NAMES, LANGUAGES, CommonTree } from "jspl";
-import { derived, get, writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 import { mapRecord } from "./util";
 import { nodeToString } from "./print";
 

@@ -29,6 +29,9 @@ export class CommonFunction extends CommonNode {
   }
 
   print(context: PrintContext): string {
+    context.lexicon.add(this.name);
+    context = context.derive();
+    this.parameters.forEach((param) => context.lexicon.add(param));
     if (context.languageName === "JavaScript") return this.printJavaScript(context);
     else if (context.languageName === "Python") return this.printPython(context);
     else if (context.languageName === "Lua") return this.printLua(context);

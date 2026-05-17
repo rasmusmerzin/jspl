@@ -62,17 +62,19 @@ export class CommonIf extends CommonNode {
     const padding = context.getPadding();
     const [primary, ...rest] = this.conditions;
     let result = `${padding}if (${primary[0].print(context)}) {\n`;
-    const childContext = context.derive({ indent: context.indent + 1 });
+    const primaryChildContext = context.derive({ indent: context.indent + 1 });
     for (const child of primary[1]) {
-      result += child.print(childContext);
+      result += child.print(primaryChildContext);
     }
     for (const elseif of rest) {
+      const childContext = context.derive({ indent: context.indent + 1 });
       result += `${padding}} else if (${elseif[0].print(context)}) {\n`;
       for (const child of elseif[1]) {
         result += child.print(childContext);
       }
     }
     if (this.otherwise) {
+      const childContext = context.derive({ indent: context.indent + 1 });
       result += `${padding}} else {\n`;
       for (const child of this.otherwise) {
         result += child.print(childContext);

@@ -1,5 +1,5 @@
 function checkNull()
-  record = {
+  local record = {
     foo = nil,
   }
   echo(toString(record["foo"] == nil))

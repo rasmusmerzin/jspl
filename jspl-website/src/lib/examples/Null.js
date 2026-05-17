@@ -1,5 +1,5 @@
 function checkNull() {
-  record = {
+  let record = {
     foo: null,
   };
   echo(toString(record["foo"] === null));

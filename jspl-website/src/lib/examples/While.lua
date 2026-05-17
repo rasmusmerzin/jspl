@@ -1,6 +1,6 @@
 function whileLoop(count)
   while count > 0 do
-    i = 0
+    local i = 0
     while i < count do
       print(" x")
       i = i + 1

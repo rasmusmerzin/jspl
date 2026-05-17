@@ -1,7 +1,5 @@
 function declareReturn(argc, argv) {
-  let a,
-    abc = 1.0,
-    cd = "hi";
+  let abc = 1.0;
   abc = 2;
   return abc;
 }

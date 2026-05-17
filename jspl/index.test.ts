@@ -27,7 +27,7 @@ const EXAMPLES = {
   DeclareAssignReturn: {
     JavaScript: strip(`
       function declareReturn(argc, argv) {
-        abc = 1.0;
+        let abc = 1.0;
         abc = 2;
         return abc;
       }
@@ -40,7 +40,7 @@ const EXAMPLES = {
     `),
     Lua: strip(`
       function declareReturn(argc, argv)
-        abc = 1.0
+        local abc = 1.0
         abc = 2
         return abc
       end
@@ -83,7 +83,7 @@ const EXAMPLES = {
     JavaScript: strip(`
       function whileLoop(count) {
         while (count > 0) {
-          i = 0;
+          let i = 0;
           while (i < count) {
             print(" x");
             i = i + 1;
@@ -106,7 +106,7 @@ const EXAMPLES = {
     Lua: strip(`
       function whileLoop(count)
         while count > 0 do
-          i = 0
+          local i = 0
           while i < count do
             print(" x")
             i = i + 1
@@ -120,7 +120,7 @@ const EXAMPLES = {
   DotAccessor: {
     JavaScript: strip(`
       function dotAccessor(a, b) {
-        text = Math.floor(a, b).toString();
+        let text = Math.floor(a, b).toString();
         System.out.println(text);
       }
     `),
@@ -131,7 +131,7 @@ const EXAMPLES = {
     `),
     Lua: strip(`
       function dotAccessor(a, b)
-        text = Math:floor(a, b):toString()
+        local text = Math:floor(a, b):toString()
         System.out:println(text)
       end
     `),
@@ -139,7 +139,7 @@ const EXAMPLES = {
   Record: {
     JavaScript: strip(`
       function recordExample() {
-        record = {
+        let record = {
           b: 2,
           o: 99.7,
         };
@@ -160,7 +160,7 @@ const EXAMPLES = {
     `),
     Lua: strip(`
       function recordExample()
-        record = {
+        local record = {
           b = 2,
           o = 99.7,
         }
@@ -173,7 +173,7 @@ const EXAMPLES = {
   Null: {
     JavaScript: strip(`
       function checkNull() {
-        record = {
+        let record = {
           foo: null,
         };
         echo(toString(record["foo"] === null));
@@ -188,7 +188,7 @@ const EXAMPLES = {
     `),
     Lua: strip(`
       function checkNull()
-        record = {
+        local record = {
           foo = nil,
         }
         echo(toString(record["foo"] == nil))

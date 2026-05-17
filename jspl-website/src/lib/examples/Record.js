@@ -1,5 +1,5 @@
 function recordExample() {
-  record = {
+  let record = {
     b: 2,
     o: 99.7,
   };

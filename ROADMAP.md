@@ -41,7 +41,8 @@ Initial Demo.
 # v0.7.0
 
 - [x] Transpile multiple lexical declaration from JavaScript.
-- [ ] Infer variable declaration (print phase, no shadowing).
+- [x] Infer variable declaration (print phase, no shadowing).
+- [ ] Inlined empty/pass blocks.
 
 # v1.0.0
 
