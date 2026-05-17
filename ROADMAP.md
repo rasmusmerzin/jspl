@@ -38,14 +38,17 @@ Initial Demo.
 
 - [x] Transpile null.
 
+# v0.7.0
+
+- [x] Transpile multiple lexical declaration from JavaScript.
+- [ ] Infer variable declaration (print phase, no shadowing).
+
 # v1.0.0
 
 - Poster PDF.
 - Landing page.
 - Common library code and page.
 - Transpile for statement.
-- Flatten multiple variable assignment from JavaScript.
-- Infer variable declaration (print phase, no shadowing).
 
 # v1.1.0
 

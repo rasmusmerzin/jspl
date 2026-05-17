@@ -32,13 +32,12 @@ export class CommonNode {
       case "assignment_expression":
       case "assignment":
       case "variable_declarator":
+      case "variable_declaration":
+      case "lexical_declaration":
         return CommonAssignment.derive(context);
       case "return_statement":
         return CommonReturn.derive(context);
       case "sequence_expression":
-      case "variable_declaration":
-      case "lexical_declaration":
-      // TODO: variable assignment
       case "expression_statement":
       case "parenthesized_expression":
         const [child] = context.node.namedChildren;

@@ -1,4 +1,4 @@
-import { CommonNode, DeriveContext, PrintContext } from ".";
+import { CommonNode, CommonNull, DeriveContext, PrintContext } from ".";
 import { resolveNamedChild } from "./util";
 
 export class CommonAssignment extends CommonNode {
@@ -12,16 +12,20 @@ export class CommonAssignment extends CommonNode {
 
   static derive(context: DeriveContext): CommonAssignment {
     const stmt = new CommonAssignment();
-    if (
-      ["sequence_expression", "variable_declaration", "lexical_declaration"].includes(
-        context.node.type,
-      )
-    ) {
-      // TODO: flatten assignments
+    if (["variable_declaration", "lexical_declaration"].includes(context.node.type)) {
+      for (const declaratorNode of context.node.namedChildren) {
+        const assignment = CommonAssignment.derive(context.derive({ node: declaratorNode }));
+        stmt.targets.push(...assignment.targets);
+        stmt.values.push(...assignment.values);
+      }
     } else if (["assignment_expression", "variable_declarator"].includes(context.node.type)) {
       const [targetNode, valueNode] = context.node.namedChildren;
       stmt.targets = [CommonNode.deriveUnknown(context.derive({ node: targetNode }))];
-      stmt.values = [CommonNode.deriveUnknown(context.derive({ node: valueNode }))];
+      if (valueNode) {
+        stmt.values = [CommonNode.deriveUnknown(context.derive({ node: valueNode }))];
+      } else {
+        stmt.values = [new CommonNull()];
+      }
     } else if (context.node.type === "assignment") {
       const [targetNode, valueNode] = context.node.namedChildren;
       if (targetNode.type === "pattern_list" || valueNode.type === "expression_list") {
