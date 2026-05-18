@@ -30,6 +30,9 @@ cd static
 curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg
 curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg
 curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/lua/lua-original.svg
+curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-plain.svg
+curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-plain.svg
+curl -LO https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/lua/lua-plain.svg
 svgo *.svg
 ```
 

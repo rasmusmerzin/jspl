@@ -16,12 +16,10 @@
 
   let codeState = $derived(codeStates[languageName]);
   let paneIndex = $derived($languages.indexOf(languageName));
-  let content: HTMLDivElement | undefined = $state();
 </script>
 
 <div class="Pane" id="{languageName}-Pane">
   <div
-    bind:this={content}
     role="textbox"
     tabindex="0"
     class="content"
@@ -34,7 +32,7 @@
     bind:textContent={$codeState}
   ></div>
   <div class="header">
-    <img src="/{languageName.toLowerCase()}-original.svg" alt={languageName} />
+    <img src="/{languageName.toLowerCase()}-plain.svg" alt={languageName} />
   </div>
   <div class="footer">
     <div class="index" class:visible={$ctrlPressed}>{paneIndex + 1}</div>
@@ -102,7 +100,7 @@
       justify-content: end;
       pointer-events: none;
       img {
-        filter: drop-shadow(1px 1px 2px #0008);
+        filter: drop-shadow(1px 1px 1px #0008);
       }
     }
     .footer {

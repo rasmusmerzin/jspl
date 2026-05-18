@@ -16,6 +16,7 @@
   .FileList {
     padding: 0 4px;
     display: flex;
+    flex-wrap: wrap;
     grid-gap: 8px;
   }
   button {

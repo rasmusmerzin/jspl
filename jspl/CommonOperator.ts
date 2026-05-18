@@ -1,4 +1,4 @@
-import { CommonNode, DeriveContext, LanguageName, PrintContext } from ".";
+import { CommonNode, DeriveContext, type LanguageName, PrintContext } from ".";
 
 export type OperatorSubtype =
   | "or"
