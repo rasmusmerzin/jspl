@@ -42,8 +42,8 @@ Initial Demo.
 
 - [x] Transpile multiple lexical declaration from JavaScript.
 - [x] Infer variable declaration (print phase, no shadowing).
-- [ ] Inlined empty/pass blocks.
-- [ ] Transpile boolean casing.
+- [x] Inlined empty/pass blocks.
+- [x] Transpile boolean casing.
 
 # v1.0.0
 
