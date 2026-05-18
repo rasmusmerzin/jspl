@@ -13,8 +13,9 @@ syntax across language boundaries. By creating a unified intermediate representa
 implementing precise code generation rules, this transpiler will help developers prototype across
 ecosystems or explore polyglot programming with greater ease.
 
-Project consist of 2 (two) packages: `jspl` and `jspl-website`. `jspl` is the core transpiler
-package which hosts the common AST and related tests and in the future it will include a CLI
-runnable to be used on the command line. `jspl-website` is the website of the project built with
-SvelteKit and is for introduction and documentation of the project as well as an online editor. See
+Project consist of 3 (three) subprojects: `jspl`, `jspl-website` and `jspl-poster`. `jspl` is the
+core transpiler package which hosts the common AST and related tests and in the future it will
+include a CLI runnable to be used on the command line. `jspl-website` is the website of the project
+built with SvelteKit and is for introduction and documentation of the project as well as an online
+editor. `jspl-poster` is a mostly static web page meant to be render as A0 poster PDF. See
 `README.md` files in these subdirectories for development instructions.
