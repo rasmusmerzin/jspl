@@ -1,8 +1,10 @@
 import { EXAMPLES } from "./examples";
 import { LANGUAGE_NAMES, LANGUAGES, CommonTree } from "jspl";
-import { derived, writable } from "svelte/store";
+import { derived, readable, writable } from "svelte/store";
 import { mapRecord } from "./util";
 import { nodeToString } from "./print";
+
+export const examples = readable(EXAMPLES);
 
 export const ctrlPressed = writable(false);
 

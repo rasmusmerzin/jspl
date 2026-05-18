@@ -6,7 +6,7 @@
     onEditableKeyDown,
     onEditableMouseDown,
     onEditableSubmit,
-  } from "$lib/Pane";
+  } from "./Pane";
 
   let {
     languageName,
@@ -52,7 +52,7 @@
     }
     .content {
       --inset-color: #fff4;
-      --shadow-color: #0006;
+      --shadow-color: #0002;
       flex: 1;
       overflow: auto;
       box-sizing: border-box;

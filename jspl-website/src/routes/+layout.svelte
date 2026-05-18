@@ -14,7 +14,7 @@
 <style>
   :root {
     --bg: #eee;
-    --bg-1: #ddd;
+    --bg-1: #ccc;
     --fg: #000;
     --fg-1: #333;
     --fg-2: #666;
@@ -28,6 +28,58 @@
     background: var(--bg);
     color: var(--fg);
     transition: var(--transition);
+  }
+  :global(button) {
+    --inset-color: #fff4;
+    --color: #6663;
+    cursor: pointer;
+    color: var(--fg);
+    font-size: 0.7rem;
+    padding: 7px 12px;
+    border-radius: 8px;
+    background: var(--color);
+    backdrop-filter: blur(32px);
+    border: none;
+    box-shadow:
+      1px 2px 8px #0001,
+      inset 0 0 1px var(--inset-color),
+      -1px -2px 8px #ccc1;
+    transition:
+      color 100ms,
+      box-shadow 200ms,
+      background 200ms;
+    &:hover {
+      --color: #8884;
+      --inset-color: #fffa;
+    }
+    &.selected {
+      color: var(--bg);
+      background: var(--fg);
+      font-weight: 600;
+    }
+  }
+  :global(a) {
+    color: var(--fg);
+    user-select: none;
+    &.button {
+      color: var(--bg);
+      font-weight: bold;
+      background: var(--fg-1);
+      text-decoration: none;
+      padding: 0.5em 0.8em;
+      border-radius: 0.4em;
+    }
+    &.button:hover {
+      background: var(--fg);
+    }
+    &[aria-disabled="true"] {
+      cursor: not-allowed;
+      text-decoration: none;
+      opacity: 0.5;
+    }
+    &:not([aria-disabled="true"]):hover {
+      font-weight: 600;
+    }
   }
   :global(*) {
     padding: 0;

@@ -1,4 +1,4 @@
-import { loadFile } from "./state";
+import { loadFile } from "$lib/state";
 
 export function onFileClick(event: MouseEvent) {
   const element = event.target as HTMLElement;

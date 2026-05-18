@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Pane from "$lib/Pane.svelte";
+  import Pane from "./Pane.svelte";
   import { languages } from "$lib/state";
   import { flip } from "svelte/animate";
 </script>
