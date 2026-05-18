@@ -47,11 +47,14 @@ Initial Demo.
 
 # v0.7.1
 
-- [ ] Poster PDF.
+- [x] Poster PDF.
+
+# v0.7.2
+
+- [ ] Landing page.
 
 # v1.0.0
 
-- Landing page.
 - Common library code and page.
 - Transpile for statement.
 
