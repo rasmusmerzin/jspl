@@ -20,6 +20,9 @@ import RecordLua from "./examples/Record.lua?raw";
 import NullJavaScript from "./examples/Null.js?raw";
 import NullPython from "./examples/Null.py?raw";
 import NullLua from "./examples/Null.lua?raw";
+import EmptyJavaScript from "./examples/Empty.js?raw";
+import EmptyPython from "./examples/Empty.py?raw";
+import EmptyLua from "./examples/Empty.lua?raw";
 
 export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
   HelloWorld: {
@@ -56,5 +59,10 @@ export const EXAMPLES: Record<string, Record<LanguageName, string>> = {
     JavaScript: NullJavaScript,
     Python: NullPython,
     Lua: NullLua,
+  },
+  Empty: {
+    JavaScript: EmptyJavaScript,
+    Python: EmptyPython,
+    Lua: EmptyLua,
   },
 };

@@ -195,6 +195,37 @@ const EXAMPLES = {
       end
     `),
   },
+  Empty: {
+    JavaScript: strip(`
+      function empty() {
+        function foo() {}
+        if (1 < 2) {
+        } else if (true) {
+        } else {
+        }
+        while (false) {}
+      }
+    `),
+    Python: strip(`
+      def empty():
+          def foo(): pass
+          if 1 < 2: pass
+          elif True: pass
+          else: pass
+          while False: pass
+    `),
+    Lua: strip(`
+      function empty()
+        function foo() end
+        if 1 < 2 then
+        elseif true then
+        else
+        end
+        while false do
+        end
+      end
+    `),
+  },
 };
 
 for (const [name, code] of Object.entries(EXAMPLES)) {

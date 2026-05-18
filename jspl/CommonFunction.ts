@@ -9,8 +9,8 @@ import {
 export class CommonFunction extends CommonNode {
   type = "function";
   name = "";
-  parameters: string[] = [];
-  children: CommonNode[] = [];
+  parameters!: string[];
+  procedure!: CommonNode[];
 
   static derive(context: DeriveContext): CommonFunction {
     if (!["function_declaration", "function_definition"].includes(context.node.type)) {
@@ -21,10 +21,9 @@ export class CommonFunction extends CommonNode {
     const paramsNode = resolveParamsNode(context.languageName, context.node);
     if (paramsNode) fn.parameters = resolveAllIdentifiers(paramsNode, context.source);
     const blockNode = resolveBlockNode(context.languageName, context.node);
-    for (const child of blockNode?.children || []) {
-      const commonNode = CommonNode.derive(context.derive({ node: child }));
-      if (commonNode) fn.children.push(commonNode);
-    }
+    fn.procedure = (blockNode?.namedChildren || [])
+      .map((child) => CommonNode.derive(context.derive({ node: child }))!)
+      .filter(Boolean);
     return fn;
   }
 
@@ -40,20 +39,24 @@ export class CommonFunction extends CommonNode {
 
   private printJavaScript(context: PrintContext): string {
     const padding = context.getPadding();
-    let result = `${padding}function ${this.name || ""}(${this.parameters.join(", ")}) {\n`;
+    let result = `${padding}function ${this.name || ""}(${this.parameters.join(", ")}) {`;
+    if (this.procedure.length) result += "\n";
     const childContext = context.derive({ indent: context.indent + 1 });
-    for (const child of this.children) {
+    for (const child of this.procedure) {
       result += child.print(childContext);
     }
-    result += `${padding}}\n`;
+    if (this.procedure.length) result += padding;
+    result += "}\n";
     return result;
   }
 
   private printPython(context: PrintContext): string {
     const padding = context.getPadding();
-    let result = `${padding}def ${this.name || ""}(${this.parameters.join(", ")}):\n`;
+    let result = `${padding}def ${this.name || ""}(${this.parameters.join(", ")}):`;
+    if (this.procedure.length) result += "\n";
+    else result += " pass\n";
     const childContext = context.derive({ indent: context.indent + 1 });
-    for (const child of this.children) {
+    for (const child of this.procedure) {
       result += child.print(childContext);
     }
     return result;
@@ -61,12 +64,15 @@ export class CommonFunction extends CommonNode {
 
   private printLua(context: PrintContext): string {
     const padding = context.getPadding();
-    let result = `${padding}function ${this.name || ""}(${this.parameters.join(", ")})\n`;
+    let result = `${padding}function ${this.name || ""}(${this.parameters.join(", ")})`;
+    if (this.procedure.length) result += "\n";
+    else result += " ";
     const childContext = context.derive({ indent: context.indent + 1 });
-    for (const child of this.children) {
+    for (const child of this.procedure) {
       result += child.print(childContext);
     }
-    result += `${padding}end\n`;
+    if (this.procedure.length) result += padding;
+    result += "end\n";
     return result;
   }
 }

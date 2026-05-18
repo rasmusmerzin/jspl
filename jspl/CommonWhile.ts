@@ -12,13 +12,9 @@ export class CommonWhile extends CommonNode {
     const stmt = new CommonWhile();
     const [conditionNode, procedureNode] = context.node.namedChildren;
     stmt.expression = CommonNode.deriveUnknown(context.derive({ node: conditionNode }));
-    let procedure = (procedureNode?.children || []).map((child) => {
-      return CommonNode.deriveUnknown(context.derive({ node: child }));
-    });
-    if (context.languageName === "JavaScript") {
-      procedure = procedure.slice(1, -1);
-    }
-    stmt.procedure = procedure;
+    stmt.procedure = (procedureNode?.namedChildren || [])
+      .map((child) => CommonNode.derive(context.derive({ node: child }))!)
+      .filter(Boolean);
     return stmt;
   }
 
@@ -31,18 +27,22 @@ export class CommonWhile extends CommonNode {
 
   printJavaScript(context: PrintContext) {
     const padding = context.getPadding();
-    let result = `${padding}while (${this.expression.print(context)}) {\n`;
+    let result = `${padding}while (${this.expression.print(context)}) {`;
+    if (this.procedure.length) result += "\n";
     const childContext = context.derive({ indent: context.indent + 1 });
     for (const child of this.procedure) {
       result += child.print(childContext);
     }
-    result += `${padding}}\n`;
+    if (this.procedure.length) result += padding;
+    result += "}\n";
     return result;
   }
 
   printPython(context: PrintContext) {
     const padding = context.getPadding();
-    let result = `${padding}while ${this.expression.print(context)}:\n`;
+    let result = `${padding}while ${this.expression.print(context)}:`;
+    if (this.procedure.length) result += "\n";
+    else result += " pass\n";
     const childContext = context.derive({ indent: context.indent + 1 });
     for (const child of this.procedure) {
       result += child.print(childContext);

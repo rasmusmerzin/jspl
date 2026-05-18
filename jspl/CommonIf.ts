@@ -12,11 +12,13 @@ export class CommonIf extends CommonNode {
     const stmt = new CommonIf();
     const [conditionNode, procedureNode, ...otherNodes] = context.node.namedChildren;
     const expression = CommonNode.deriveUnknown(context.derive({ node: conditionNode }));
-    let procedure = (procedureNode?.children || []).map((child) => {
-      return CommonNode.deriveUnknown(context.derive({ node: child }));
-    });
-    if (context.languageName === "JavaScript") {
-      procedure = procedure.slice(1, -1);
+    let procedure: CommonNode[] = [];
+    if (["block", "statement_block"].includes(procedureNode.type)) {
+      procedure = (procedureNode?.namedChildren || [])
+        .map((child) => CommonNode.derive(context.derive({ node: child }))!)
+        .filter(Boolean);
+    } else {
+      otherNodes.unshift(procedureNode);
     }
     stmt.conditions = [[expression, procedure]];
     if (context.languageName === "JavaScript") {
@@ -27,24 +29,24 @@ export class CommonIf extends CommonNode {
         stmt.conditions.push(...tail.conditions);
         stmt.otherwise = tail.otherwise;
       } else if (tailNode.type === "statement_block") {
-        stmt.otherwise = tailNode.children.slice(1, -1).map((child) => {
-          return CommonNode.deriveUnknown(context.derive({ node: child }));
-        });
+        stmt.otherwise = tailNode.namedChildren
+          .map((child) => CommonNode.derive(context.derive({ node: child }))!)
+          .filter(Boolean);
       }
     } else {
       for (const other of otherNodes) {
         if (["elseif_statement", "elif_clause"].includes(other.type)) {
           const [conditionNode, procedureNode] = other.namedChildren;
           const expression = CommonNode.deriveUnknown(context.derive({ node: conditionNode }));
-          const procedure = (procedureNode?.children || []).map((child) => {
-            return CommonNode.deriveUnknown(context.derive({ node: child }));
-          });
+          const procedure = (procedureNode?.namedChildren || [])
+            .map((child) => CommonNode.derive(context.derive({ node: child }))!)
+            .filter(Boolean);
           stmt.conditions.push([expression, procedure]);
         } else if (["else_statement", "else_clause"].includes(other.type)) {
           const [blockNode] = other.namedChildren;
-          stmt.otherwise = (blockNode?.children || []).map((child) => {
-            return CommonNode.deriveUnknown(context.derive({ node: child }));
-          });
+          stmt.otherwise = (blockNode?.namedChildren || [])
+            .map((child) => CommonNode.derive(context.derive({ node: child }))!)
+            .filter(Boolean);
         }
       }
     }
@@ -87,19 +89,25 @@ export class CommonIf extends CommonNode {
   private printPython(context: PrintContext) {
     const padding = context.getPadding();
     const [primary, ...rest] = this.conditions;
-    let result = `${padding}if ${primary[0].print(context)}:\n`;
+    let result = `${padding}if ${primary[0].print(context)}:`;
+    if (primary[1].length) result += "\n";
+    else result += " pass\n";
     const childContext = context.derive({ indent: context.indent + 1 });
     for (const child of primary[1]) {
       result += child.print(childContext);
     }
     for (const elseif of rest) {
-      result += `${padding}elif ${elseif[0].print(context)}:\n`;
+      result += `${padding}elif ${elseif[0].print(context)}:`;
+      if (elseif[1].length) result += "\n";
+      else result += " pass\n";
       for (const child of elseif[1]) {
         result += child.print(childContext);
       }
     }
     if (this.otherwise) {
-      result += `${padding}else:\n`;
+      result += `${padding}else:`;
+      if (this.otherwise.length) result += "\n";
+      else result += " pass\n";
       for (const child of this.otherwise) {
         result += child.print(childContext);
       }

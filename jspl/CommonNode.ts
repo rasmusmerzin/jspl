@@ -80,7 +80,7 @@ export class CommonNode {
       case "bracket_index_expression":
         return CommonIndex.derive(context);
       default:
-        return context.node.isNamed ? new CommonNode() : null;
+        return null;
     }
   }
 
