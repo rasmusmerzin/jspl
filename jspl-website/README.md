@@ -38,5 +38,5 @@ svgo *.svg
 Create production build.
 
 ```sh
-npm run build
+./build.sh
 ```
