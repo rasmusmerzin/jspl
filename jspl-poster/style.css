@@ -1,6 +1,6 @@
 :root {
   font-family: "Open Sans", sans-serif;
-  font-size: 24px;
+  font-size: 26px;
 }
 
 body {
@@ -8,18 +8,11 @@ body {
 }
 
 a {
-  color: #ff8900;
-}
-
-#root {
-  box-sizing: border-box;
-  width: 1582px;
-  height: 2243px;
-  outline: 2px solid #ff8900;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding: 64px 80px;
-  grid-gap: 56px;
+  color: #ff6900;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 header {
@@ -41,6 +34,84 @@ header {
   }
 }
 
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  margin: 64px 0 32px;
+  font-size: 36px;
+}
+
+p {
+  text-align: justify;
+}
+
+pre {
+  font-size: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #dfdfdf;
+  border: 2px solid #aaaa;
+  &::before {
+    margin: -20px -20px 8px;
+    padding: 12px 20px 8px;
+    border-bottom: 2px solid #aaa;
+    display: block;
+    content: attr(src);
+    opacity: 0.5;
+  }
+}
+
+#root {
+  box-sizing: border-box;
+  width: 1587px;
+  height: 2245px;
+  outline: 2px solid #ff8900;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 64px 80px;
+  grid-gap: 0 80px;
+  .trio {
+    pre {
+      margin: 0;
+    }
+    .separator {
+      height: 56px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        transform: rotate(90deg);
+      }
+    }
+  }
+  .wide {
+    grid-column: 1 / -1;
+  }
+  .wide-trio {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 80px;
+    > div {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      > pre {
+        flex: 1;
+      }
+      > img {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 50%;
+        left: calc(100% + 40px);
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
+
 #info {
   margin: 48px 0;
   #author > div:not(:first-child) {
@@ -52,16 +123,4 @@ header {
   display: flex;
   justify-content: center;
   margin: -64px 0 0;
-}
-
-h1 {
-  font-size: 48px;
-}
-
-h2 {
-  font-size: 36px;
-}
-
-p {
-  text-align: justify;
 }

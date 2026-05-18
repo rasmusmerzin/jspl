@@ -45,9 +45,12 @@ Initial Demo.
 - [x] Inlined empty/pass blocks.
 - [x] Transpile boolean casing.
 
+# v0.7.1
+
+- [ ] Poster PDF.
+
 # v1.0.0
 
-- Poster PDF.
 - Landing page.
 - Common library code and page.
 - Transpile for statement.
