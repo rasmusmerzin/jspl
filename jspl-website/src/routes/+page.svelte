@@ -8,7 +8,7 @@
   <div id="hero">
     <div id="title">
       <img alt="JsPL" src="/jspl.svg" />
-      <h1>JsPl</h1>
+      <h1>JsPL</h1>
       <em id="subtitle">Write a library in three languages simultaneously!</em>
     </div>
     <div id="example">
@@ -29,7 +29,7 @@
     </div>
     <div class="links">
       <a class="button" href="/editor">Try Online Editor</a>
-      <a title="Coming Soon!" href="/lib" aria-disabled="true">See Common Library</a>
+      <a title="Coming Soon!" aria-disabled="true">See Common Library</a>
     </div>
   </div>
 </main>
@@ -42,7 +42,7 @@
     padding: 0 16px 32px;
   }
   #hero {
-    margin: 96px 0;
+    margin: 72px 0;
     @media (max-width: 760px) {
       margin: 48px 0;
     }

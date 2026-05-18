@@ -61,24 +61,27 @@
   :global(a) {
     color: var(--fg);
     user-select: none;
+    text-decoration: none;
+    word-break: keep-all;
     &.button {
       color: var(--bg);
       font-weight: bold;
       background: var(--fg-1);
-      text-decoration: none;
       padding: 0.5em 0.8em;
       border-radius: 0.4em;
     }
     &.button:hover {
       background: var(--fg);
     }
+    &:not(.button):not([aria-disabled="true"]):hover {
+      text-decoration: underline;
+    }
     &[aria-disabled="true"] {
-      cursor: not-allowed;
       text-decoration: none;
       opacity: 0.5;
     }
     &:not([aria-disabled="true"]):hover {
-      font-weight: 600;
+      font-weight: bold;
     }
   }
   :global(*) {
