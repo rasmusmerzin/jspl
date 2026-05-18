@@ -51,7 +51,7 @@ Initial Demo.
 
 # v0.7.2
 
-- [ ] Landing page.
+- [x] Landing page.
 
 # v1.0.0
 
