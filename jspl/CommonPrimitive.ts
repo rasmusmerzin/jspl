@@ -3,8 +3,8 @@ import { resolveSource } from "./util";
 
 export class CommonPrimitive extends CommonNode {
   type = "primitive";
-  subtype?: "boolean" | "number" | "string";
-  value?: string;
+  subtype!: "boolean" | "number" | "string";
+  value!: string;
 
   static derive(context: DeriveContext): CommonPrimitive | null {
     const primitive = new CommonPrimitive();
@@ -23,7 +23,9 @@ export class CommonPrimitive extends CommonNode {
     return primitive;
   }
 
-  print(_context: PrintContext): string {
+  print(context: PrintContext): string {
+    if (this.subtype === "boolean" && context.languageName === "Python")
+      return this.value.slice(0, 1).toUpperCase() + this.value.slice(1);
     return this.value || "";
   }
 }
