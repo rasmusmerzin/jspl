@@ -1,8 +1,8 @@
 import { EXAMPLES } from "./examples";
 import { LANGUAGE_NAMES, LANGUAGES, CommonTree } from "jspl";
 import { derived, readable, writable } from "svelte/store";
-import { mapRecord } from "./util";
-import { nodeToString } from "./print";
+import { mapRecord } from "./utils/mapRecord";
+import { nodeToString } from "./utils/nodeToString";
 
 export const examples = readable(EXAMPLES);
 
@@ -52,5 +52,5 @@ export function loadFile(fileName: string) {
 }
 
 setTimeout(function start() {
-  loadFile(Object.keys(EXAMPLES)[7]);
+  loadFile(Object.keys(EXAMPLES)[0]);
 });
