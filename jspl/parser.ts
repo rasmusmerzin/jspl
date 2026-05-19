@@ -9,11 +9,12 @@ export type LanguageName = keyof typeof LANGUAGES;
 
 await Parser.init();
 
-export const LANGUAGES = {
-  JavaScript: await loadLanguageExt("tree-sitter-javascript.wasm"),
-  Python: await loadLanguageExt("tree-sitter-python.wasm"),
-  Lua: await loadLanguageExt("tree-sitter-lua.wasm"),
-};
+const [JavaScript, Python, Lua] = await Promise.all([
+  loadLanguageExt("tree-sitter-javascript.wasm"),
+  loadLanguageExt("tree-sitter-python.wasm"),
+  loadLanguageExt("tree-sitter-lua.wasm"),
+]);
+export const LANGUAGES = { JavaScript, Python, Lua };
 export const LANGUAGE_NAMES = Object.keys(LANGUAGES) as LanguageName[];
 
 async function loadLanguageExt(path: string): Promise<LanguageExt> {
