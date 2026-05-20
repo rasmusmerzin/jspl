@@ -4,10 +4,10 @@
 
 <nav>
   <a href="/editor">
-    <h2 class:selected={page.url.pathname === "/editor"}>JsPL-editor</h2>
+    <h2 class:selected={page.url.pathname === "/editor"}>Editor</h2>
   </a>
   <a aria-disabled="true">
-    <h2 title="Coming soon!">JsPL-lib</h2>
+    <h2 title="Coming soon!">Library</h2>
   </a>
 </nav>
 

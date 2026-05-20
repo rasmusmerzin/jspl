@@ -1,7 +1,8 @@
 <script lang="ts">
-  import Watermark from "$lib/Watermark.svelte";
+  import Docs from "$lib/icons/Docs.svelte";
   import GitHub from "$lib/icons/GitHub.svelte";
-  import Navigation from "./Navigation.svelte";
+  import Navigation from "$lib/Navigation.svelte";
+  import Watermark from "$lib/Watermark.svelte";
 </script>
 
 <div id="header">
@@ -12,8 +13,11 @@
   </div>
   <Navigation />
   <div>
+    <a title="PDF" target="_blank" href="/JsPL.pdf">
+      <Docs />
+    </a>
     <a title="GitHub" target="_blank" href="https://github.com/rasmusmerzin/jspl">
-      <GitHub height={28} />
+      <GitHub />
     </a>
   </div>
 </div>
@@ -27,7 +31,7 @@
     > * {
       display: flex;
       flex-wrap: wrap;
-      grid-gap: 0 16px;
+      grid-gap: 0 12px;
       a {
         display: inline-flex;
       }

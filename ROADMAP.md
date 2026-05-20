@@ -55,6 +55,8 @@ Initial Demo.
 
 # v1.0.0
 
+- Dark/Light mode toggle.
+- Visual buttons for actions.
 - Common library code and page.
 - Transpile for statement.
 
