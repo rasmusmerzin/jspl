@@ -2,6 +2,39 @@ import { activePrints, codeStates, languages } from "$lib/state";
 import { get } from "svelte/store";
 import { type LanguageName, getTabPadding } from "jspl";
 
+export function formatActive() {
+  const [focused] = get(languages);
+  const state = codeStates[focused];
+  const print = get(activePrints)[focused];
+  state.set(print);
+  const editable = getActivePaneEditable();
+  if (!editable) return;
+  updateTextContent(editable, print);
+  editable.focus();
+}
+
+export function submitActive() {
+  const editable = getActivePaneEditable();
+  if (!editable) return;
+  editable.dispatchEvent(new SubmitEvent("submit"));
+  editable.focus();
+}
+
+export function reorderLanguages(name: string) {
+  const languageName = name as LanguageName;
+  languages.update((list) => {
+    if (!list.includes(languageName)) return list;
+    while (list[0] !== languageName) list.push(list.shift()!);
+    return list;
+  });
+}
+
+export function getActivePaneEditable(): HTMLElement | null {
+  const [focused] = get(languages);
+  const pane = document.getElementById(focused + "-Pane");
+  return (pane?.querySelector("[contenteditable]") as HTMLElement) || null;
+}
+
 export function onEditableSubmit(event: SubmitEvent) {
   const element = event.target as HTMLElement;
   const parent = element.parentElement!;
@@ -39,32 +72,19 @@ export function onEditableKeyDown(event: KeyboardEvent) {
     insertText(getTabPadding(languageName));
   } else if (event.key === "Enter") {
     event.preventDefault();
-    if (event.ctrlKey) element.dispatchEvent(new SubmitEvent("submit"));
+    if (event.ctrlKey) submitActive();
     else insertText("\n");
   } else if (event.key.toUpperCase() === "Z" && event.ctrlKey) {
     event.preventDefault();
   } else if (event.key === "F" && event.ctrlKey) {
     event.preventDefault();
-    const [focused] = get(languages);
-    const state = codeStates[focused];
-    const print = get(activePrints)[focused];
-    state.set(print);
-    updateTextContent(element, print);
+    formatActive();
   }
 }
 
 function afterUpdate(element: HTMLElement) {
   handleLastNewLine(element);
   keepCaretBeforeLastChar(element);
-}
-
-function reorderLanguages(name: string) {
-  const languageName = name as LanguageName;
-  languages.update((list) => {
-    if (!list.includes(languageName)) return list;
-    while (list[0] !== languageName) list.push(list.shift()!);
-    return list;
-  });
 }
 
 function handleLastNewLine(element: HTMLElement) {
@@ -133,4 +153,5 @@ function insertText(text: string) {
   range.collapse(false);
   selection.removeAllRanges();
   selection.addRange(range);
+  document.activeElement?.dispatchEvent(new Event("input"));
 }

@@ -8,17 +8,17 @@
 
 <div id="header">
   <div style:margin-bottom="16px">
-    <a aria-label="landing" href="/">
+    <a draggable="false" aria-label="landing" href="/">
       <Watermark size={80} />
     </a>
   </div>
   <Navigation />
   <div>
     <ThemeSwitch />
-    <a title="PDF" target="_blank" href="/JsPL.pdf">
+    <a draggable="false" title="PDF" target="_blank" href="/JsPL.pdf">
       <Docs />
     </a>
-    <a title="GitHub" target="_blank" href="https://github.com/rasmusmerzin/jspl">
+    <a draggable="false" title="GitHub" target="_blank" href="https://github.com/rasmusmerzin/jspl">
       <GitHub />
     </a>
   </div>

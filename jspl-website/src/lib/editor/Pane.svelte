@@ -7,6 +7,7 @@
     onEditableMouseDown,
     onEditableSubmit,
   } from "./Pane";
+  import PaneActions from "./PaneActions.svelte";
 
   let {
     languageName,
@@ -31,12 +32,8 @@
     onsubmit={onEditableSubmit}
     bind:textContent={$codeState}
   ></div>
-  <div class="header">
-    <img src="/{languageName.toLowerCase()}-plain.svg" alt={languageName} />
-  </div>
-  <div class="footer">
-    <div class="index" class:visible={$ctrlPressed}>{paneIndex + 1}</div>
-  </div>
+  <PaneActions {languageName} {paneIndex} />
+  <div class="index" class:visible={$ctrlPressed}>{paneIndex + 1}</div>
 </div>
 
 <style>
@@ -45,11 +42,6 @@
     flex-direction: column;
     position: relative;
     flex: 1;
-    &:not(:focus-within) {
-      .header img {
-        opacity: 0.75;
-      }
-    }
     .content {
       --inset-color: #fff4;
       --shadow-color: #0002;
@@ -90,38 +82,18 @@
         opacity: 0.5;
       }
     }
-    .header {
+    .index {
       position: absolute;
-      box-sizing: border-box;
-      width: 100%;
-      height: 40px;
-      padding: 12px;
-      display: flex;
-      justify-content: end;
       pointer-events: none;
-      img {
-        filter: drop-shadow(1px 1px 1px #0008);
-      }
-    }
-    .footer {
-      position: absolute;
-      box-sizing: border-box;
-      width: 100%;
-      height: 40px;
-      bottom: 8px;
-      padding: 12px;
+      right: 12px;
+      bottom: 12px;
+      width: 16px;
+      height: 16px;
       display: flex;
-      justify-content: end;
-      pointer-events: none;
-      .index {
-        width: 16px;
-        height: 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        &:not(.visible) {
-          display: none;
-        }
+      justify-content: center;
+      align-items: center;
+      &:not(.visible) {
+        display: none;
       }
     }
   }

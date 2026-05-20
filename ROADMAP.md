@@ -56,7 +56,7 @@ Initial Demo.
 # v0.7.3
 
 - [x] Dark/Light mode toggle.
-- [ ] Visual buttons for actions.
+- [ ] Visual buttons for code actions.
 
 # v1.0.0
 

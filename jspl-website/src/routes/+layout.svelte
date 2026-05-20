@@ -34,8 +34,8 @@
     }
     &:global([theme="dark"]) {
       --bg: #222;
-      --bg-1: #444;
-      --bg-2: #666;
+      --bg-1: #333;
+      --bg-2: #555;
       --fg: #fff;
       --fg-1: #ddd;
       --fg-2: #bbb;
@@ -61,6 +61,9 @@
       color 100ms,
       box-shadow 200ms,
       background 200ms;
+    &:disabled {
+      cursor: auto;
+    }
     &:hover {
       --color: var(--bg-2);
       --inset-color: #fffa;
@@ -96,6 +99,9 @@
     &:not([aria-disabled="true"]):hover {
       font-weight: bold;
     }
+  }
+  :global(img) {
+    user-select: none;
   }
   :global(*) {
     padding: 0;
