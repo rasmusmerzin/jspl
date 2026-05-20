@@ -1,5 +1,5 @@
 import { activePrints, codeStates, languages } from "$lib/state";
-import { derived } from "svelte/store";
+import { derived, get } from "svelte/store";
 import { formatActive, submitActive } from "./Pane";
 import type { LanguageName } from "jspl";
 
@@ -27,4 +27,11 @@ export function onTranspileClick(_event: MouseEvent) {
 
 export function onFormatClick(_event: MouseEvent) {
   formatActive();
+}
+
+export function onCopyClickFn(languageName: LanguageName) {
+  return function onCopyClick(_event: MouseEvent) {
+    const code = get(codeStates[languageName]);
+    navigator.clipboard.writeText(code);
+  };
 }

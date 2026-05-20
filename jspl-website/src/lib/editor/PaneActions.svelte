@@ -1,9 +1,11 @@
 <script lang="ts">
   import Check from "$lib/icons/Check.svelte";
   import Transpile from "$lib/icons/Transpile.svelte";
+  import Copy from "$lib/icons/Copy.svelte";
   import type { LanguageName } from "jspl/parser";
   import {
     formatDisabled,
+    onCopyClickFn,
     onFormatClick,
     onTranspileClick,
     transpileDisabled,
@@ -34,6 +36,9 @@
       <Check size={20} />
     </button>
   {/if}
+  <button title="Copy" onclick={onCopyClickFn(languageName)}>
+    <Copy size={18} />
+  </button>
 </div>
 
 <style>
@@ -41,16 +46,20 @@
     position: absolute;
     right: 12px;
     top: 12px;
-    width: 20px;
+    width: 24px;
     display: flex;
     flex-direction: column;
-    grid-gap: 6px;
-    justify-content: end;
+    align-items: center;
     pointer-events: none;
     > * {
       pointer-events: all;
     }
     button {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       padding: 0;
       background: none;
       box-shadow: none;
@@ -63,7 +72,7 @@
       }
     }
     img.language {
-      padding: 2px;
+      padding: 4px;
       margin: 0 0 4px;
       opacity: 0.75;
       filter: drop-shadow(1px 1px 1px #0008);
