@@ -13,12 +13,7 @@
 
 <style>
   :root {
-    --bg: #eee;
-    --bg-1: #ccc;
-    --fg: #000;
-    --fg-1: #333;
-    --fg-2: #666;
-    --mg: #8888;
+    --mg: #888;
     --font: sans-serif;
     --primary: #ff8900;
     --primary-text: white;
@@ -28,10 +23,28 @@
     background: var(--bg);
     color: var(--fg);
     transition: var(--transition);
+    &:global([theme="light"]) {
+      --bg: #eee;
+      --bg-1: #ccc;
+      --bg-2: #aaa;
+      --fg: #000;
+      --fg-1: #333;
+      --fg-2: #666;
+      --background: radial-gradient(ellipse at top, transparent, #ddd);
+    }
+    &:global([theme="dark"]) {
+      --bg: #222;
+      --bg-1: #444;
+      --bg-2: #666;
+      --fg: #fff;
+      --fg-1: #ddd;
+      --fg-2: #bbb;
+      --background: radial-gradient(ellipse at top, transparent, #111);
+    }
   }
   :global(button) {
     --inset-color: #fff4;
-    --color: #6663;
+    --color: var(--bg-1);
     cursor: pointer;
     color: var(--fg);
     font-size: 0.7rem;
@@ -49,7 +62,7 @@
       box-shadow 200ms,
       background 200ms;
     &:hover {
-      --color: #8884;
+      --color: var(--bg-2);
       --inset-color: #fffa;
     }
     &.selected {
@@ -99,19 +112,7 @@
     }
   }
   :global(body) {
-    background: radial-gradient(ellipse at top, transparent, #ddd);
+    background: var(--background);
     min-height: 100dvh;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #222;
-      --bg-1: #444;
-      --fg: #fff;
-      --fg-1: #ddd;
-      --fg-2: #bbb;
-    }
-    :global(body) {
-      background: radial-gradient(ellipse at top, transparent, #111);
-    }
   }
 </style>

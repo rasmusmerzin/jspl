@@ -1,8 +1,9 @@
 <script lang="ts">
-  import Docs from "$lib/icons/Docs.svelte";
-  import GitHub from "$lib/icons/GitHub.svelte";
-  import Navigation from "$lib/Navigation.svelte";
-  import Watermark from "$lib/Watermark.svelte";
+  import Navigation from "./Navigation.svelte";
+  import ThemeSwitch from "./ThemeSwitch.svelte";
+  import Watermark from "./Watermark.svelte";
+  import Docs from "./icons/Docs.svelte";
+  import GitHub from "./icons/GitHub.svelte";
 </script>
 
 <div id="header">
@@ -13,6 +14,7 @@
   </div>
   <Navigation />
   <div>
+    <ThemeSwitch />
     <a title="PDF" target="_blank" href="/JsPL.pdf">
       <Docs />
     </a>

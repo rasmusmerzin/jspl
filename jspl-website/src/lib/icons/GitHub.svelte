@@ -1,3 +1,5 @@
+<script lang="ts"></script>
+
 <!-- https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg -->
 <svg height="24px" viewBox="0 0 128 128" fill="var(--fg)">
   <path

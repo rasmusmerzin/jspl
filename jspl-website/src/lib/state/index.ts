@@ -1,8 +1,8 @@
-import { EXAMPLES } from "./examples";
 import { LANGUAGE_NAMES, LANGUAGES, CommonTree } from "jspl";
 import { derived, readable, writable } from "svelte/store";
-import { mapRecord } from "./utils/mapRecord";
-import { nodeToString } from "./utils/nodeToString";
+import { EXAMPLES } from "$lib/examples";
+import { mapRecord } from "$lib/utils/mapRecord";
+import { nodeToString } from "$lib/utils/nodeToString";
 
 export const examples = readable(EXAMPLES);
 

@@ -53,10 +53,13 @@ Initial Demo.
 
 - [x] Landing page.
 
+# v0.7.3
+
+- [x] Dark/Light mode toggle.
+- [ ] Visual buttons for actions.
+
 # v1.0.0
 
-- Dark/Light mode toggle.
-- Visual buttons for actions.
 - Common library code and page.
 - Transpile for statement.
 
