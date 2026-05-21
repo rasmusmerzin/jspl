@@ -1,6 +1,7 @@
-import { activePrints, codeStates, languages } from "$lib/state";
+import { activePrints, codeStates, languages, positions } from "$lib/state/editor";
 import { get } from "svelte/store";
 import { type LanguageName, getTabPadding } from "jspl";
+import { CodePosition } from "./CodePosition";
 
 export function formatActive() {
   const [focused] = get(languages);
@@ -83,8 +84,11 @@ export function onEditableKeyDown(event: KeyboardEvent) {
 }
 
 function afterUpdate(element: HTMLElement) {
+  const parent = element.parentElement!;
+  const languageName = parent.id.slice(0, parent.id.length - "-Pane".length) as LanguageName;
   handleLastNewLine(element);
   keepCaretBeforeLastChar(element);
+  positions[languageName].set(CodePosition.from(element.textContent, getCaretPosition(element)));
 }
 
 function handleLastNewLine(element: HTMLElement) {
@@ -105,9 +109,9 @@ function keepCaretBeforeLastChar(element: HTMLElement) {
 }
 
 function updateTextContent(element: HTMLElement, content: string) {
-  const pos = getCaretPosition(element);
+  const pos = CodePosition.from(element.textContent, getCaretPosition(element));
   element.textContent = content;
-  setCaretPosition(element, pos);
+  setCaretPosition(element, pos.toNumber(content));
 }
 
 // Generated with Brave Ask

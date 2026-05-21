@@ -3,7 +3,7 @@
   import FileList from "$lib/editor/FileList.svelte";
   import Header from "$lib/Header.svelte";
   import PaneLayout from "$lib/editor/PaneLayout.svelte";
-  import { onKeyDown, onKeyUp } from "$lib";
+  import { onKeyDown, onKeyUp } from "$lib/editor";
   import { onMount } from "svelte";
 
   onMount(() => {

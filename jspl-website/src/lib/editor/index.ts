@@ -1,6 +1,7 @@
 import { get } from "svelte/store";
-import { ctrlPressed, languages } from "./state";
-import { throttle } from "./utils/throttle";
+import { ctrlPressed } from "$lib/state";
+import { languages } from "$lib/state/editor";
+import { throttle } from "$lib/utils/throttle";
 
 export function onKeyUp(event: KeyboardEvent) {
   if (event.key === "Control") {

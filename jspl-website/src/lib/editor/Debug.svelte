@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { activePrints, commonTreeStates, languages, treePrintStates } from "$lib/state";
+  import { activePrints, commonTreeStates, languages, treePrintStates } from "$lib/state/editor";
   import { stringify } from "yaml";
   let active = $derived($languages[0]);
   let activePrintState = $derived(treePrintStates[active]);

@@ -1,6 +1,6 @@
 <script lang="ts">
   import Pane from "./Pane.svelte";
-  import { languages } from "$lib/state";
+  import { languages } from "$lib/state/editor";
   import { flip } from "svelte/animate";
 </script>
 

@@ -1,4 +1,4 @@
-import { activePrints, codeStates, languages } from "$lib/state";
+import { activePrints, codeStates, languages } from "$lib/state/editor";
 import { derived, get } from "svelte/store";
 import { formatActive, submitActive } from "./Pane";
 import type { LanguageName } from "jspl";

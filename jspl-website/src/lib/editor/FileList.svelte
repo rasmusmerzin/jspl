@@ -1,6 +1,6 @@
 <script lang="ts">
   import { EXAMPLES } from "$lib/examples";
-  import { selectedFile } from "$lib/state";
+  import { selectedFile } from "$lib/state/editor";
   import { onFileClick } from "./FileList";
 </script>
 
