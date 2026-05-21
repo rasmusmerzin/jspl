@@ -1,4 +1,4 @@
-import { CommonNode, DeriveContext, PrintContext, resolveSource } from ".";
+import { CommonIdentifier, CommonNode, DeriveContext, PrintContext, resolveSource } from ".";
 
 export class CommonRecord extends CommonNode {
   type = "record";
@@ -11,10 +11,16 @@ export class CommonRecord extends CommonNode {
     const rec = new CommonRecord();
     if (context.languageName === "JavaScript") {
       for (const pairNode of context.node.namedChildren) {
-        const [keyNode, valueNode] = pairNode.namedChildren;
-        if (keyNode.type !== "property_identifier") continue;
-        const keyStr = resolveSource(keyNode, context.source);
-        rec.pairs[keyStr] = CommonNode.deriveUnknown(context.derive({ node: valueNode }));
+        if (pairNode.type === "shorthand_property_identifier") {
+          const keyStr = resolveSource(pairNode, context.source);
+          const value = Object.assign(new CommonIdentifier(), { value: keyStr });
+          rec.pairs[keyStr] = value;
+        } else {
+          const [keyNode, valueNode] = pairNode.namedChildren;
+          if (keyNode?.type !== "property_identifier") continue;
+          const keyStr = resolveSource(keyNode, context.source);
+          rec.pairs[keyStr] = CommonNode.deriveUnknown(context.derive({ node: valueNode }));
+        }
       }
     } else if (context.languageName === "Python") {
       for (const pairNode of context.node.namedChildren) {
