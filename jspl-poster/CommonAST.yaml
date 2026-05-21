@@ -1,0 +1,14 @@
+type: tree
+children:
+  - type: function
+    name: main
+    parameters: []
+    procedure:
+      - type: call
+        arguments:
+          - type: primitive
+            subtype: string
+            value: '"Hello, JsPL!\n"'
+        callable:
+          type: identifier
+          value: print

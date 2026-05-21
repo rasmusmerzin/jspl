@@ -1,0 +1,22 @@
+program
+│ function_declaration
+│ │ "function"
+│ │ identifier
+│ │ formal_parameters
+│ │ │ "("
+│ │ │ ")"
+│ │ statement_block
+│ │ │ "{"
+│ │ │ expression_statement
+│ │ │ │ call_expression
+│ │ │ │ │ identifier
+│ │ │ │ │ arguments
+│ │ │ │ │ │ "("
+│ │ │ │ │ │ string
+│ │ │ │ │ │ │ """
+│ │ │ │ │ │ │ string_fragment
+│ │ │ │ │ │ │ escape_sequence
+│ │ │ │ │ │ │ """
+│ │ │ │ │ │ ")"
+│ │ │ │ ";"
+│ │ │ "}"

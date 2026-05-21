@@ -1,6 +1,6 @@
 :root {
   font-family: "Open Sans", sans-serif;
-  font-size: 26px;
+  font-size: 24px;
 }
 
 body {
@@ -48,7 +48,7 @@ p {
 }
 
 pre {
-  font-size: 20px;
+  font-size: 16px;
   padding: 20px;
   border-radius: 12px;
   background: #dfdfdf;
@@ -69,25 +69,33 @@ pre {
   height: 2245px;
   outline: 2px solid #ff8900;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(5, 1fr);
   padding: 64px 80px;
   grid-gap: 0 80px;
-  .trio {
+  #first {
+    grid-column: 1 / span 2;
+  }
+  #second {
+    grid-column: 3 / span 3;
+    .separator {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+  .duo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 12px;
+    margin: 12px 0;
     pre {
       margin: 0;
-    }
-    .separator {
-      height: 56px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      img {
-        transform: rotate(90deg);
-      }
     }
   }
   .wide {
     grid-column: 1 / -1;
+    h2 {
+      margin-top: 0;
+    }
   }
   .wide-trio {
     display: grid;

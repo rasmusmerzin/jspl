@@ -57,7 +57,8 @@ Initial Demo.
 
 - [x] Dark/Light mode toggle.
 - [x] Visual buttons for code actions.
-- [ ] Visual button for copy.
+- [x] Visual button for copy.
+- [ ] AST on poster.
 
 # v1.0.0
 

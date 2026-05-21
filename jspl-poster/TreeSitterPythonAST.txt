@@ -1,0 +1,20 @@
+module
+│ function_definition
+│ │ "def"
+│ │ identifier
+│ │ parameters
+│ │ │ "("
+│ │ │ ")"
+│ │ ":"
+│ │ block
+│ │ │ expression_statement
+│ │ │ │ call
+│ │ │ │ │ identifier
+│ │ │ │ │ argument_list
+│ │ │ │ │ │ "("
+│ │ │ │ │ │ string
+│ │ │ │ │ │ │ string_start
+│ │ │ │ │ │ │ string_content
+│ │ │ │ │ │ │ │ escape_sequence
+│ │ │ │ │ │ │ string_end
+│ │ │ │ │ │ ")"
