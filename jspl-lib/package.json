@@ -1,13 +1,12 @@
 {
-  "name": "jspl",
+  "name": "jspl-lib",
+  "description": "JsPL common library",
   "license": "MIT",
   "author": "Emil Rasmus Merzin (rasmusmerzin@gmail.com)",
+  "type": "module",
+  "main": "index.js",
   "scripts": {
-    "test": "vitest",
-    "check": "tsc --noEmit"
-  },
-  "dependencies": {
-    "web-tree-sitter": "^0.26.8"
+    "test": "vitest"
   },
   "devDependencies": {
     "vitest": "4"

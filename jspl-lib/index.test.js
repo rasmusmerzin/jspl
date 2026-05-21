@@ -1,0 +1,39 @@
+import { describe, expect, test } from "vitest";
+import { List } from ".";
+
+describe("List", () => {
+  test("construction", () => {
+    const list = List(1, 2, 3);
+    expect(list.items).toStrictEqual([1, 2, 3]);
+  });
+  describe("from", () => {
+    test("Array", () => {
+      const list = List.from([1, 2, 3]);
+      expect(list.items).toStrictEqual([1, 2, 3]);
+    });
+    test("primitive", () => {
+      const list = List.from(7);
+      expect(list.items).toStrictEqual([7]);
+    });
+  });
+  test("iterable", () => {
+    const list = List(1, 2, 3);
+    const clone = [...list];
+    expect(clone).toStrictEqual([1, 2, 3]);
+    let i = 0;
+    for (const item of list) {
+      expect(item).toBe(++i);
+    }
+  });
+  test("length", () => {
+    const list = List(1, 2, 3);
+    expect(list.length()).toBe(3);
+  });
+  test("at", () => {
+    const list = List(1, 2, 3);
+    expect(list.at(0)).toBe(1);
+    expect(list.at(1)).toBe(2);
+    expect(list.at(-1)).toBe(3);
+    expect(list.at(-2)).toBe(2);
+  });
+});
