@@ -1,23 +1,39 @@
 import { describe, expect, test } from "vitest";
-import { List, toString } from "..";
+import { List, toString, isA, isArray } from "..";
+
+test("global", () => {
+  expect(global).toBe(globalThis);
+});
 
 test("toString", () => {
   expect(toString(1)).toBe("1");
+});
+
+test("isArray", () => {
+  expect(isArray([])).toBe(true);
+  expect(isArray([1])).toBe(true);
+  expect(isArray({ a: 1 })).toBe(false);
+  expect(isArray("a")).toBe(false);
 });
 
 describe("List", () => {
   test("construction", () => {
     const list = List(1, 2, 3);
     expect(list.items).toStrictEqual([1, 2, 3]);
+    expect(isA(list, List)).toBe(true);
   });
   describe("from", () => {
-    test("Array", () => {
-      const list = List.from([1, 2, 3]);
-      expect(list.items).toStrictEqual([1, 2, 3]);
-    });
     test("primitive", () => {
       const list = List.from(7);
       expect(list.items).toStrictEqual([7]);
+    });
+    test("array", () => {
+      const list = List.from([1, 2, 3]);
+      expect(list.items).toStrictEqual([1, 2, 3]);
+    });
+    test("List", () => {
+      const list = List.from(List(1, 2, 3));
+      expect(list.items).toStrictEqual([1, 2, 3]);
     });
   });
   test("iterable", () => {

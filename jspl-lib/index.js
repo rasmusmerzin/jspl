@@ -1,3 +1,5 @@
+globalThis.global = globalThis;
+
 /** Print without new-line. */
 export function print(text) {
   process.stdout.write(text);
@@ -17,6 +19,22 @@ export function toString(value) {
 }
 
 /**
+ * Returns boolean whether value is an array.
+ * @returns {boolean}
+ */
+export function isArray(value) {
+  return Array.isArray(value);
+}
+
+/**
+ * Returns boolean whether value is of class.
+ * @returns {boolean}
+ */
+export function isA(object, klass) {
+  return object instanceof klass;
+}
+
+/**
  * Represents array list.
  * @template T
  * @typedef {Object} List
@@ -29,7 +47,7 @@ export function toString(value) {
  * @returns {List<T>} list object.
  */
 export function List(...items) {
-  if (!(this instanceof List)) return new List(...items);
+  if (!isA(this, List)) return new List(...items);
   this.items = items;
 }
 
@@ -40,7 +58,8 @@ export function List(...items) {
  * @returns {List<T> | List<U>} list object.
  */
 List.from = function (source) {
-  if (Array.isArray(source)) return List(...source);
+  if (isArray(source)) return List(...source);
+  else if (isA(source, List)) return List(...source.items);
   return List(source);
 };
 
