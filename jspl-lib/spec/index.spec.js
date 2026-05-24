@@ -1,5 +1,9 @@
 import { describe, expect, test } from "vitest";
-import { List } from ".";
+import { List, toString } from "..";
+
+test("toString", () => {
+  expect(toString(1)).toBe("1");
+});
 
 describe("List", () => {
   test("construction", () => {
@@ -18,8 +22,7 @@ describe("List", () => {
   });
   test("iterable", () => {
     const list = List(1, 2, 3);
-    const clone = [...list];
-    expect(clone).toStrictEqual([1, 2, 3]);
+    expect([...list]).toStrictEqual([1, 2, 3]);
     let i = 0;
     for (const item of list) {
       expect(item).toBe(++i);
