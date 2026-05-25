@@ -1,9 +1,5 @@
 require("init")
 
-it("global", function()
-  assert.same(global, _G)
-end)
-
 it("toString", function()
   assert.same(toString(1), "1")
 end)

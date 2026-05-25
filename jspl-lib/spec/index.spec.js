@@ -1,10 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { List, toString, isA, isArray } from "..";
 
-test("global", () => {
-  expect(global).toBe(globalThis);
-});
-
 test("toString", () => {
   expect(toString(1)).toBe("1");
 });

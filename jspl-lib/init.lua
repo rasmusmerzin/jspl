@@ -1,5 +1,3 @@
-_G.global = _G
-
 function print(text)
   io.write(text)
 end

@@ -1,5 +1,3 @@
-globalThis.global = globalThis;
-
 /** Print without new-line. */
 export function print(text) {
   process.stdout.write(text);
