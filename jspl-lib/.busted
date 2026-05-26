@@ -1,6 +1,7 @@
 return {
   _all = {
     lpath = "./?.lua",
+    ROOT = { "." },
   },
   default = {
     verbose = true,

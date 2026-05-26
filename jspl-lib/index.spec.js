@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { List, toString, isA, isArray } from "..";
+import { List, toString, isA, isArray } from ".";
 
 test("toString", () => {
   expect(toString(1)).toBe("1");
