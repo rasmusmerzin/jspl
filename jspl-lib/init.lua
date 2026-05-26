@@ -66,7 +66,7 @@ _G.List = class {
   __init = function(self, ...)
     self.items = { ... }
   end,
-  from = function(class_tbl, source)
+  of = function(class_tbl, source)
     if isArray(source) then
       return List(table.unpack(source))
     elseif isA(source, List) then

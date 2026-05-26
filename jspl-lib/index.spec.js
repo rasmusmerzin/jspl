@@ -18,17 +18,17 @@ describe("List", () => {
     expect(list.items).toStrictEqual([1, 2, 3]);
     expect(isA(list, List)).toBe(true);
   });
-  describe("from", () => {
+  describe("of", () => {
     test("primitive", () => {
-      const list = List.from(7);
+      const list = List.of(7);
       expect(list.items).toStrictEqual([7]);
     });
     test("array", () => {
-      const list = List.from([1, 2, 3]);
+      const list = List.of([1, 2, 3]);
       expect(list.items).toStrictEqual([1, 2, 3]);
     });
     test("List", () => {
-      const list = List.from(List(1, 2, 3));
+      const list = List.of(List(1, 2, 3));
       expect(list.items).toStrictEqual([1, 2, 3]);
     });
   });

@@ -55,7 +55,7 @@ export function List(...items) {
  * @param {T[] | List<T> | U} source.
  * @returns {List<T> | List<U>} list object.
  */
-List.from = function (source) {
+List.of = function (source) {
   if (isArray(source)) return List(...source);
   else if (isA(source, List)) return List(...source.items);
   return List(source);
