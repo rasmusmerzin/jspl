@@ -62,7 +62,7 @@ Initial Demo.
 
 # v0.7.4
 
-- [ ] Editor syntax highlighting.
+- [x] Editor syntax highlighting.
 
 # v1.0.0
 
