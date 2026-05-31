@@ -49,6 +49,7 @@
     width: 24px;
     display: flex;
     flex-direction: column;
+    grid-gap: 4px;
     align-items: center;
     pointer-events: none;
     > * {
@@ -73,7 +74,6 @@
     }
     img.language {
       padding: 4px;
-      margin: 0 0 4px;
       opacity: 0.75;
       filter: drop-shadow(1px 1px 1px #0008);
     }

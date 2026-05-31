@@ -38,8 +38,8 @@ export function getActivePaneEditable(): HTMLElement | null {
 
 export function onEditableSubmit(event: SubmitEvent) {
   const element = event.target as HTMLElement;
-  const parent = element.parentElement!;
-  const languageName = parent.id.slice(0, parent.id.length - "-Pane".length);
+  const pane = element.parentElement!.parentElement!;
+  const languageName = pane.id.slice(0, pane.id.length - "-Pane".length);
   reorderLanguages(languageName);
   const prints = get(activePrints);
   const [focused] = get(languages);
@@ -50,8 +50,8 @@ export function onEditableSubmit(event: SubmitEvent) {
 export function onEditableFocus(event: FocusEvent) {
   const element = event.target as HTMLElement;
   setTimeout(afterUpdate, 0, element);
-  const parent = element.parentElement!;
-  const languageName = parent.id.slice(0, parent.id.length - "-Pane".length);
+  const pane = element.parentElement!.parentElement!;
+  const languageName = pane.id.slice(0, pane.id.length - "-Pane".length);
   reorderLanguages(languageName);
 }
 
@@ -62,8 +62,8 @@ export function onEditableMouseDown(event: FocusEvent) {
 
 export function onEditableKeyDown(event: KeyboardEvent) {
   const element = event.target as HTMLElement;
-  const parent = element.parentElement!;
-  const languageName = parent.id.slice(0, parent.id.length - "-Pane".length) as LanguageName;
+  const pane = element.parentElement!.parentElement!;
+  const languageName = pane.id.slice(0, pane.id.length - "-Pane".length) as LanguageName;
   setTimeout(afterUpdate, 0, element);
   if (event.key === "Escape") {
     element.blur();
@@ -84,8 +84,8 @@ export function onEditableKeyDown(event: KeyboardEvent) {
 }
 
 function afterUpdate(element: HTMLElement) {
-  const parent = element.parentElement!;
-  const languageName = parent.id.slice(0, parent.id.length - "-Pane".length) as LanguageName;
+  const pane = element.parentElement!.parentElement!;
+  const languageName = pane.id.slice(0, pane.id.length - "-Pane".length) as LanguageName;
   handleLastNewLine(element);
   keepCaretBeforeLastChar(element);
   positions[languageName].set(CodePosition.from(element.textContent, getCaretPosition(element)));

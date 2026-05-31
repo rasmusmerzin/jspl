@@ -60,6 +60,10 @@ Initial Demo.
 - [x] Visual button for copy.
 - [x] AST on poster.
 
+# v0.7.4
+
+- [ ] Editor syntax highlighting.
+
 # v1.0.0
 
 - Common library code and page.
@@ -72,5 +76,4 @@ Initial Demo.
 - Transpile anonymous function.
 - Transpile string concatenation.
 - Transpile string interpolation.
-- Editor syntax highlighting.
 - Editor syntax aware cursor.
