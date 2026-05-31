@@ -30,16 +30,7 @@ export const treePrintStates = mapRecord(treeStates, (state) => {
 });
 
 export const commonTreeStates = mapRecord(codeStates, (state, name) => {
-  return derived(state, (code) => {
-    let tree: CommonTree | null = null;
-    try {
-      tree = CommonTree.parse(name, code);
-    } catch (e) {
-      console.error(e);
-      tree = null;
-    }
-    return tree;
-  });
+  return derived(state, (code) => CommonTree.parse(name, code));
 });
 
 export const commonTreeStateSum = derived(

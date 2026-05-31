@@ -10,8 +10,12 @@ export class CommonTree {
     if (!tree) return commonTree;
     for (const child of tree.rootNode.children) {
       const context = new DeriveContext(languageName, source, child);
-      const commonNode = CommonNode.derive(context);
-      if (commonNode) commonTree.children.push(commonNode);
+      try {
+        const commonNode = CommonNode.derive(context);
+        if (commonNode) commonTree.children.push(commonNode);
+      } catch (e) {
+        console.error(e);
+      }
     }
     return commonTree;
   }
