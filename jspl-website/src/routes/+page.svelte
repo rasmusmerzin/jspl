@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Code from "$lib/Code.svelte";
   import Header from "$lib/Header.svelte";
   import { examples } from "$lib/state";
 </script>
@@ -13,18 +14,18 @@
     </div>
     <div id="example">
       <div>
-        <img title="JavaScript" alt="JavaScript" src="/javascript-original.svg" />
-        <pre aria-label="Hello.js">{Object.values($examples)[0].JavaScript}</pre>
+        <img title="JavaScript" alt="JavaScript" src="/javascript-plain.svg" />
+        <Code language="JavaScript" code={Object.values($examples)[0].JavaScript} />
         <div class="separator"><img alt="⇆" src="/sync.svg" /></div>
       </div>
       <div>
-        <img title="Python" alt="Python" src="/python-original.svg" />
-        <pre aria-label="Hello.py">{Object.values($examples)[0].Python}</pre>
+        <img title="Python" alt="Python" src="/python-plain.svg" />
+        <Code language="Python" code={Object.values($examples)[0].Python} />
         <div class="separator"><img alt="⇆" src="/sync.svg" /></div>
       </div>
       <div>
-        <img title="Lua" alt="Lua" src="/lua-original.svg" />
-        <pre aria-label="Hello.lua">{Object.values($examples)[0].Lua}</pre>
+        <img title="Lua" alt="Lua" src="/lua-plain.svg" />
+        <Code language="Lua" code={Object.values($examples)[0].Lua} />
       </div>
     </div>
     <div class="links">
@@ -88,17 +89,7 @@
           bottom: calc(100% + 24px);
           left: 50%;
           transform: translateX(-50%);
-        }
-        pre {
-          height: 96px;
-          &::before {
-            content: attr(aria-label);
-            display: block;
-            color: var(--fg-2);
-            margin: -10px -10px 4px;
-            padding: 8px 10px 4px;
-            border-bottom: 1px solid var(--mg);
-          }
+          filter: drop-shadow(1px 2px 3px #0004);
         }
         .separator {
           position: absolute;
@@ -113,7 +104,7 @@
       }
       @media (max-width: 760px) {
         grid-template-columns: 1fr;
-        width: 300px;
+        width: 320px;
         margin: 48px auto;
         > div {
           > img {
@@ -122,9 +113,6 @@
             top: 6px;
             right: 6px;
             height: 16px;
-          }
-          pre {
-            height: min-content;
           }
           .separator {
             left: 50%;

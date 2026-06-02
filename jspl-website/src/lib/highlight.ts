@@ -1,6 +1,10 @@
-import type { Node, Tree } from "jspl";
+import { LANGUAGES, type LanguageName, type Node, type Tree } from "jspl";
 
-export function highlight(tree: Tree, source: string) {
+export function highlight(tree: Tree | LanguageName, source: string) {
+  if (typeof tree === "string") {
+    tree = LANGUAGES[tree].parser.parse(source)!;
+    if (!tree) return escapeHTML(source);
+  }
   const highlights = tree.rootNode.children.map(getHighlights).flat();
   let html = "";
   let offset = source.length;
