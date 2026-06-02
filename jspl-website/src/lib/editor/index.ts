@@ -15,7 +15,10 @@ export function onKeyDown(event: KeyboardEvent) {
   } else if (["1", "2", "3"].includes(event.key) && event.ctrlKey) {
     event.preventDefault();
     const languageName = get(languages)[Number(event.key) - 1];
-    const element = document.getElementById(languageName + "-Pane")?.querySelector(".content");
+    const element = document
+      .getElementById(languageName + "-Pane")
+      ?.querySelector(".content")
+      ?.querySelector("[contenteditable]");
     if (element instanceof HTMLElement) throttledFocusPane(element);
   }
 }
