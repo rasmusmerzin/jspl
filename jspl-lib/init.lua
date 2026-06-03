@@ -32,12 +32,10 @@ function class(init)
   if type(init) == "function" then
     c.__init = init
   elseif type(init) == "table" then
-    -- shallow copy of init class for inheritance
     for i, v in pairs(init) do
       c[i] = v
     end
   end
-  -- Metatable allowing the class to be called like a function
   local mt = {}
   mt.__call = function(class_tbl, ...)
     local obj = {}

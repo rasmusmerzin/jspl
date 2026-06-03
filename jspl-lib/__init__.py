@@ -18,7 +18,6 @@ def isArray(value):
 def isA(value, klass):
     return isinstance(value, klass)
 
-
 class List:
     def __init__(self, *items):
         self.items = list(items)
