@@ -11,7 +11,7 @@ export function highlight(tree: Tree | LanguageName, source: string) {
   for (const node of highlights.sort((a, b) => b.startIndex - a.startIndex)) {
     const highlighted = escapeHTML(source.slice(node.startIndex, node.endIndex));
     const normal = escapeHTML(source.slice(node.endIndex, offset));
-    if (/^[A-Za-z]+$/.test(node.type)) html = `<b>${highlighted}</b>${normal}${html}`;
+    if (isKeyword(node)) html = `<b>${highlighted}</b>${normal}${html}`;
     else html = `<span>${highlighted}</span>${normal}${html}`;
     offset = node.startIndex;
   }
@@ -19,8 +19,12 @@ export function highlight(tree: Tree | LanguageName, source: string) {
   return html;
 }
 
+function isKeyword(node: Node) {
+  return !node.isNamed && /^[A-Za-z]+$/.test(node.type);
+}
+
 function getHighlights(node: Node): Node[] {
-  if (!node.isNamed) return [node];
+  if (!node.isNamed || ["string_start", "string_end"].includes(node.type)) return [node];
   return node.children.map(getHighlights).flat();
 }
 
